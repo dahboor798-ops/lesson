@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>علامات الامتحان الأول - الصف الأول الثانوي (ب)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Tahoma, "Times New Roman", Arial, sans-serif;
+    background: #eef2f7;
+    margin: 0;
+    padding: 24px 12px 60px;
+    color: #1e293b;
+  }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    padding: 22px 22px 28px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    margin: 0 0 6px;
+    color: #0f3d6e;
+  }
+  .sub {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  thead th {
+    background: #0f3d6e;
+    color: #fff;
+    padding: 10px 8px;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+  }
+  thead th:first-child { border-radius: 0 8px 0 0; }
+  thead th:last-child  { border-radius: 8px 0 0 0; }
+  tbody td {
+    padding: 8px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody tr:hover { background: #eff6ff; }
+  td.num { text-align: center; color: #64748b; width: 46px; }
+  td.name { font-weight: 600; }
+  input.grade {
+    width: 100%;
+    max-width: 130px;
+    padding: 8px 10px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    text-align: center;
+    font-family: inherit;
+    outline: none;
+    transition: .15s;
+  }
+  input.grade:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+  input.grade.filled { background: #ecfdf5; border-color: #10b981; }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+    justify-content: center;
+  }
+  button {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 11px 22px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .15s;
+  }
+  button:active { transform: scale(.97); }
+  #save     { background: #16a34a; color: #fff; }
+  #save:hover { background: #15803d; }
+  #download { background: #0f3d6e; color: #fff; }
+  #download:hover { background: #0c2f55; }
+  #clear    { background: #e2e8f0; color: #334155; }
+  #clear:hover { background: #cbd5e1; }
+  #msg {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    min-height: 20px;
+    color: #16a34a;
+  }
+  .stat {
+    text-align: center;
+    font-size: 14px;
+    color: #475569;
+    margin-top: 10px;
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .wrap { box-shadow: none; }
+    .actions, .sub, #msg { display: none; }
+    input.grade { border: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>أسماء طلاب الصف الأول الثانوي – الشعبة (ب)</h1>
+  <div class="sub">أدخل علامة الامتحان الأول لكل طالب ثم اضغط «حفظ»</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>اسم الطالب</th>
+        <th>علامة الامتحان الأول</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr><td class="num">1</td><td class="name">احمد رائد محمد الرشايده</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">2</td><td class="name">اسيد ماهر محمد خليفه</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">3</td><td class="name">اسيد محمود محمد دبيج</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">4</td><td class="name">ايهم ابرهيم محمود ابوجوده</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">5</td><td class="name">براء احمد عبد الكريم مرار</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">6</td><td class="name">حسن لؤي حسن السوالمة</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">7</td><td class="name">حسن ياسر موسى ابونبوت</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">8</td><td class="name">حمزه عبد الاله رضا البطوش</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">9</td><td class="name">راشد محمد خلف العموش</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">10</td><td class="name">زكريا بلال عبدالله مسعد</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">11</td><td class="name">سيف محمد عبدالله دعاس</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">12</td><td class="name">عاصم بلال اديب يونس</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">13</td><td class="name">عبد الرحمن اسماعيل شكري عويس</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">14</td><td class="name">عبد الرحمن محمد عدنان حسونه</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">15</td><td class="name">عبد المجيد عيد محمد الفقير</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">16</td><td class="name">عدنان طارق عدنان حسونه</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">17</td><td class="name">عدي نور الدين محمد منصور</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">18</td><td class="name">عماد محمد عيد الفقير</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">19</td><td class="name">عمر احمد غازي الحايك</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">20</td><td class="name">عمر عبدالله محمود قشوع</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">21</td><td class="name">عمر محمد عمر العبادي</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">22</td><td class="name">غيث محمد فتحي العرقان</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">23</td><td class="name">فيصل عبد السلام خليف العموش</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">24</td><td class="name">قيس مالك ابراهيم العموش</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">25</td><td class="name">قيس وليد قاسم يونس</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">26</td><td class="name">محمد احمد عيد الفقير</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">27</td><td class="name">محمد فلاح عيسى العموش</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">28</td><td class="name">محمد معاوية محمد حسونة</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">29</td><td class="name">مصطفى منذر ابراهيم ابو شنان</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+      <tr><td class="num">30</td><td class="name">مهند محمد غازي الحايك</td><td><input type="number" class="grade" min="0" max="100" step="0.5" placeholder="0 - 100" value=""></td></tr>
+    </tbody>
+  </table>
+
+  <div class="actions">
+    <button id="save">حفظ</button>
+    <button id="download">حفظ الصفحة (HTML) بالعلامات</button>
+    <button id="clear">مسح العلامات</button>
+  </div>
+
+  <div id="msg"></div>
+  <div class="stat" id="stat"></div>
+</div>
+
+<script>
+(function () {
+  var KEY = 'exam1_grades_section_b_v1';
+  var inputs = Array.prototype.slice.call(document.querySelectorAll('input.grade'));
+  var msg = document.getElementById('msg');
+  var stat = document.getElementById('stat');
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    inputs.forEach(function (inp, i) {
+      if (inp.value === '' && saved[i] !== undefined && saved[i] !== '') {
+        inp.value = saved[i];
+      }
+    });
+  } catch (e) { /* تجاهل */ }
+
+  function refresh() {
+    var count = 0, sum = 0;
+    inputs.forEach(function (inp) {
+      var v = inp.value.trim();
+      if (v !== '') {
+        count++;
+        inp.classList.add('filled');
+        var n = parseFloat(v);
+        if (!isNaN(n)) sum += n;
+      } else {
+        inp.classList.remove('filled');
+      }
+    });
+    stat.textContent = 'تم إدخال ' + count + ' من ' + inputs.length +
+                       ' علامة' + (count ? '  •  المتوسط: ' + (sum / count).toFixed(2) : '');
+  }
+
+  inputs.forEach(function (inp) {
+    inp.addEventListener('input', function () {
+      var n = parseFloat(inp.value);
+      if (!isNaN(n)) {
+        if (n > 100) inp.value = 100;
+        if (n < 0) inp.value = 0;
+      }
+      refresh();
+    });
+  });
+
+  document.getElementById('save').addEventListener('click', function () {
+    var data = {};
+    inputs.forEach(function (inp, i) { data[i] = inp.value; });
+    try {
+      localStorage.setItem(KEY, JSON.stringify(data));
+      msg.style.color = '#16a34a';
+      msg.textContent = '✔ تم حفظ العلامات بنجاح';
+    } catch (e) {
+      msg.style.color = '#dc2626';
+      msg.textContent = '✖ تعذّر الحفظ في المتصفح، استخدم زر «حفظ الصفحة (HTML)»';
+    }
+    setTimeout(function () { msg.textContent = ''; }, 3000);
+    refresh();
+  });
+
+  document.getElementById('download').addEventListener('click', function () {
+    inputs.forEach(function (inp) { inp.setAttribute('value', inp.value); });
+
+    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'علامات_الامتحان_الاول_الصف_الاول_ثانوي_ب.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+
+    msg.style.color = '#0f3d6e';
+    msg.textContent = '✔ تم تنزيل الصفحة مع العلامات';
+    setTimeout(function () { msg.textContent = ''; }, 3500);
+  });
+
+  document.getElementById('clear').addEventListener('click', function () {
+    if (!confirm('هل تريد مسح جميع العلامات؟')) return;
+    inputs.forEach(function (inp) { inp.value = ''; inp.setAttribute('value', ''); });
+    localStorage.removeItem(KEY);
+    msg.style.color = '#dc2626';
+    msg.textContent = 'تم مسح العلامات';
+    setTimeout(function () { msg.textContent = ''; }, 2500);
+    refresh();
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>

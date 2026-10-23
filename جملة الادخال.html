@@ -1,0 +1,135 @@
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>أهمية جملة الإدخال (input) في لغة بايثون</title>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+line-height: 1.6;
+color: #111111;
+max-width: 800px;
+margin: 0 auto;
+padding: 30px;
+background-color: #ffffff;
+}
+.container {
+background: #ffffff;
+padding: 20px;
+}
+h1 {
+color: #000000;
+border-bottom: 2px solid #333333;
+padding-bottom: 10px;
+margin-bottom: 20px;
+font-size: 22px;
+}
+h2 {
+color: #222222;
+margin-top: 25px;
+font-size: 16px;
+border-right: 3px solid #333333;
+padding-right: 8px;
+}
+p {
+margin-bottom: 10px;
+font-size: 14px;
+}
+ul {
+background: #fcfcfc;
+border: 1px solid #e0e0e0;
+padding: 12px 30px 12px 12px;
+border-radius: 4px;
+margin-bottom: 20px;
+}
+li {
+margin-bottom: 6px;
+font-size: 14px;
+}
+pre {
+background: #f8f8f8 !important;
+color: #000000 !important;
+padding: 12px;
+border: 1px solid #cccccc;
+border-radius: 4px;
+direction: ltr;
+text-align: left;
+overflow-x: auto;
+font-family: 'Consolas', 'Courier New', Courier, monospace;
+font-size: 13px;
+line-height: 1.4;
+margin-top: 8px;
+}
+.example-box {
+margin-bottom: 20px;
+border: 1px solid #cccccc;
+padding: 15px;
+border-radius: 4px;
+background: #ffffff;
+}
+@media print {
+body {
+padding: 0;
+}
+.container {
+padding: 0;
+}
+pre, .example-box {
+page-break-inside: avoid;
+border: 1px solid #999999;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>أهمية جملة الإدخال (<code>input</code>) في بايثون</h1>
+<p>تعتبر جملة <code>input()</code> البوابة الأساسية لجعل برامجك <strong>حية وتفاعلية</strong> بدلاً من كونها برامج جامدة تعطي النتيجة نفسها في كل مرة. من خلالها يستطيع المستخدم إرسال بيانات مباشرة للبرنامج ليتعامل معها.</p>
+​<ul>
+<li><strong>التفاعل الحي:</strong> تحويل البرامج من نصوص صامتة إلى تجارب مستخدم مخصصة.</li>
+<li><strong>المرونة:</strong> إمكانية معالجة بيانات متغيرة بلا حدود في كل مرة يتم فيها تشغيل البرنامج.</li>
+<li><strong>التحكم الذكي:</strong> توجيه مسار الكود واتخاذ قرارات مختلفة بناءً على اختيار المستخدم.</li>
+</ul>
+​<h2>1. التفاعل الشخصي وتخصيص التجربة</h2>
+<div class="example-box">
+<p>هذا المثال يوضح كيف يمكن للبرنامج التفاعل مع المستخدم باسمه الشخصي:</p>
+<pre><code># برنامج ترحيب تفاعلي
+name = input("ما هو اسمك الكريم؟ ")
+print(f"أهلاً بك يا {name}! يسعدنا انضمامك إلينا اليوم.")</code></pre>
+</div>
+​<h2>2. إجراء الحسابات ومعالجة البيانات</h2>
+<div class="example-box">
+<p>بدون <code>input()</code>، ستكون القيم ثابتة داخل الكود. هنا نرى كيف يتم أخذ رقم من المستخدم واستخدامه في عملية حسابية:</p>
+<pre><code># برنامج حساب العمر التقريبي
+birth_year = int(input("أدخل سنة ميلادك: "))
+current_year = 2026
+age = current_year - birth_year
+print(f"عمرك التقريبي هو: {age} عاماً.")</code></pre>
+</div>
+​<h2>3. التوجيه واتخاذ القرارات</h2>
+<div class="example-box">
+<p>تسمح جملة الإدخال بتغيير سلوك البرنامج بالكامل وتوجيهه نحو مسارات مختلفة بناءً على الإجابة:</p>
+<pre><code># برنامج فحص كلمة المرور البسيط
+password = input("أدخل كلمة المرور: ")
+if password == "1234":
+print("تم تسجيل الدخول بنجاح. أهلاً بك في النظام!")
+else:
+print("كلمة المرور غير صحيحة. حاول مرة أخرى.")</code></pre>
+</div>
+​<h2>4. حساب مساحة مستطيل باستخدام المدخلات والمتغيرات</h2>
+<div class="example-box">
+<p>هذا البرنامج يطلب من المستخدم إدخال الطول والعرض، ويقوم بتخزينهما في متغيرات، ثم يعرض القيمتين اللتين أدخلهما المستخدم ويحسب المساحة بناءً عليهما:</p>
+<pre><code># برنامج حساب مساحة المستطيل بشكل تفاعلي
+print("--- مرحباً بك في برنامج حساب مساحة المستطيل ---")
+​أخذ الطول والعرض من المستخدم وتحويلهما إلى أرقام عشريّة (float)
+​length = float(input("أدخل طول المستطيل: "))
+width = float(input("أدخل عرض المستطيل: "))
+​حساب مساحة المستطيل باستخدام المتغيرات
+​area = length * width
+​طباعة القيم المدخلة والنتيجة النهائية
+​print(f"الطول الذي أدخلته: {length}")
+print(f"العرض الذي أدخلته: {width}")
+print(f"مساحة المستطيل تساوي: {area} وحدة مربعة.")</code></pre>
+</div>
+</div>
+</body>
+</html>

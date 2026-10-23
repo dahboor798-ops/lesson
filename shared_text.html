@@ -1,0 +1,1489 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة أدوات التقويم وجمع بيانات البحث الاستقصائي</title>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--primary:#2c5e8e;--primary-dark:#1e4468;--secondary:#5b8def;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;--success:#16a34a;--warning:#d97706;--danger:#dc2626;--info:#0891b2}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+header h1{font-size:1.4em;margin-bottom:6px}
+header .subtitle{font-size:.95em;opacity:.9}
+header .author{font-size:.88em;opacity:.85;margin-top:6px}
+nav{background:var(--card);border-bottom:2px solid var(--border);padding:8px;display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav button{background:transparent;border:1px solid var(--border);color:var(--text);padding:9px 13px;border-radius:8px;cursor:pointer;font-size:.9em;font-family:inherit;transition:.2s;min-height:42px}
+nav button:hover{background:#eef3f9}
+nav button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+main{max-width:1250px;margin:18px auto;padding:0 12px 60px}
+section.tab{display:none}
+section.tab.active{display:block}
+.card{background:var(--card);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid var(--border)}
+.card h2{color:var(--primary-dark);margin-bottom:12px;font-size:1.15em;border-bottom:2px solid var(--border);padding-bottom:8px}
+.card h3{color:var(--primary);margin:12px 0 8px;font-size:1em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.stat-card{background:linear-gradient(135deg,#fff,#f8fafc);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.stat-card .num{font-size:1.7em;font-weight:700;color:var(--primary);margin:4px 0}
+.stat-card .label{color:var(--muted);font-size:.85em}
+.stat-card.empty .num{color:var(--muted);font-size:.95em;font-weight:400}
+label{display:block;margin:8px 0 4px;font-weight:600;font-size:.9em}
+input,select,textarea{width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.95em;background:#fff;color:var(--text)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--secondary);border-color:var(--secondary)}
+textarea{min-height:65px;resize:vertical}
+button.btn{padding:9px 15px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.9em;font-weight:600;transition:.2s;min-height:40px;color:#fff}
+.btn-primary{background:var(--primary)}.btn-primary:hover{background:var(--primary-dark)}
+.btn-secondary{background:var(--info)}.btn-secondary:hover{background:#0e7490}
+.btn-success{background:var(--success)}.btn-success:hover{background:#15803d}
+.btn-warning{background:var(--warning)}.btn-warning:hover{background:#b45309}
+.btn-danger{background:var(--danger)}.btn-danger:hover{background:#b91c1c}
+.btn-outline{background:#fff;color:var(--primary);border:1px solid var(--primary)}
+.btn-sm{padding:5px 9px;font-size:.82em;min-height:32px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.88em;overflow-x:auto;display:block}
+table thead,tbody{display:table;width:100%}
+table th,table td{padding:7px;border:1px solid var(--border);text-align:right;vertical-align:top}
+table th{background:#f1f5f9;font-weight:700;color:var(--primary-dark)}
+table tr:nth-child(even) td{background:#fafbfc}
+.empty-state{text-align:center;padding:20px;color:var(--muted);background:#f9fafb;border-radius:8px;border:1px dashed var(--border);margin-top:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:11px 18px;border-radius:8px;color:#fff;font-weight:600;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;max-width:90%;text-align:center;pointer-events:none}
+.toast.show{opacity:1}
+.toast.success{background:var(--success)}.toast.error{background:var(--danger)}.toast.info{background:var(--info)}
+.indicator-row{display:grid;grid-template-columns:1fr 155px;gap:8px;align-items:center;padding:7px;border-bottom:1px solid var(--border)}
+.indicator-row:last-child{border-bottom:none}
+.indicator-row select{min-width:150px}
+.notice{background:#fef3c7;border:1px solid #f59e0b;color:#78350f;padding:9px 12px;border-radius:8px;margin-bottom:10px;font-size:.88em}
+.notice-info{background:#dbeafe;border:1px solid #3b82f6;color:#1e3a8a;padding:9px 12px;border-radius:8px;margin-bottom:10px;font-size:.88em}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.8em;font-weight:700}
+.badge-success{background:#dcfce7;color:#166534}
+.badge-warning{background:#fef3c7;color:#92400e}
+.badge-danger{background:#fee2e2;color:#991b1b}
+.badge-muted{background:#e5e7eb;color:#4b5563}
+.badge-info{background:#dbeafe;color:#1e40af}
+.filter-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:12px}
+@media(max-width:600px){header h1{font-size:1.1em}nav button{padding:7px 9px;font-size:.82em}table{font-size:.75em}table th,table td{padding:4px}.stat-card .num{font-size:1.3em}.indicator-row{grid-template-columns:1fr}}
+@media print{nav,.actions,.btn,.no-print{display:none!important}body{background:#fff}.card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}section.tab{display:block!important;margin-bottom:20px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>منصة أدوات التقويم وجمع بيانات البحث الاستقصائي</h1>
+  <div class="subtitle">تقويم تعلم البرمجة بلغة Python – الصف الأول الثانوي</div>
+  <div class="author">تصميم الأستاذ عواد دحبور</div>
+</header>
+
+<nav id="mainNav">
+  <button data-tab="dashboard" class="active">لوحة التحكم</button>
+  <button data-tab="students">الطلبة</button>
+  <button data-tab="tests">الاختبارات</button>
+  <button data-tab="observations">قائمة الملاحظة</button>
+  <button data-tab="activities">سجل الأنشطة</button>
+  <button data-tab="products">تقييم المنتج</button>
+  <button data-tab="exits">بطاقات الخروج</button>
+  <button data-tab="reports">التقارير</button>
+  <button data-tab="data">النسخ والتصدير</button>
+</nav>
+
+<main>
+
+<!-- Dashboard -->
+<section id="tab-dashboard" class="tab active">
+  <div class="card">
+    <h2>لوحة التحكم</h2>
+    <div class="notice-info">جميع الأرقام مبنية على البيانات المسجلة فعليًا فقط. لا تُعرض أي بيانات افتراضية.</div>
+    <div class="grid" id="dashStats"></div>
+  </div>
+</section>
+
+<!-- Students -->
+<section id="tab-students" class="tab">
+  <div class="card">
+    <h2>إدارة الطلبة</h2>
+    <div class="notice-info">يُستخدم رمز الطالب البحثي (مثل S001) في ربط جميع السجلات، ولا يُلزم استخدام الأسماء الشخصية في التقارير.</div>
+    <form id="studentForm">
+      <input type="hidden" id="studentId">
+      <div class="form-row">
+        <div><label>رمز الطالب البحثي *</label><input type="text" id="studentCode" required placeholder="S001"></div>
+        <div><label>الشعبة *</label><input type="text" id="studentSection" required placeholder="أ / ب / ج" list="sectionsList"><datalist id="sectionsList"></datalist></div>
+        <div><label>الاسم (اختياري)</label><input type="text" id="studentName" placeholder="يُفضل تركه فارغًا للخصوصية"></div>
+      </div>
+      <label>ملاحظات تربوية مختصرة</label>
+      <textarea id="studentNotes"></textarea>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">حفظ / تحديث</button>
+        <button type="button" class="btn btn-outline" onclick="resetStudentForm()">إفراغ النموذج</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>قائمة الطلبة</h3>
+    <div class="filter-bar">
+      <input type="text" id="studentSearch" placeholder="بحث بالرمز أو الاسم..." oninput="renderStudents()">
+      <select id="studentSectionFilter" onchange="renderStudents()"><option value="">كل الشعب</option></select>
+    </div>
+    <div id="studentsTable"></div>
+  </div>
+</section>
+
+<!-- Tests -->
+<section id="tab-tests" class="tab">
+  <div class="card">
+    <h2>أداة (1) — تسجيل الاختبار القبلي والبعدي</h2>
+    <div class="notice">تنبيه: ارتفاع العلامة لا يثبت وحده أن التدخل التعليمي هو سبب التحسن. تحقق من تكافؤ الاختبارين في المحتوى والصعوبة قبل التفسير.</div>
+    <form id="testForm">
+      <input type="hidden" id="testId">
+      <div class="form-row">
+        <div><label>رمز الطالب *</label><select id="testCode" required></select></div>
+        <div><label>الشعبة *</label><input type="text" id="testSection" required></div>
+        <div><label>نوع الاختبار *</label><select id="testType" required><option value="pre">قبلي</option><option value="post">بعدي</option></select></div>
+        <div><label>تاريخ الاختبار *</label><input type="date" id="testDate" required></div>
+        <div><label>العلامة *</label><input type="number" id="testScore" step="0.01" required></div>
+        <div><label>العلامة العظمى *</label><input type="number" id="testMax" step="0.01" value="20" required></div>
+      </div>
+      <label>ملاحظات</label>
+      <textarea id="testNotes"></textarea>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">حفظ / تحديث</button>
+        <button type="button" class="btn btn-outline" onclick="resetTestForm()">إفراغ</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>سجلات الاختبارات</h3>
+    <div id="testsTable"></div>
+  </div>
+  <div class="card">
+    <h3>جدول المقارنة (قبلي ↔ بعدي) — الطلبة الذين لديهم قياسان صالحان فقط</h3>
+    <div id="comparisonTable"></div>
+  </div>
+  <div class="card">
+    <h3>الملخص الإحصائي</h3>
+    <div id="testsSummary"></div>
+  </div>
+</section>
+
+<!-- Observations -->
+<section id="tab-observations" class="tab">
+  <div class="card">
+    <h2>أداة (2) — قائمة ملاحظة الأداء العملي</h2>
+    <div class="notice">ملاحظة: "لم يُلاحظ" لا يُحوّل تلقائيًا إلى صفر. غياب الملاحظة لا يعني عدم تحقق المهارة.</div>
+    <form id="obsForm">
+      <input type="hidden" id="obsId">
+      <div class="form-row">
+        <div><label>رمز الطالب *</label><select id="obsCode" required></select></div>
+        <div><label>تاريخ الملاحظة *</label><input type="date" id="obsDate" required></div>
+        <div><label>رقم الحصة</label><input type="number" id="obsLesson" placeholder="1"></div>
+        <div><label>اسم النشاط</label><input type="text" id="obsActivity"></div>
+      </div>
+      <h3>المؤشرات</h3>
+      <div id="obsIndicators"></div>
+      <label>ملاحظات المعلم</label>
+      <textarea id="obsNotes"></textarea>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">حفظ / تحديث</button>
+        <button type="button" class="btn btn-outline" onclick="resetObsForm()">إفراغ</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>السجلات</h3>
+    <div class="filter-bar">
+      <input type="text" id="obsSearch" placeholder="بحث بالرمز..." oninput="renderObservations()">
+    </div>
+    <div id="obsTable"></div>
+  </div>
+</section>
+
+<!-- Activities -->
+<section id="tab-activities" class="tab">
+  <div class="card">
+    <h2>أداة (3) — سجل الأنشطة والتجريب والأخطاء</h2>
+    <div class="notice-info">سجّل ما حدث فعليًا أثناء استخدام المورد التفاعلي، لا ما يُتوقع حدوثه.</div>
+    <form id="actForm">
+      <input type="hidden" id="actId">
+      <div class="form-row">
+        <div><label>رمز الطالب *</label><select id="actCode" required></select></div>
+        <div><label>تاريخ النشاط *</label><input type="date" id="actDate" required></div>
+        <div><label>المورد التعليمي</label><input type="text" id="actResource"></div>
+        <div><label>اسم النشاط</label><input type="text" id="actName"></div>
+        <div><label>المهارة المستهدفة</label><input type="text" id="actSkill"></div>
+        <div><label>تطابق التوقع مع النتيجة؟</label><select id="actMatched"><option value="نعم">نعم</option><option value="لا">لا</option><option value="جزئيًا">جزئيًا</option></select></div>
+        <div><label>نوع الخطأ</label><select id="actError"></select></div>
+        <div><label>هل صحّح الخطأ؟</label><select id="actCorrected"><option value="نعم">نعم</option><option value="لا">لا</option><option value="جزئيًا">جزئيًا</option></select></div>
+        <div><label>عدد المحاولات</label><input type="number" id="actAttempts" min="1"></div>
+      </div>
+      <label>توقع الطالب قبل التجريب</label>
+      <textarea id="actPrediction"></textarea>
+      <label>النتيجة الفعلية بعد التجريب</label>
+      <textarea id="actActual"></textarea>
+      <label>التلميح أو المساعدة التي تلقاها</label>
+      <textarea id="actHelp"></textarea>
+      <label>ملاحظة المعلم</label>
+      <textarea id="actNotes"></textarea>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">حفظ / تحديث</button>
+        <button type="button" class="btn btn-outline" onclick="resetActForm()">إفراغ</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>السجلات</h3>
+    <div id="actTable"></div>
+  </div>
+</section>
+
+<!-- Products -->
+<section id="tab-products" class="tab">
+  <div class="card">
+    <h2>أداة (4) — تقييم المنتج البرمجي</h2>
+    <div class="notice-info">لا تُجمع الخيارات في علامة رقمية تلقائيًا. التقييم وصفي ما لم يحدد المعلم قاعدة صريحة.</div>
+    <form id="prodForm">
+      <input type="hidden" id="prodId">
+      <div class="form-row">
+        <div><label>رمز الطالب *</label><select id="prodCode" required></select></div>
+        <div><label>تاريخ التقييم *</label><input type="date" id="prodDate" required></div>
+        <div><label>اسم البرنامج / المهمة</label><input type="text" id="prodTask" placeholder="مثال: حساب مساحة المستطيل"></div>
+      </div>
+      <h3>المعايير</h3>
+      <div id="prodCriteria"></div>
+      <label>ملاحظة عامة</label>
+      <textarea id="prodNotes"></textarea>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">حفظ / تحديث</button>
+        <button type="button" class="btn btn-outline" onclick="resetProdForm()">إفراغ</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h3>السجلات</h3>
+    <div id="prodTable"></div>
+  </div>
+</section>
+
+<!-- Exit tickets -->
+<section id="tab-exits" class="tab">
+  <div class="card">
+    <h2>أداة (5) — بطاقات الخروج</h2>
+    <div class="form-row">
+      <div><label>اختر الحصة</label><select id="exitLessonSelect" onchange="renderExitForm()"></select></div>
+      <div><label>رمز الطالب *</label><select id="exitCode"></select></div>
+      <div><label>تاريخ الحصة *</label><input type="date" id="exitDate"></div>
+    </div>
+    <div id="exitQuestionsForm" style="margin-top:12px"></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="saveExitTicket()">حفظ البطاقة</button>
+      <button class="btn btn-outline" onclick="openExitQuestionsEditor()">تعديل أسئلة الحصة</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>البطاقات المسجلة</h3>
+    <div class="filter-bar">
+      <select id="exitFilterLesson" onchange="renderExitTable()"><option value="">كل الحصص</option></select>
+    </div>
+    <div id="exitTable"></div>
+  </div>
+</section>
+
+<!-- Reports -->
+<section id="tab-reports" class="tab">
+  <div class="card">
+    <h2>أداة (6) — التقارير والتحليل الأولي</h2>
+    <div class="notice">جميع النتائج وصفية، ولا تُثبت علاقة سببية بين المورد والتحسن. تعتمد فقط على السجلات الفعلية.</div>
+    <div class="filter-bar">
+      <select id="reportSectionFilter" onchange="renderReports()"><option value="">كل الشعب</option></select>
+      <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ طباعة / PDF</button>
+    </div>
+    <div id="reportsContent"></div>
+  </div>
+</section>
+
+<!-- Data -->
+<section id="tab-data" class="tab">
+  <div class="card">
+    <h2>النسخ الاحتياطي والتصدير</h2>
+    <div class="notice">البيانات محفوظة محليًا في متصفحك، وليست قاعدة بيانات مركزية. حذف بيانات المتصفح قد يؤدي إلى فقدانها — خذ نسخة احتياطية دوريًا. راجع محتوى الملفات قبل مشاركتها.</div>
+    <h3>تصدير CSV لكل أداة</h3>
+    <div class="actions">
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('students')">الطلبة CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('tests')">الاختبارات CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('observations')">قائمة الملاحظة CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('activities')">سجل الأنشطة CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('products')">تقييم المنتج CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('exitTickets')">بطاقات الخروج CSV</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV('comparison')">جدول المقارنة CSV</button>
+    </div>
+    <h3>النسخ الاحتياطي</h3>
+    <div class="actions">
+      <button class="btn btn-success" onclick="backupJSON()">📥 تنزيل نسخة احتياطية JSON</button>
+      <label class="btn btn-primary" style="cursor:pointer;display:inline-block;text-align:center">📤 استيراد نسخة احتياطية<input type="file" accept=".json,application/json" style="display:none" onchange="importJSON(event)"></label>
+    </div>
+    <h3>حذف البيانات</h3>
+    <div class="actions">
+      <button class="btn btn-danger" onclick="clearAllData()">🗑️ مسح جميع البيانات</button>
+      <button class="btn btn-warning" onclick="loadSamples()">تحميل بيانات تجريبية (للتجربة فقط)</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>حالة الحفظ</h3>
+    <div id="saveStatus">—</div>
+  </div>
+</section>
+
+</main>
+
+<!-- Modals -->
+<div class="modal-overlay" id="exitQuestionsModal">
+  <div class="modal">
+    <h2 style="color:var(--primary-dark);margin-bottom:12px">تعديل أسئلة بطاقة الخروج</h2>
+    <p class="notice-info" style="font-size:.85em">حرّر الأسئلة (سؤال واحد في كل سطر). السطر يبدأ بـ [choice] لجعله سؤال اختيار من متعدد (الخيارات بين |).</p>
+    <div id="exitQuestionsEditorContent"></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="saveExitQuestions()">حفظ الأسئلة</button>
+      <button class="btn btn-outline" onclick="closeModal('exitQuestionsModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==================== DATA ==================== */
+const STORAGE_KEY = 'pythonResearchDB_v1';
+
+const OBS_INDICATORS = [
+  'يتوقع ناتج التعبير الحسابي بصورة صحيحة',
+  'يفسر أولوية العمليات الحسابية والأقواس',
+  'يميز بين / و // و % و **',
+  'يستخدم جملة input() لاستقبال البيانات',
+  'يحول المدخلات إلى نوع عددي (int/float)',
+  'يبني برنامجًا عمليًا بسيطًا',
+  'يختبر البرنامج بقيم مختلفة',
+  'يكتشف خطأً ويصححه بعد التجريب',
+  'يفسر خطوات الحل بدل نسخ الإجابة'
+];
+const OBS_OPTS = ['تحقق','تحقق جزئي','لم يتحقق','لم يُلاحظ'];
+
+const PROD_CRITERIA = [
+  'استخدام جملة الإدخال بصورة صحيحة',
+  'تخزين البيانات في متغيرات مناسبة',
+  'تحويل المدخلات إلى نوع عددي مناسب',
+  'كتابة التعبير الحسابي بصورة صحيحة',
+  'حساب الناتج بصورة صحيحة',
+  'عرض الناتج للمستخدم بوضوح',
+  'اختبار البرنامج بقيم مختلفة',
+  'القدرة على شرح الكود وتصحيح الخطأ'
+];
+const PROD_OPTS = ['متحقق','متحقق جزئيًا','غير متحقق','غير قابل للحكم'];
+
+const DEFAULT_ERROR_TYPES = [
+  'خطأ في أولوية العمليات','خطأ في فهم العامل الحسابي','خطأ في تحويل نوع البيانات',
+  'خطأ في صياغة الكود','خطأ في فهم رسالة الإدخال','خطأ في توقع الناتج','لا يوجد خطأ','أخرى'
+];
+
+const DEFAULT_EXIT = {
+  '1': { title:'الحصة الأولى: التعابير الحسابية', questions:[
+    { text:'ما ناتج "2 + 3 * 4"؟ وضح السبب.' },
+    { text:'ما الفرق بين "17 // 5" و"17 % 5"؟' },
+    { text:'لماذا يختلف ناتج "2 + 3 * 4" عن ناتج "(2 + 3) * 4"؟' },
+    { text:'ما الخطأ الذي وقعت فيه اليوم؟ وكيف صححته؟' }
+  ]},
+  '2': { title:'الحصة الثانية: جملة الإدخال', questions:[
+    { text:'ما وظيفة "input()"؟' },
+    { text:'لماذا قد نحتاج إلى "int()" أو "float()"؟' },
+    { text:'ما الخطوة التي تسبق حساب مساحة المستطيل؟' },
+    { text:'اكتب سطرًا برمجيًا يستقبل طول المستطيل.' },
+    { text:'ما الخطأ الذي واجهته أثناء بناء البرنامج؟ وكيف عالجته؟' }
+  ]}
+};
+
+let DB = {
+  students:[], tests:[], observations:[], activities:[], products:[], exitTickets:[],
+  exitQuestions: JSON.parse(JSON.stringify(DEFAULT_EXIT)),
+  errorTypes: [...DEFAULT_ERROR_TYPES]
+};
+
+/* ==================== UTILS ==================== */
+let __id = 1;
+function uid(p){ return (p||'id') + '_' + Date.now().toString(36) + '_' + (__id++); }
+
+function toast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type||'info');
+  clearTimeout(t._h);
+  t._h = setTimeout(()=>{ t.className='toast'; }, 3000);
+}
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function todayISO(){ const d=new Date(); return d.toISOString().slice(0,10); }
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const p = JSON.parse(raw);
+      Object.keys(DB).forEach(k=>{ if(p[k]!==undefined) DB[k]=p[k]; });
+      if(!DB.exitQuestions || !DB.exitQuestions['1']) DB.exitQuestions = JSON.parse(JSON.stringify(DEFAULT_EXIT));
+      if(!Array.isArray(DB.errorTypes) || !DB.errorTypes.length) DB.errorTypes=[...DEFAULT_ERROR_TYPES];
+      updateSaveStatus('تم تحميل البيانات المحفوظة محليًا');
+    } else {
+      updateSaveStatus('لا توجد بيانات محفوظة بعد');
+    }
+  } catch(e){
+    console.error(e);
+    updateSaveStatus('تعذر تحميل البيانات: ' + e.message);
+  }
+}
+
+function saveData(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DB));
+    updateSaveStatus('✓ محفوظ محليًا — آخر حفظ: ' + new Date().toLocaleString('ar'));
+    toast('✓ تم حفظ البيانات محليًا', 'success');
+    return true;
+  } catch(e){
+    updateSaveStatus('✗ تعذر الحفظ: ' + e.message);
+    toast('✗ تعذر الحفظ: ' + e.message, 'error');
+    return false;
+  }
+}
+
+function updateSaveStatus(msg){
+  const el = document.getElementById('saveStatus');
+  if(el) el.textContent = msg;
+}
+
+function isValidTest(t){
+  if(!t || t.score==='' || t.score==null) return false;
+  const s = parseFloat(t.score), m = parseFloat(t.maxScore);
+  return !isNaN(s) && !isNaN(m) && m>0 && s>=0 && s<=m;
+}
+
+/* ==================== NAVIGATION ==================== */
+function initNav(){
+  document.querySelectorAll('#mainNav button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#mainNav button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('section.tab').forEach(s=>s.classList.remove('active'));
+      btn.classList.add('active');
+      const sec = document.getElementById('tab-'+btn.dataset.tab);
+      if(sec) sec.classList.add('active');
+      renderTab(btn.dataset.tab);
+    });
+  });
+}
+
+function renderTab(name){
+  switch(name){
+    case 'dashboard': renderDashboard(); break;
+    case 'students': renderStudents(); break;
+    case 'tests': renderTests(); break;
+    case 'observations': renderObservations(); break;
+    case 'activities': renderActivities(); break;
+    case 'products': renderProducts(); break;
+    case 'exits': renderExitTables(); break;
+    case 'reports': renderReports(); break;
+    case 'data': updateSaveStatus('حالة البيانات جاهزة'); break;
+  }
+}
+
+/* ==================== STATS ==================== */
+function summarizeTests(list){
+  const valid = list.filter(isValidTest);
+  if(!valid.length) return { count:0 };
+  const sameMax = valid.every(t=>parseFloat(t.maxScore)===parseFloat(valid[0].maxScore));
+  const rawAvg = valid.reduce((a,t)=>a+parseFloat(t.score),0)/valid.length;
+  const pctAvg = valid.reduce((a,t)=>a+(parseFloat(t.score)/parseFloat(t.maxScore))*100,0)/valid.length;
+  return { count:valid.length, rawAvg, pctAvg, sameMax, maxScore:parseFloat(valid[0].maxScore) };
+}
+
+function buildComparison(){
+  const codes = [...new Set(DB.tests.map(t=>t.code))];
+  const rows = [];
+  codes.forEach(code=>{
+    const pre = DB.tests.find(t=>t.code===code && t.type==='pre' && isValidTest(t));
+    const post = DB.tests.find(t=>t.code===code && t.type==='post' && isValidTest(t));
+    if(!pre || !post) return;
+    const prePct=(parseFloat(pre.score)/parseFloat(pre.maxScore))*100;
+    const postPct=(parseFloat(post.score)/parseFloat(post.maxScore))*100;
+    const sameMax = parseFloat(pre.maxScore)===parseFloat(post.maxScore);
+    let diff, diffType;
+    if(sameMax){ diff = parseFloat(post.score)-parseFloat(pre.score); diffType='raw'; }
+    else { diff = postPct - prePct; diffType='pct'; }
+    let direction = 'ثبات';
+    if(diff > 0.5) direction='تحسن';
+    else if(diff < -0.5) direction='انخفاض';
+    rows.push({code, pre, post, prePct, postPct, diff, diffType, direction, sameMax});
+  });
+  return rows;
+}
+
+function computeStats(){
+  const studentCodes = new Set(DB.students.map(s=>s.code));
+  const totalStudents = DB.students.length;
+  const completeStudents = DB.students.filter(s=>s.code && s.section).length;
+  const preSum = summarizeTests(DB.tests.filter(t=>t.type==='pre'));
+  const postSum = summarizeTests(DB.tests.filter(t=>t.type==='post'));
+  const comp = buildComparison();
+  const improved = comp.filter(c=>c.direction==='تحسن').length;
+  const completedObs = DB.observations.filter(o=>o.indicators && o.indicators.every(x=>x && x!=='لم يُلاحظ')).length;
+  return { totalStudents, completeStudents, preSum, postSum, comp, improved, completedObs };
+}
+
+/* ==================== DASHBOARD ==================== */
+function statCard(label, num, isEmpty){
+  return `<div class="stat-card ${isEmpty?'empty':''}">
+    <div class="label">${label}</div>
+    <div class="num">${isEmpty?'لا توجد بيانات':num}</div>
+  </div>`;
+}
+
+function renderDashboard(){
+  const s = computeStats();
+  const el = document.getElementById('dashStats');
+  let html = '';
+  html += statCard('عدد الطلبة المسجلين', s.totalStudents, s.totalStudents===0);
+  html += statCard('الطلبة باكتمال البيانات', s.completeStudents, s.completeStudents===0);
+  html += statCard('سجلات ملاحظة مكتملة', s.completedObs, s.completedObs===0);
+  if(s.preSum.count){
+    const t = s.preSum.sameMax
+      ? `المتوسط: ${s.preSum.rawAvg.toFixed(2)} من ${s.preSum.maxScore}`
+      : `المتوسط: ${s.preSum.pctAvg.toFixed(1)}٪ (اختلاف العلامة العظمى)`;
+    html += statCard(`متوسط العلامات القبلية (${s.preSum.count} سجل)`, t, false);
+  } else html += statCard('متوسط العلامات القبلية', 0, true);
+  if(s.postSum.count){
+    const t = s.postSum.sameMax
+      ? `المتوسط: ${s.postSum.rawAvg.toFixed(2)} من ${s.postSum.maxScore}`
+      : `المتوسط: ${s.postSum.pctAvg.toFixed(1)}٪ (اختلاف العلامة العظمى)`;
+    html += statCard(`متوسط العلامات البعدية (${s.postSum.count} سجل)`, t, false);
+  } else html += statCard('متوسط العلامات البعدية', 0, true);
+  html += statCard('عدد الطلبة الذين تحسنت نتائجهم', s.improved, s.comp.length===0);
+  el.innerHTML = html;
+}
+
+/* ==================== STUDENTS ==================== */
+function populateStudentSelects(){
+  const codes = DB.students.map(s=>s.code).sort();
+  ['testCode','obsCode','actCode','prodCode','exitCode'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const cur = el.value;
+    el.innerHTML = '<option value="">— اختر —</option>' + codes.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    if(codes.includes(cur)) el.value = cur;
+  });
+  // Sections datalist and filters
+  const sections = [...new Set(DB.students.map(s=>s.section).filter(Boolean))].sort();
+  const dl = document.getElementById('sectionsList');
+  if(dl) dl.innerHTML = sections.map(s=>`<option value="${esc(s)}">`).join('');
+  const filt = document.getElementById('studentSectionFilter');
+  if(filt){
+    const cur = filt.value;
+    filt.innerHTML = '<option value="">كل الشعب</option>' + sections.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    if(sections.includes(cur)) filt.value = cur;
+  }
+  const rf = document.getElementById('reportSectionFilter');
+  if(rf){
+    const cur = rf.value;
+    rf.innerHTML = '<option value="">كل الشعب</option>' + sections.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+    if(sections.includes(cur)) rf.value = cur;
+  }
+}
+
+function resetStudentForm(){
+  document.getElementById('studentId').value='';
+  document.getElementById('studentCode').value='';
+  document.getElementById('studentSection').value='';
+  document.getElementById('studentName').value='';
+  document.getElementById('studentNotes').value='';
+}
+
+document.getElementById('studentForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const id = document.getElementById('studentId').value;
+  const code = document.getElementById('studentCode').value.trim();
+  const section = document.getElementById('studentSection').value.trim();
+  if(!code || !section){ toast('الرمز والشعبة مطلوبان','error'); return; }
+  // Uniqueness check
+  const dup = DB.students.find(s=>s.code===code && s.id!==id);
+  if(dup){ toast('رمز الطالب مستخدم مسبقًا','error'); return; }
+  const rec = { id: id||uid('st'), code, section,
+    name: document.getElementById('studentName').value.trim(),
+    notes: document.getElementById('studentNotes').value.trim() };
+  if(id){
+    const idx = DB.students.findIndex(s=>s.id===id);
+    if(idx>=0) DB.students[idx]=rec;
+  } else {
+    DB.students.push(rec);
+  }
+  saveData();
+  populateStudentSelects();
+  renderStudents();
+  resetStudentForm();
+});
+
+function editStudent(id){
+  const s = DB.students.find(x=>x.id===id); if(!s) return;
+  document.getElementById('studentId').value = s.id;
+  document.getElementById('studentCode').value = s.code;
+  document.getElementById('studentSection').value = s.section;
+  document.getElementById('studentName').value = s.name||'';
+  document.getElementById('studentNotes').value = s.notes||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteStudent(id){
+  const s = DB.students.find(x=>x.id===id); if(!s) return;
+  if(!confirm(`حذف الطالب (${s.code})؟ سيؤدي ذلك إلى حذف جميع سجلاته المرتبطة.`)) return;
+  DB.students = DB.students.filter(x=>x.id!==id);
+  DB.tests = DB.tests.filter(t=>t.code!==s.code);
+  DB.observations = DB.observations.filter(o=>o.code!==s.code);
+  DB.activities = DB.activities.filter(a=>a.code!==s.code);
+  DB.products = DB.products.filter(p=>p.code!==s.code);
+  DB.exitTickets = DB.exitTickets.filter(e=>e.code!==s.code);
+  saveData();
+  populateStudentSelects();
+  renderStudents();
+}
+
+function renderStudents(){
+  const q = (document.getElementById('studentSearch').value||'').toLowerCase().trim();
+  const f = document.getElementById('studentSectionFilter').value;
+  let list = DB.students.slice();
+  if(q) list = list.filter(s=> s.code.toLowerCase().includes(q) || (s.name||'').toLowerCase().includes(q));
+  if(f) list = list.filter(s=>s.section===f);
+  const el = document.getElementById('studentsTable');
+  if(!list.length){
+    el.innerHTML = '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+    return;
+  }
+  el.innerHTML = `<table><thead><tr><th>الرمز</th><th>الشعبة</th><th>الاسم</th><th>ملاحظات</th><th>عدد السجلات</th><th>إجراءات</th></tr></thead><tbody>` +
+    list.map(s=>{
+      const testCount = DB.tests.filter(t=>t.code===s.code).length;
+      const obsCount = DB.observations.filter(o=>o.code===s.code).length;
+      const actCount = DB.activities.filter(a=>a.code===s.code).length;
+      const prodCount = DB.products.filter(p=>p.code===s.code).length;
+      const exitCount = DB.exitTickets.filter(e=>e.code===s.code).length;
+      const total = testCount+obsCount+actCount+prodCount+exitCount;
+      return `<tr>
+        <td><strong>${esc(s.code)}</strong></td>
+        <td>${esc(s.section)}</td>
+        <td>${esc(s.name||'—')}</td>
+        <td>${esc(s.notes||'')}</td>
+        <td>${total}</td>
+        <td><button class="btn btn-sm btn-outline" onclick="editStudent('${s.id}')">تعديل</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteStudent('${s.id}')">حذف</button></td>
+      </tr>`;
+    }).join('') + '</tbody></table>';
+}
+
+/* ==================== TESTS ==================== */
+function resetTestForm(){
+  document.getElementById('testId').value='';
+  document.getElementById('testCode').value='';
+  document.getElementById('testSection').value='';
+  document.getElementById('testType').value='pre';
+  document.getElementById('testDate').value=todayISO();
+  document.getElementById('testScore').value='';
+  document.getElementById('testMax').value='20';
+  document.getElementById('testNotes').value='';
+}
+
+document.getElementById('testForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const id = document.getElementById('testId').value;
+  const code = document.getElementById('testCode').value;
+  if(!code){ toast('اختر رمز الطالب','error'); return; }
+  const student = DB.students.find(s=>s.code===code);
+  const section = document.getElementById('testSection').value.trim() || (student?student.section:'');
+  const score = parseFloat(document.getElementById('testScore').value);
+  const max = parseFloat(document.getElementById('testMax').value);
+  if(isNaN(score)||isNaN(max)||max<=0){ toast('العلامة والعلامة العظمى غير صالحتين','error'); return; }
+  if(score<0 || score>max){ toast('العلامة يجب أن تكون بين 0 والعلامة العظمى','error'); return; }
+  const rec = { id: id||uid('t'), code, section,
+    type: document.getElementById('testType').value,
+    date: document.getElementById('testDate').value,
+    score, maxScore:max,
+    notes: document.getElementById('testNotes').value.trim() };
+  if(id){
+    const i = DB.tests.findIndex(t=>t.id===id); if(i>=0) DB.tests[i]=rec;
+  } else DB.tests.push(rec);
+  saveData(); renderTests(); resetTestForm();
+});
+
+function editTest(id){
+  const t = DB.tests.find(x=>x.id===id); if(!t) return;
+  document.getElementById('testId').value=t.id;
+  document.getElementById('testCode').value=t.code;
+  document.getElementById('testSection').value=t.section;
+  document.getElementById('testType').value=t.type;
+  document.getElementById('testDate').value=t.date;
+  document.getElementById('testScore').value=t.score;
+  document.getElementById('testMax').value=t.maxScore;
+  document.getElementById('testNotes').value=t.notes||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteTest(id){
+  if(!confirm('حذف هذا السجل؟')) return;
+  DB.tests = DB.tests.filter(t=>t.id!==id); saveData(); renderTests();
+}
+
+function testTypeLabel(t){ return t==='pre'?'قبلي':'بعدي'; }
+
+function renderTests(){
+  // Select population on show
+  populateStudentSelects();
+  // Table
+  const el = document.getElementById('testsTable');
+  const list = DB.tests.slice().sort((a,b)=> (a.date||'').localeCompare(b.date||''));
+  if(!list.length){ el.innerHTML='<div class="empty-state">لا توجد بيانات مسجلة بعد</div>'; }
+  else {
+    el.innerHTML = `<table><thead><tr><th>الرمز</th><th>الشعبة</th><th>النوع</th><th>التاريخ</th><th>العلامة</th><th>من</th><th>النسبة ٪</th><th>ملاحظات</th><th>إجراءات</th></tr></thead><tbody>`+
+    list.map(t=>{
+      const pct = (parseFloat(t.score)/parseFloat(t.maxScore))*100;
+      return `<tr>
+        <td>${esc(t.code)}</td><td>${esc(t.section)}</td>
+        <td><span class="badge ${t.type==='pre'?'badge-info':'badge-success'}">${testTypeLabel(t.type)}</span></td>
+        <td>${esc(t.date)}</td>
+        <td>${t.score}</td><td>${t.maxScore}</td>
+        <td>${isNaN(pct)?'—':pct.toFixed(1)}</td>
+        <td>${esc(t.notes||'')}</td>
+        <td>
+          <button class="btn btn-sm btn-outline" onclick="editTest('${t.id}')">تعديل</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteTest('${t.id}')">حذف</button>
+        </td>
+      </tr>`;
+    }).join('')+'</tbody></table>';
+  }
+  // Comparison
+  const comp = buildComparison();
+  const cmp = document.getElementById('comparisonTable');
+  if(!comp.length){
+    cmp.innerHTML = '<div class="empty-state">لا توجد بيانات كافية للمقارنة (تحتاج قياسين صالحين لكل طالب).</div>';
+  } else {
+    cmp.innerHTML = `<table><thead><tr><th>الرمز</th><th>الشعبة</th><th>القبلية</th><th>البعدية</th><th>الفرق</th><th>اتجاه التغير</th></tr></thead><tbody>`+
+      comp.map(c=>{
+        const diffLabel = c.diffType==='raw'
+          ? c.diff.toFixed(2)
+          : c.diff.toFixed(1)+'٪';
+        let cls = c.direction==='تحسن'?'badge-success':(c.direction==='انخفاض'?'badge-danger':'badge-muted');
+        const note = c.sameMax?'':' <small>(مقارنة بالنسبة المئوية)</small>';
+        return `<tr>
+          <td>${esc(c.code)}</td>
+          <td>${esc(c.pre.section)}</td>
+          <td>${c.pre.score}/${c.pre.maxScore} (${c.prePct.toFixed(1)}٪)</td>
+          <td>${c.post.score}/${c.post.maxScore} (${c.postPct.toFixed(1)}٪)</td>
+          <td>${diffLabel}${note}</td>
+          <td><span class="badge ${cls}">${c.direction}</span></td>
+        </tr>`;
+      }).join('')+'</tbody></table>';
+  }
+  // Summary
+  const sum = document.getElementById('testsSummary');
+  if(!comp.length){
+    sum.innerHTML = '<div class="empty-state">لا توجد بيانات مسجلة بعد.</div>';
+    return;
+  }
+  const improved = comp.filter(c=>c.direction==='تحسن').length;
+  const stable = comp.filter(c=>c.direction==='ثبات').length;
+  const declined = comp.filter(c=>c.direction==='انخفاض').length;
+  const avgPrePct = comp.reduce((a,c)=>a+c.prePct,0)/comp.length;
+  const avgPostPct = comp.reduce((a,c)=>a+c.postPct,0)/comp.length;
+  const avgDiff = comp.reduce((a,c)=>a+c.diff,0)/comp.length;
+  sum.innerHTML = `<table><tbody>
+    <tr><th>عدد الطلبة ذوي القياسين الصالحين</th><td>${comp.length}</td></tr>
+    <tr><th>متوسط النسبة القبلية</th><td>${avgPrePct.toFixed(1)}٪</td></tr>
+    <tr><th>متوسط النسبة البعدية</th><td>${avgPostPct.toFixed(1)}٪</td></tr>
+    <tr><th>متوسط التغير</th><td>${avgDiff.toFixed(2)}</td></tr>
+    <tr><th>حالات التحسن</th><td>${improved}</td></tr>
+    <tr><th>حالات الثبات</th><td>${stable}</td></tr>
+    <tr><th>حالات الانخفاض</th><td>${declined}</td></tr>
+  </tbody></table>
+  <p class="notice" style="margin-top:10px">تذكير: هذه النتائج وصفية. ارتفاع العلامة لا يثبت وحده أن التدخل التعليمي هو سبب التحسن. راجع تكافؤ الاختبارين قبل أي تفسير سببي.</p>`;
+}
+
+/* ==================== OBSERVATIONS ==================== */
+function buildObsIndicatorsForm(){
+  const el = document.getElementById('obsIndicators');
+  el.innerHTML = OBS_INDICATORS.map((ind,i)=>`
+    <div class="indicator-row">
+      <div>${i+1}. ${esc(ind)}</div>
+      <select id="obsInd${i}">
+        ${OBS_OPTS.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}
+      </select>
+    </div>`).join('');
+}
+
+function resetObsForm(){
+  document.getElementById('obsId').value='';
+  document.getElementById('obsCode').value='';
+  document.getElementById('obsDate').value=todayISO();
+  document.getElementById('obsLesson').value='';
+  document.getElementById('obsActivity').value='';
+  document.getElementById('obsNotes').value='';
+  OBS_INDICATORS.forEach((_,i)=>{ const s=document.getElementById('obsInd'+i); if(s) s.value='لم يُلاحظ'; });
+}
+
+document.getElementById('obsForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const id = document.getElementById('obsId').value;
+  const code = document.getElementById('obsCode').value;
+  if(!code){ toast('اختر رمز الطالب','error'); return; }
+  const indicators = OBS_INDICATORS.map((_,i)=> document.getElementById('obsInd'+i).value);
+  const rec = { id: id||uid('obs'), code,
+    date: document.getElementById('obsDate').value,
+    lesson: document.getElementById('obsLesson').value,
+    activity: document.getElementById('obsActivity').value.trim(),
+    indicators,
+    notes: document.getElementById('obsNotes').value.trim() };
+  if(id){ const i=DB.observations.findIndex(o=>o.id===id); if(i>=0) DB.observations[i]=rec; }
+  else DB.observations.push(rec);
+  saveData(); renderObservations(); resetObsForm();
+});
+
+function editObs(id){
+  const o = DB.observations.find(x=>x.id===id); if(!o) return;
+  document.getElementById('obsId').value=o.id;
+  document.getElementById('obsCode').value=o.code;
+  document.getElementById('obsDate').value=o.date;
+  document.getElementById('obsLesson').value=o.lesson||'';
+  document.getElementById('obsActivity').value=o.activity||'';
+  (o.indicators||[]).forEach((v,i)=>{ const s=document.getElementById('obsInd'+i); if(s) s.value=v; });
+  document.getElementById('obsNotes').value=o.notes||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteObs(id){
+  if(!confirm('حذف هذا السجل؟')) return;
+  DB.observations = DB.observations.filter(o=>o.id!==id); saveData(); renderObservations();
+}
+
+function obsSummary(indicators){
+  const r = {تحقق:0,'تحقق جزئي':0,'لم يتحقق':0,'لم يُلاحظ':0};
+  (indicators||[]).forEach(v=>{ if(r[v]!==undefined) r[v]++; });
+  return r;
+}
+
+function renderObservations(){
+  populateStudentSelects();
+  const q = (document.getElementById('obsSearch').value||'').toLowerCase().trim();
+  let list = DB.observations.slice();
+  if(q) list = list.filter(o=>o.code.toLowerCase().includes(q));
+  const el = document.getElementById('obsTable');
+  if(!list.length){ el.innerHTML='<div class="empty-state">لا توجد بيانات مسجلة بعد</div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>الرمز</th><th>التاريخ</th><th>الحصة</th><th>النشاط</th><th>ملخص</th><th>إجراءات</th></tr></thead><tbody>`+
+    list.map(o=>{
+      const s = obsSummary(o.indicators);
+      return `<tr>
+        <td>${esc(o.code)}</td><td>${esc(o.date)}</td><td>${esc(o.lesson||'—')}</td>
+        <td>${esc(o.activity||'—')}</td>
+        <td>
+          <span class="badge badge-success">${s['تحقق']}</span>
+          <span class="badge badge-warning">${s['تحقق جزئي']}</span>
+          <span class="badge badge-danger">${s['لم يتحقق']}</span>
+          <span class="badge badge-muted">${s['لم يُلاحظ']}</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline" onclick="editObs('${o.id}')">تعديل</button>
+          <button class="btn btn-sm btn-secondary" onclick="obsReport('${o.id}')">تقرير</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteObs('${o.id}')">حذف</button>
+        </td>
+      </tr>`;
+    }).join('')+'</tbody></table>';
+}
+
+function obsReport(id){
+  const o = DB.observations.find(x=>x.id===id); if(!o) return;
+  const verified = [], partial=[], notVerified=[], notObserved=[];
+  OBS_INDICATORS.forEach((ind,i)=>{
+    const v = o.indicators[i]||'لم يُلاحظ';
+    if(v==='تحقق') verified.push(ind);
+    else if(v==='تحقق جزئي') partial.push(ind);
+    else if(v==='لم يتحقق') notVerified.push(ind);
+    else notObserved.push(ind);
+  });
+  const lines = [];
+  lines.push(`تقرير فردي — الطالب: ${o.code} | التاريخ: ${o.date} | الحصة: ${o.lesson||'—'}`);
+  lines.push(`النشاط: ${o.activity||'—'}`);
+  lines.push('');
+  lines.push('المؤشرات المتحققة:');
+  if(verified.length) verified.forEach(x=>lines.push(' - '+x)); else lines.push(' - لا يوجد');
+  lines.push('');
+  lines.push('المؤشرات المتحققة جزئيًا:');
+  if(partial.length) partial.forEach(x=>lines.push(' - '+x)); else lines.push(' - لا يوجد');
+  lines.push('');
+  lines.push('المؤشرات التي تحتاج دعمًا (لم تتحقق):');
+  if(notVerified.length) notVerified.forEach(x=>lines.push(' - '+x)); else lines.push(' - لا يوجد');
+  lines.push('');
+  lines.push('المؤشرات التي لم تُلاحظ (ليست دليلًا على عدم التحقق):');
+  if(notObserved.length) notObserved.forEach(x=>lines.push(' - '+x)); else lines.push(' - لا يوجد');
+  if(o.notes){ lines.push(''); lines.push('ملاحظات المعلم: '+o.notes); }
+  alert(lines.join('\n'));
+}
+
+/* ==================== ACTIVITIES ==================== */
+function populateErrorSelect(){
+  const sel = document.getElementById('actError');
+  if(!sel) return;
+  sel.innerHTML = DB.errorTypes.map(e=>`<option value="${esc(e)}">${esc(e)}</option>`).join('');
+}
+
+function resetActForm(){
+  document.getElementById('actId').value='';
+  document.getElementById('actCode').value='';
+  document.getElementById('actDate').value=todayISO();
+  ['actResource','actName','actSkill','actPrediction','actActual','actHelp','actNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('actMatched').value='نعم';
+  document.getElementById('actCorrected').value='نعم';
+  document.getElementById('actAttempts').value='';
+  populateErrorSelect();
+}
+
+document.getElementById('actForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const id = document.getElementById('actId').value;
+  const code = document.getElementById('actCode').value;
+  if(!code){ toast('اختر رمز الطالب','error'); return; }
+  const rec = { id: id||uid('act'), code,
+    date: document.getElementById('actDate').value,
+    resource: document.getElementById('actResource').value.trim(),
+    name: document.getElementById('actName').value.trim(),
+    skill: document.getElementById('actSkill').value.trim(),
+    prediction: document.getElementById('actPrediction').value.trim(),
+    actual: document.getElementById('actActual').value.trim(),
+    matched: document.getElementById('actMatched').value,
+    errorType: document.getElementById('actError').value,
+    help: document.getElementById('actHelp').value.trim(),
+    corrected: document.getElementById('actCorrected').value,
+    attempts: document.getElementById('actAttempts').value,
+    notes: document.getElementById('actNotes').value.trim() };
+  if(id){ const i=DB.activities.findIndex(a=>a.id===id); if(i>=0) DB.activities[i]=rec; }
+  else DB.activities.push(rec);
+  saveData(); renderActivities(); resetActForm();
+});
+
+function editAct(id){
+  const a = DB.activities.find(x=>x.id===id); if(!a) return;
+  document.getElementById('actId').value=a.id;
+  document.getElementById('actCode').value=a.code;
+  document.getElementById('actDate').value=a.date;
+  document.getElementById('actResource').value=a.resource||'';
+  document.getElementById('actName').value=a.name||'';
+  document.getElementById('actSkill').value=a.skill||'';
+  document.getElementById('actPrediction').value=a.prediction||'';
+  document.getElementById('actActual').value=a.actual||'';
+  document.getElementById('actMatched').value=a.matched||'نعم';
+  populateErrorSelect();
+  document.getElementById('actError').value=a.errorType||DB.errorTypes[0];
+  document.getElementById('actHelp').value=a.help||'';
+  document.getElementById('actCorrected').value=a.corrected||'نعم';
+  document.getElementById('actAttempts').value=a.attempts||'';
+  document.getElementById('actNotes').value=a.notes||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteAct(id){
+  if(!confirm('حذف هذا السجل؟')) return;
+  DB.activities = DB.activities.filter(a=>a.id!==id); saveData(); renderActivities();
+}
+
+function renderActivities(){
+  populateStudentSelects();
+  populateErrorSelect();
+  const el = document.getElementById('actTable');
+  if(!DB.activities.length){ el.innerHTML='<div class="empty-state">لا توجد بيانات مسجلة بعد</div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>الرمز</th><th>التاريخ</th><th>المورد</th><th>النشاط</th><th>الخطأ</th><th>تطابق</th><th>صُحح</th><th>محاولات</th><th>إجراءات</th></tr></thead><tbody>`+
+    DB.activities.map(a=>`<tr>
+      <td>${esc(a.code)}</td><td>${esc(a.date)}</td>
+      <td>${esc(a.resource||'')}</td><td>${esc(a.name||'')}</td>
+      <td>${esc(a.errorType||'')}</td><td>${esc(a.matched)}</td>
+      <td>${esc(a.corrected)}</td><td>${esc(a.attempts||'')}</td>
+      <td>
+        <button class="btn btn-sm btn-outline" onclick="editAct('${a.id}')">تعديل</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteAct('${a.id}')">حذف</button>
+      </td>
+    </tr>`).join('')+'</tbody></table>';
+}
+
+/* ==================== PRODUCTS ==================== */
+function buildProdForm(){
+  const el = document.getElementById('prodCriteria');
+  el.innerHTML = PROD_CRITERIA.map((c,i)=>`
+    <div class="indicator-row" style="grid-template-columns:1fr 200px;padding:10px 4px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="margin-bottom:4px">${i+1}. ${esc(c)}</div>
+        <input type="text" id="prodNote${i}" placeholder="ملاحظة على المعيار (اختياري)" style="font-size:.85em">
+      </div>
+      <select id="prodCrit${i}">
+        ${PROD_OPTS.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}
+      </select>
+    </div>`).join('');
+}
+
+function resetProdForm(){
+  document.getElementById('prodId').value='';
+  document.getElementById('prodCode').value='';
+  document.getElementById('prodDate').value=todayISO();
+  document.getElementById('prodTask').value='';
+  document.getElementById('prodNotes').value='';
+  PROD_CRITERIA.forEach((_,i)=>{
+    const s=document.getElementById('prodCrit'+i); if(s) s.value='غير قابل للحكم';
+    const n=document.getElementById('prodNote'+i); if(n) n.value='';
+  });
+}
+
+document.getElementById('prodForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const id = document.getElementById('prodId').value;
+  const code = document.getElementById('prodCode').value;
+  if(!code){ toast('اختر رمز الطالب','error'); return; }
+  const criteria = PROD_CRITERIA.map((_,i)=>({
+    value: document.getElementById('prodCrit'+i).value,
+    note: document.getElementById('prodNote'+i).value.trim()
+  }));
+  const rec = { id: id||uid('pr'), code,
+    date: document.getElementById('prodDate').value,
+    task: document.getElementById('prodTask').value.trim(),
+    criteria,
+    notes: document.getElementById('prodNotes').value.trim() };
+  if(id){ const i=DB.products.findIndex(p=>p.id===id); if(i>=0) DB.products[i]=rec; }
+  else DB.products.push(rec);
+  saveData(); renderProducts(); resetProdForm();
+});
+
+function editProd(id){
+  const p = DB.products.find(x=>x.id===id); if(!p) return;
+  document.getElementById('prodId').value=p.id;
+  document.getElementById('prodCode').value=p.code;
+  document.getElementById('prodDate').value=p.date;
+  document.getElementById('prodTask').value=p.task||'';
+  (p.criteria||[]).forEach((c,i)=>{
+    const s=document.getElementById('prodCrit'+i); if(s) s.value=c.value;
+    const n=document.getElementById('prodNote'+i); if(n) n.value=c.note||'';
+  });
+  document.getElementById('prodNotes').value=p.notes||'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteProd(id){
+  if(!confirm('حذف هذا السجل؟')) return;
+  DB.products = DB.products.filter(p=>p.id!==id); saveData(); renderProducts();
+}
+
+function renderProducts(){
+  populateStudentSelects();
+  const el = document.getElementById('prodTable');
+  if(!DB.products.length){ el.innerHTML='<div class="empty-state">لا توجد بيانات مسجلة بعد</div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>الرمز</th><th>التاريخ</th><th>المهمة</th><th>ملخص المعايير</th><th>إجراءات</th></tr></thead><tbody>`+
+    DB.products.map(p=>{
+      const s = {mتحقق:0,'متحقق جزئيًا':0,'غير متحقق':0,'غير قابل للحكم':0};
+      (p.criteria||[]).forEach(c=>{ if(s[c.value]!==undefined) s[c.value]++; });
+      return `<tr>
+        <td>${esc(p.code)}</td><td>${esc(p.date)}</td>
+        <td>${esc(p.task||'')}</td>
+        <td>
+          <span class="badge badge-success">${s['متحقق']}</span>
+          <span class="badge badge-warning">${s['متحقق جزئيًا']}</span>
+          <span class="badge badge-danger">${s['غير متحقق']}</span>
+          <span class="badge badge-muted">${s['غير قابل للحكم']}</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline" onclick="editProd('${p.id}')">تعديل</button>
+          <button class="btn btn-sm btn-secondary" onclick="prodReport('${p.id}')">تقرير</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteProd('${p.id}')">حذف</button>
+        </td>
+      </tr>`;
+    }).join('')+'</tbody></table>';
+}
+
+function prodReport(id){
+  const p = DB.products.find(x=>x.id===id); if(!p) return;
+  const lines = [`تقرير تقييم المنتج — الطالب: ${p.code} | التاريخ: ${p.date} | المهمة: ${p.task||'—'}`,''];
+  const need = [];
+  (p.criteria||[]).forEach((c,i)=>{
+    const crit = PROD_CRITERIA[i]||'معيار';
+    lines.push(`- ${crit}: ${c.value}${c.note?' — '+c.note:''}`);
+    if(c.value==='غير متحقق' || c.value==='متحقق جزئيًا') need.push(crit);
+  });
+  if(need.length){ lines.push(''); lines.push('معايير تحتاج تطويرًا:'); need.forEach(x=>lines.push(' - '+x)); }
+  if(p.notes){ lines.push(''); lines.push('ملاحظات عامة: '+p.notes); }
+  alert(lines.join('\n'));
+}
+
+/* ==================== EXIT TICKETS ==================== */
+function populateExitLessonSelect(){
+  const sel = document.getElementById('exitLessonSelect');
+  const filter = document.getElementById('exitFilterLesson');
+  const lessons = Object.keys(DB.exitQuestions).sort();
+  sel.innerHTML = lessons.map(k=>`<option value="${esc(k)}">${esc(DB.exitQuestions[k].title||('حصة '+k))}</option>`).join('');
+  filter.innerHTML = '<option value="">كل الحصص</option>' + lessons.map(k=>`<option value="${esc(k)}">${esc(DB.exitQuestions[k].title||('حصة '+k))}</option>`).join('');
+  renderExitForm();
+}
+
+function renderExitForm(){
+  const lessonKey = document.getElementById('exitLessonSelect').value;
+  const data = DB.exitQuestions[lessonKey];
+  const el = document.getElementById('exitQuestionsForm');
+  if(!data){ el.innerHTML='<div class="empty-state">لا توجد أسئلة لهذه الحصة</div>'; return; }
+  el.innerHTML = '<h3 style="color:var(--primary)">'+esc(data.title)+'</h3>' + data.questions.map((q,i)=>{
+    const type = q.type||'text';
+    if(type==='choice' && q.options){
+      return `<label>${i+1}. ${esc(q.text)}</label>
+        <select id="exitAns${i}"><option value="">— اختر —</option>${q.options.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`;
+    }
+    return `<label>${i+1}. ${esc(q.text)}</label>
+      <textarea id="exitAns${i}"></textarea>`;
+  }).join('');
+}
+
+function saveExitTicket(){
+  const lessonKey = document.getElementById('exitLessonSelect').value;
+  const code = document.getElementById('exitCode').value;
+  const date = document.getElementById('exitDate').value;
+  if(!code){ toast('اختر رمز الطالب','error'); return; }
+  if(!date){ toast('أدخل تاريخ الحصة','error'); return; }
+  const data = DB.exitQuestions[lessonKey];
+  if(!data){ toast('لا توجد أسئلة لهذه الحصة','error'); return; }
+  const answers = data.questions.map((q,i)=>{
+    const el = document.getElementById('exitAns'+i);
+    return { q: q.text, a: el?el.value:'' };
+  });
+  const rec = { id: uid('ex'), code, date, lesson: lessonKey, lessonTitle: data.title, answers };
+  DB.exitTickets.push(rec);
+  saveData(); renderExitTable();
+  toast('✓ تم حفظ البطاقة','success');
+}
+
+function renderExitTables(){
+  populateStudentSelects();
+  populateExitLessonSelect();
+  const ed = document.getElementById('exitDate');
+  if(ed && !ed.value) ed.value = todayISO();
+  renderExitTable();
+}
+
+function renderExitTable(){
+  const filt = document.getElementById('exitFilterLesson').value;
+  let list = DB.exitTickets.slice();
+  if(filt) list = list.filter(e=>e.lesson===filt);
+  const el = document.getElementById('exitTable');
+  if(!list.length){ el.innerHTML='<div class="empty-state">لا توجد بيانات مسجلة بعد</div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>الرمز</th><th>التاريخ</th><th>الحصة</th><th>عدد الأسئلة</th><th>إجراءات</th></tr></thead><tbody>`+
+    list.map(e=>`<tr>
+      <td>${esc(e.code)}</td><td>${esc(e.date)}</td>
+      <td>${esc(e.lessonTitle||e.lesson)}</td>
+      <td>${(e.answers||[]).length}</td>
+      <td>
+        <button class="btn btn-sm btn-secondary" onclick="viewExit('${e.id}')">عرض</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteExit('${e.id}')">حذف</button>
+      </td>
+    </tr>`).join('')+'</tbody></table>';
+}
+
+function viewExit(id){
+  const e = DB.exitTickets.find(x=>x.id===id); if(!e) return;
+  const lines = [`بطاقة خروج — ${e.code} | ${e.date} | ${e.lessonTitle||('حصة '+e.lesson)}`,''];
+  (e.answers||[]).forEach((a,i)=>lines.push(`${i+1}. ${a.q}\n   ← ${a.a||'(بدون إجابة)'}`));
+  alert(lines.join('\n'));
+}
+
+function deleteExit(id){
+  if(!confirm('حذف هذه البطاقة؟')) return;
+  DB.exitTickets = DB.exitTickets.filter(e=>e.id!==id); saveData(); renderExitTable();
+}
+
+function openExitQuestionsEditor(){
+  const lessonKey = document.getElementById('exitLessonSelect').value;
+  const data = DB.exitQuestions[lessonKey];
+  if(!data) return;
+  const content = document.getElementById('exitQuestionsEditorContent');
+  content.innerHTML = `
+    <label>عنوان الحصة</label>
+    <input type="text" id="exitTitleEdit" value="${esc(data.title)}">
+    <label>الأسئلة (سؤال واحد في كل سطر)</label>
+    <textarea id="exitQuestionsEdit" style="min-height:200px">${data.questions.map(q=>q.text).join('\n')}</textarea>`;
+  document.getElementById('exitQuestionsModal').classList.add('active');
+}
+
+function saveExitQuestions(){
+  const lessonKey = document.getElementById('exitLessonSelect').value;
+  const title = document.getElementById('exitTitleEdit').value.trim();
+  const lines = document.getElementById('exitQuestionsEdit').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  DB.exitQuestions[lessonKey] = { title, questions: lines.map(t=>({text:t})) };
+  saveData();
+  closeModal('exitQuestionsModal');
+  populateExitLessonSelect();
+  renderExitForm();
+}
+
+function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+
+/* ==================== REPORTS ==================== */
+function renderReports(){
+  populateStudentSelects();
+  const sectionF = document.getElementById('reportSectionFilter').value;
+  const content = document.getElementById('reportsContent');
+  const filterBySection = (arr, field) => sectionF ? arr.filter(x=>x[field]===sectionF) : arr;
+
+  // Comparison report
+  const comp = buildComparison().filter(c=> !sectionF || c.pre.section===sectionF);
+  let html = '';
+
+  // 1. Pre/post summary
+  html += `<h3>نتائج الاختبار القبلي والبعدي</h3>`;
+  const preList = filterBySection(DB.tests.filter(t=>t.type==='pre'),'section');
+  const postList = filterBySection(DB.tests.filter(t=>t.type==='post'),'section');
+  if(!preList.length && !postList.length){
+    html += '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+  } else {
+    const preS = summarizeTests(preList), postS = summarizeTests(postList);
+    html += `<table><thead><tr><th>القياس</th><th>عدد السجلات الصالحة</th><th>المتوسط</th></tr></thead><tbody>`;
+    html += `<tr><td>قبلي</td><td>${preS.count||0}</td><td>${preS.count? (preS.sameMax? preS.rawAvg.toFixed(2)+' / '+preS.maxScore : preS.pctAvg.toFixed(1)+'٪') : '—'}</td></tr>`;
+    html += `<tr><td>بعدي</td><td>${postS.count||0}</td><td>${postS.count? (postS.sameMax? postS.rawAvg.toFixed(2)+' / '+postS.maxScore : postS.pctAvg.toFixed(1)+'٪') : '—'}</td></tr>`;
+    html += `</tbody></table>`;
+  }
+
+  // 2. Distribution of change
+  html += `<h3>توزيع التغير (${comp.length} طالبًا لديهم قياسان صالحان)</h3>`;
+  if(!comp.length){
+    html += '<div class="empty-state">لا توجد بيانات كافية للمقارنة</div>';
+  } else {
+    const imp = comp.filter(c=>c.direction==='تحسن').length;
+    const st = comp.filter(c=>c.direction==='ثبات').length;
+    const de = comp.filter(c=>c.direction==='انخفاض').length;
+    html += `<table><tbody>
+      <tr><th>تحسن</th><td>${imp} (${(imp/comp.length*100).toFixed(1)}٪)</td></tr>
+      <tr><th>ثبات</th><td>${st} (${(st/comp.length*100).toFixed(1)}٪)</td></tr>
+      <tr><th>انخفاض</th><td>${de} (${(de/comp.length*100).toFixed(1)}٪)</td></tr>
+    </tbody></table>`;
+  }
+
+  // 3. Observation summary
+  html += `<h3>ملخص مؤشرات قائمة الملاحظة</h3>`;
+  const obs = DB.observations.filter(o=> !sectionF || (DB.students.find(s=>s.code===o.code)?.section===sectionF));
+  if(!obs.length){
+    html += '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+  } else {
+    html += `<p>مبني على ${obs.length} سجل.</p><table><thead><tr><th>المؤشر</th><th>تحقق</th><th>جزئي</th><th>لم يتحقق</th><th>لم يُلاحظ</th></tr></thead><tbody>`;
+    OBS_INDICATORS.forEach((ind,i)=>{
+      const cnt = {تحقق:0,'تحقق جزئي':0,'لم يتحقق':0,'لم يُلاحظ':0};
+      obs.forEach(o=>{ const v=(o.indicators||[])[i]; if(v && cnt[v]!==undefined) cnt[v]++; });
+      html += `<tr><td>${esc(ind)}</td><td>${cnt['تحقق']}</td><td>${cnt['تحقق جزئي']}</td><td>${cnt['لم يتحقق']}</td><td>${cnt['لم يُلاحظ']}</td></tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // 4. Most frequent errors
+  html += `<h3>أكثر الأخطاء المسجلة تكرارًا</h3>`;
+  const acts = DB.activities.filter(a=> !sectionF || (DB.students.find(s=>s.code===a.code)?.section===sectionF));
+  if(!acts.length){
+    html += '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+  } else {
+    const counts = {};
+    acts.forEach(a=>{ const k=a.errorType||'غير محدد'; counts[k]=(counts[k]||0)+1; });
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    html += `<p>مبني على ${acts.length} سجل.</p><table><tbody>`+
+      sorted.map(([k,v])=>`<tr><th>${esc(k)}</th><td>${v} حالة (${(v/acts.length*100).toFixed(1)}٪)</td></tr>`).join('')+
+      `</tbody></table>`;
+  }
+
+  // 5. Skills needing support
+  html += `<h3>المهارات التي تحتاج إلى دعم</h3>`;
+  if(!obs.length){
+    html += '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+  } else {
+    const needs = OBS_INDICATORS.map((ind,i)=>{
+      const bad = obs.filter(o=>(o.indicators||[])[i]==='لم يتحقق').length;
+      const tot = obs.filter(o=>{const v=(o.indicators||[])[i]; return v && v!=='لم يُلاحظ';}).length;
+      return {ind, bad, tot};
+    }).filter(x=>x.tot>0 && x.bad>0).sort((a,b)=>b.bad-a.bad);
+    if(!needs.length) html += '<div class="empty-state">لا توجد مؤشرات مسجلة تحتاج دعمًا بحسب البيانات الحالية</div>';
+    else {
+      html += `<table><thead><tr><th>المؤشر</th><th>حالات عدم التحقق</th><th>من أصل ملاحظات</th></tr></thead><tbody>`+
+        needs.map(n=>`<tr><td>${esc(n.ind)}</td><td>${n.bad}</td><td>${n.tot}</td></tr>`).join('')+
+        `</tbody></table>`;
+    }
+  }
+
+  // 6. Product evaluation summary
+  html += `<h3>ملخص تقييم المنتجات البرمجية</h3>`;
+  const prods = DB.products.filter(p=> !sectionF || (DB.students.find(s=>s.code===p.code)?.section===sectionF));
+  if(!prods.length){
+    html += '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+  } else {
+    html += `<p>مبني على ${prods.length} سجل.</p><table><thead><tr><th>المعيار</th><th>متحقق</th><th>جزئي</th><th>غير متحقق</th><th>غير قابل للحكم</th></tr></thead><tbody>`;
+    PROD_CRITERIA.forEach((c,i)=>{
+      const cnt = {'متحقق':0,'متحقق جزئيًا':0,'غير متحقق':0,'غير قابل للحكم':0};
+      prods.forEach(p=>{ const v=(p.criteria||[])[i]?.value; if(v && cnt[v]!==undefined) cnt[v]++; });
+      html += `<tr><td>${esc(c)}</td><td>${cnt['متحقق']}</td><td>${cnt['متحقق جزئيًا']}</td><td>${cnt['غير متحقق']}</td><td>${cnt['غير قابل للحكم']}</td></tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // 7. Exit tickets summary
+  html += `<h3>ملخص إجابات بطاقات الخروج</h3>`;
+  const exits = DB.exitTickets.filter(e=> !sectionF || (DB.students.find(s=>s.code===e.code)?.section===sectionF));
+  if(!exits.length){
+    html += '<div class="empty-state">لا توجد بيانات مسجلة بعد</div>';
+  } else {
+    const byLesson = {};
+    exits.forEach(e=>{ byLesson[e.lesson]=byLesson[e.lesson]||{title:e.lessonTitle||('حصة '+e.lesson), count:0}; byLesson[e.lesson].count++; });
+    html += `<p>مبني على ${exits.length} بطاقة.</p><table><thead><tr><th>الحصة</th><th>عدد البطاقات</th></tr></thead><tbody>`+
+      Object.values(byLesson).map(x=>`<tr><td>${esc(x.title)}</td><td>${x.count}</td></tr>`).join('')+`</tbody></table>`;
+  }
+
+  html += `<p class="notice" style="margin-top:14px">تنبيه: جميع النتائج أعلاه وصفية، وتُبنى فقط على السجلات الفعلية. لا تُثبت علاقة سببية بين المورد التعليمي والتحسن. غياب السجل أو الملاحظة لا يعني عدم تحقق المهارة.</p>`;
+
+  content.innerHTML = html;
+}
+
+/* ==================== EXPORT / BACKUP ==================== */
+function toCSV(rows){
+  return '\ufeff' + rows.map(r=>r.map(cell=>{
+    const s = String(cell==null?'':cell);
+    if(/[",\n\r]/.test(s)) return '"'+s.replace(/"/g,'""')+'"';
+    return s;
+  }).join(',')).join('\r\n');
+}
+
+function downloadFile(content, filename, mime){
+  const blob = new Blob([content], {type: mime||'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1200);
+}
+
+function exportCSV(type){
+  let rows = [], name = 'export_'+type;
+  if(type==='students'){
+    rows.push(['الرمز','الشعبة','الاسم','ملاحظات']);
+    DB.students.forEach(s=>rows.push([s.code, s.section, s.name||'', s.notes||'']));
+  } else if(type==='tests'){
+    rows.push(['الرمز','الشعبة','نوع الاختبار','التاريخ','العلامة','العلامة العظمى','النسبة ٪','ملاحظات']);
+    DB.tests.forEach(t=>{
+      const pct = (parseFloat(t.score)/parseFloat(t.maxScore)*100).toFixed(1);
+      rows.push([t.code, t.section, testTypeLabel(t.type), t.date, t.score, t.maxScore, pct, t.notes||'']);
+    });
+  } else if(type==='observations'){
+    rows.push(['الرمز','التاريخ','الحصة','النشاط', ...OBS_INDICATORS, 'ملاحظات']);
+    DB.observations.forEach(o=>rows.push([o.code, o.date, o.lesson||'', o.activity||'', ...(o.indicators||[]), o.notes||'']));
+  } else if(type==='activities'){
+    rows.push(['الرمز','التاريخ','المورد','النشاط','المهارة','التوقع','النتيجة','تطابق','نوع الخطأ','المساعدة','صُحح','المحاولات','ملاحظات']);
+    DB.activities.forEach(a=>rows.push([a.code,a.date,a.resource||'',a.name||'',a.skill||'',a.prediction||'',a.actual||'',a.matched,a.errorType||'',a.help||'',a.corrected,a.attempts||'',a.notes||'']));
+  } else if(type==='products'){
+    rows.push(['الرمز','التاريخ','المهمة', ...PROD_CRITERIA.map(c=>c+' (الحكم)'), ...PROD_CRITERIA.map(c=>c+' (ملاحظة)'), 'ملاحظات عامة']);
+    DB.products.forEach(p=>{
+      const vals = PROD_CRITERIA.map((_,i)=>(p.criteria||[])[i]?.value||'');
+      const notes = PROD_CRITERIA.map((_,i)=>(p.criteria||[])[i]?.note||'');
+      rows.push([p.code, p.date, p.task||'', ...vals, ...notes, p.notes||'']);
+    });
+  } else if(type==='exitTickets'){
+    rows.push(['الرمز','التاريخ','الحصة','السؤال','الإجابة']);
+    DB.exitTickets.forEach(e=>{
+      (e.answers||[]).forEach(a=>rows.push([e.code, e.date, e.lessonTitle||e.lesson, a.q, a.a||'']));
+    });
+  } else if(type==='comparison'){
+    rows.push(['الرمز','الشعبة','العلامة القبلية','العظمى قبلية','قبلية ٪','العلامة البعدية','العظمى بعدية','بعدية ٪','الفرق','نوع الفرق','اتجاه التغير']);
+    buildComparison().forEach(c=>{
+      rows.push([c.code, c.pre.section, c.pre.score, c.pre.maxScore, c.prePct.toFixed(1),
+        c.post.score, c.post.maxScore, c.postPct.toFixed(1),
+        c.diff.toFixed(2), c.diffType==='raw'?'خام':'نسبة مئوية', c.direction]);
+    });
+  }
+  if(rows.length<2){ toast('لا توجد بيانات للتصدير','error'); return; }
+  downloadFile(toCSV(rows), name+'_'+todayISO()+'.csv', 'text/csv;charset=utf-8');
+  toast('✓ تم تصدير الملف','success');
+}
+
+function backupJSON(){
+  const data = JSON.stringify({version:1, exportedAt:new Date().toISOString(), data:DB}, null, 2);
+  downloadFile(data, 'backup_'+todayISO()+'.json', 'application/json');
+  toast('✓ تم تنزيل النسخة الاحتياطية','success');
+}
+
+function importJSON(ev){
+  const file = ev.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed.data || typeof parsed.data !== 'object') throw new Error('بنية الملف غير صحيحة');
+      if(!confirm('سيتم استبدال البيانات الحالية بالبيانات المستوردة. هل أنت متأكد؟')) return;
+      DB = Object.assign(DB, parsed.data);
+      if(!Array.isArray(DB.errorTypes) || !DB.errorTypes.length) DB.errorTypes=[...DEFAULT_ERROR_TYPES];
+      saveData();
+      populateStudentSelects();
+      renderTab(document.querySelector('#mainNav button.active')?.dataset.tab || 'dashboard');
+      toast('✓ تم استيراد البيانات بنجاح','success');
+    } catch(err){
+      toast('✗ فشل الاستيراد: '+err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
+}
+
+function clearAllData(){
+  if(!confirm('سيتم مسح جميع بياناتك المحفوظة محليًا. لا يمكن التراجع. هل أنت متأكد؟')) return;
+  if(!confirm('تأكيد نهائي: هل تريد بالفعل مسح جميع البيانات؟')) return;
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+    DB = { students:[], tests:[], observations:[], activities:[], products:[], exitTickets:[],
+      exitQuestions: JSON.parse(JSON.stringify(DEFAULT_EXIT)), errorTypes:[...DEFAULT_ERROR_TYPES] };
+    saveData();
+    populateStudentSelects();
+    renderTab('dashboard');
+    toast('✓ تم مسح البيانات','success');
+  } catch(e){
+    toast('✗ تعذر المسح: '+e.message,'error');
+  }
+}
+
+function loadSamples(){
+  if(!confirm('سيتم إضافة بيانات تجريبية (3 طلبة) للمساعدة في اختبار الوظائف. هل تريد المتابعة؟')) return;
+  const samples = [
+    {id:uid('st'), code:'S001', section:'أ', name:'', notes:'طالب تجريبي'},
+    {id:uid('st'), code:'S002', section:'أ', name:'', notes:''},
+    {id:uid('st'), code:'S003', section:'ب', name:'', notes:''}
+  ];
+  samples.forEach(s=>{
+    if(!DB.students.find(x=>x.code===s.code)) DB.students.push(s);
+  });
+  saveData();
+  populateStudentSelects();
+  renderTab('students');
+  toast('✓ أُضيفت بيانات تجريبية','info');
+}
+
+/* ==================== INIT ==================== */
+function init(){
+  initNav();
+  loadData();
+  buildObsIndicatorsForm();
+  buildProdForm();
+  populateStudentSelects();
+  populateErrorSelect();
+  populateExitLessonSelect();
+  resetTestForm();
+  resetObsForm();
+  resetProdForm();
+  resetActForm();
+  document.getElementById('testDate').value = todayISO();
+  document.getElementById('obsDate').value = todayISO();
+  document.getElementById('actDate').value = todayISO();
+  document.getElementById('prodDate').value = todayISO();
+  const ed = document.getElementById('exitDate');
+  if(ed) ed.value = todayISO();
+  renderDashboard();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

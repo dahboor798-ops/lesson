@@ -1,0 +1,859 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="بوابة المعلم الرقمية — مدرسة أبو الزيغان الثانوية للبنين. وصول سريع إلى المنصات الرسمية وأدوات التعليم والذكاء الاصطناعي.">
+<title>بوابة المعلم الرقمية — مدرسة أبو الزيغان الثانوية للبنين</title>
+<style>
+  :root{
+    --navy:#0a2540;
+    --navy-2:#123a63;
+    --blue:#1b6fd6;
+    --tech:#0ea5e9;
+    --turquoise:#14b8a6;
+    --purple:#7c3aed;
+    --bg:#eef3f9;
+    --surface:#ffffff;
+    --text:#0f2438;
+    --muted:#5b7186;
+    --line:#dbe6f1;
+    --radius:16px;
+    --shadow-sm:0 2px 10px rgba(10,37,64,.06);
+    --shadow:0 12px 30px -14px rgba(10,37,64,.30);
+    --shadow-lg:0 24px 48px -20px rgba(10,37,64,.45);
+    --font:"Segoe UI","Tahoma","Geneva","Noto Kufi Arabic","Cairo","Dubai","Arial",sans-serif;
+    --sticky-h:56px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{scroll-behavior:smooth; scroll-padding-top:calc(var(--sticky-h) + 14px)}
+  body{
+    margin:0;
+    font-family:var(--font);
+    background:
+      radial-gradient(900px 400px at 100% 0%, rgba(20,184,166,.08), transparent 65%),
+      radial-gradient(700px 380px at 0% 10%, rgba(14,165,233,.08), transparent 65%),
+      var(--bg);
+    color:var(--text);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .container{width:100%;max-width:1180px;margin-inline:auto;padding-inline:20px}
+
+  .skip-link{
+    position:absolute;inset-inline-start:50%;transform:translate(50%,-150%);
+    z-index:200;background:#fff;color:var(--navy);padding:10px 22px;border-radius:0 0 12px 12px;
+    font-weight:800;text-decoration:none;box-shadow:var(--shadow);transition:transform .2s ease;
+  }
+  .skip-link:focus{transform:translate(50%,0)}
+
+  /* ================ STICKY BAR (خيار 1) ================ */
+  .sticky-bar{
+    position:fixed;inset-block-start:0;inset-inline:0;z-index:90;
+    background:rgba(7,26,48,.96);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.1);
+    visibility:hidden;
+    transform:translateY(-100%);
+    transition:transform .28s ease, visibility 0s linear .28s;
+  }
+  .sticky-bar.is-visible{visibility:visible;transform:translateY(0);transition:transform .28s ease, visibility 0s linear 0s}
+  .sticky-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding-block:10px;min-height:var(--sticky-h);
+  }
+  .sticky-brand{
+    display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:.9rem;
+    min-width:0;
+  }
+  .sticky-brand svg{width:26px;height:26px;color:#8ff0e6;flex:0 0 auto}
+  .sticky-brand span{
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;
+  }
+  .sticky-home{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:7px 14px;font-size:.82rem;font-weight:800;color:#fff;text-decoration:none;
+    border-radius:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
+    transition:background .2s ease,border-color .2s ease;flex:0 0 auto;
+  }
+  .sticky-home svg{width:14px;height:14px}
+  .sticky-home:hover{background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.55)}
+  .sticky-home:focus-visible{outline:3px solid #7fe3f0;outline-offset:3px}
+
+  /* ================ HEADER (hero) ================ */
+  .site-header{
+    position:relative;overflow:hidden;color:#fff;
+    background:linear-gradient(135deg,#071a30 0%,#0d3557 45%,#0e6f7a 100%);
+  }
+  .site-header::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(620px 320px at 88% -20%, rgba(20,184,166,.38), transparent 70%),
+      radial-gradient(520px 280px at 8% -10%, rgba(14,165,233,.32), transparent 70%);
+    pointer-events:none;
+  }
+  .header-inner{position:relative;z-index:2;padding-block:22px 48px}
+  .header-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px;min-width:0}
+  .logo{
+    flex:0 0 auto;width:56px;height:56px;display:grid;place-items:center;border-radius:15px;
+    background:linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+    border:1px solid rgba(255,255,255,.32);
+    box-shadow:0 8px 22px -12px rgba(0,0,0,.7);
+  }
+  .logo svg{width:30px;height:30px;color:#eafcff}
+  .brand-text{display:flex;flex-direction:column;line-height:1.45;min-width:0}
+  .brand-school{font-size:clamp(.86rem,2.1vw,.98rem);font-weight:800;letter-spacing:.1px;color:#fff}
+  .brand-sub{font-size:.76rem;font-weight:600;color:#9fd9ea}
+  .home-link{
+    display:inline-flex;align-items:center;gap:9px;padding:10px 16px;border-radius:13px;
+    font-size:.88rem;font-weight:800;color:#fff;text-decoration:none;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);
+    backdrop-filter:blur(6px);transition:background .22s ease, transform .22s ease, border-color .22s ease;
+  }
+  .home-link svg{width:16px;height:16px}
+  .home-link:hover{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.6);transform:translateY(-2px)}
+  .home-link:focus-visible{outline:3px solid #7fe3f0;outline-offset:3px}
+
+  .hero{margin-top:28px;max-width:760px}
+  .hero h1{
+    margin:0;font-size:clamp(1.65rem,4.8vw,2.65rem);font-weight:900;letter-spacing:-.3px;line-height:1.28;
+    background:linear-gradient(90deg,#ffffff 20%,#8ff0e6 100%);
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;-webkit-text-fill-color:transparent;
+  }
+  .hero-welcome{margin:10px 0 0;font-size:clamp(.95rem,2.4vw,1.15rem);font-weight:700;color:#c9f2f6}
+  .hero-desc{margin:6px 0 0;font-size:clamp(.86rem,2.2vw,.96rem);color:#a9c7dd;max-width:640px}
+
+  .header-wave{position:absolute;inset-inline:0;bottom:-1px;line-height:0;z-index:1}
+  .header-wave svg{display:block;width:100%;height:48px}
+
+  /* ================ QUICK ACCESS ================ */
+  .quick-access{margin-top:-26px;position:relative;z-index:5}
+  .quick-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);
+    padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .quick-label{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.83rem;font-weight:900;color:var(--navy);
+    padding:6px 12px;border-radius:999px;
+    background:linear-gradient(135deg, rgba(27,111,214,.10), rgba(20,184,166,.14));
+    border:1px solid #d5e7f6;white-space:nowrap;
+  }
+  .quick-label svg{width:14px;height:14px;color:var(--blue)}
+  .quick-list{display:flex;flex-wrap:wrap;gap:9px;margin:0;padding:0;list-style:none}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;
+    font-size:.84rem;font-weight:800;color:var(--navy);text-decoration:none;
+    background:#f2f7fc;border:1px solid #dbe9f6;
+    transition:background .2s ease,border-color .2s ease,transform .2s ease,color .2s ease;
+  }
+  .chip svg{width:14px;height:14px;color:var(--blue)}
+  .chip:hover{background:#e3f0fb;border-color:#b9d7f0;transform:translateY(-2px);color:var(--navy-2)}
+  .chip:focus-visible{outline:3px solid rgba(27,111,214,.5);outline-offset:2px}
+  .chip--ai{background:#f6f2ff;border-color:#e4d9fb;color:#4c1d95}
+  .chip--ai svg{color:var(--purple)}
+  .chip--ai:hover{background:#efe7ff;border-color:#cdb8f7}
+
+  /* ================ SEARCH ================ */
+  .search-section{margin-top:22px}
+  .search-box{
+    background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    box-shadow:var(--shadow-sm);padding:18px;
+  }
+  .search-box label{display:block;font-size:.9rem;font-weight:900;color:var(--navy);margin-bottom:9px}
+  .search-row{display:flex;gap:10px;flex-wrap:wrap}
+  .search-field{position:relative;flex:1 1 260px;min-width:0}
+  .search-field > svg{
+    position:absolute;inset-inline-start:16px;top:50%;transform:translateY(-50%);
+    width:18px;height:18px;color:#8aa4bb;pointer-events:none;
+  }
+  #searchInput{
+    width:100%;padding:13px 46px 13px 18px;font-family:inherit;font-size:.98rem;color:var(--text);
+    background:#f7fafd;border:1.5px solid #d7e4f0;border-radius:13px;outline:none;
+    transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;
+  }
+  #searchInput::placeholder{color:#94a9bd}
+  #searchInput:hover{border-color:#c0d5e8}
+  #searchInput:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(27,111,214,.15)}
+  .clear-btn{
+    display:inline-flex;align-items:center;gap:7px;padding:12px 18px;
+    font-family:inherit;font-size:.9rem;font-weight:800;color:var(--navy);
+    background:#eef4fa;border:1.5px solid #d7e4f0;border-radius:13px;cursor:pointer;
+    transition:background .2s ease,border-color .2s ease,transform .2s ease;
+  }
+  .clear-btn svg{width:15px;height:15px}
+  .clear-btn:hover{background:#e2edf7;border-color:#b9d2e8}
+  .clear-btn:active{transform:scale(.97)}
+  .clear-btn:focus-visible{outline:3px solid rgba(27,111,214,.5);outline-offset:2px}
+  .search-status{margin:10px 0 0;font-size:.83rem;font-weight:700;color:var(--muted)}
+  .no-results{
+    margin:12px 0 0;padding:12px 16px;border-radius:13px;
+    background:#fff6f4;border:1px solid #f6d6cf;color:#8a2e1c;font-size:.9rem;font-weight:700;
+  }
+
+  /* ================ TABS (خيار 3) ================ */
+  .tabs{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;
+    padding:6px;background:#fff;border:1px solid var(--line);
+    border-radius:16px;box-shadow:var(--shadow-sm);
+  }
+  .tab{
+    flex:1 1 auto;min-width:140px;padding:10px 16px;
+    font-family:inherit;font-size:.86rem;font-weight:800;
+    color:var(--muted);background:transparent;border:1.5px solid transparent;
+    border-radius:12px;cursor:pointer;white-space:nowrap;
+    transition:background .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .tab:hover{background:#f0f5fb;color:var(--navy)}
+  .tab.is-active{
+    background:linear-gradient(135deg,#123a63,#1b6fd6);
+    color:#fff;box-shadow:0 6px 14px -8px rgba(18,58,99,.85);
+  }
+  .tab:focus-visible{outline:3px solid rgba(27,111,214,.5);outline-offset:2px}
+
+  /* ================ CATEGORIES ================ */
+  main{padding-bottom:60px}
+  #categoriesArea{scroll-margin-top:calc(var(--sticky-h) + 8px)}
+  .category{margin-top:32px;scroll-margin-top:calc(var(--sticky-h) + 8px)}
+  .category-head{
+    display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;
+    border-bottom:1px solid #dde8f2;
+  }
+  .category-badge{
+    flex:0 0 auto;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;
+    color:#fff;background:linear-gradient(135deg,var(--navy-2),var(--blue));
+    box-shadow:0 8px 18px -10px rgba(18,58,99,.85);
+  }
+  .category-badge svg{width:20px;height:20px}
+  .category--social .category-badge{background:linear-gradient(135deg,#123a63,#0ea5e9)}
+  .category--ai .category-badge{background:linear-gradient(135deg,#5b21b6,#0ea5e9);box-shadow:0 8px 18px -10px rgba(91,33,182,.85)}
+  .category-title{margin:0;font-size:clamp(1.05rem,2.6vw,1.28rem);font-weight:900;color:var(--navy);line-height:1.4}
+  .category-sub{margin:2px 0 0;font-size:.82rem;font-weight:600;color:var(--muted)}
+
+  /* ================ CARDS (خيار 2 - مضغوطة) ================ */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .card{
+    position:relative;display:flex;flex-direction:column;gap:8px;
+    padding:16px 15px 14px;
+    background:var(--surface);border:1px solid var(--line);border-radius:15px;
+    box-shadow:var(--shadow-sm);overflow:hidden;
+    transition:transform .26s ease,box-shadow .26s ease,border-color .26s ease;
+  }
+  .card::before{
+    content:"";position:absolute;inset-block-start:0;inset-inline:0;height:3px;
+    background:linear-gradient(90deg,var(--blue),var(--turquoise));
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:#bcd6ec}
+  .card:focus-within{outline:3px solid rgba(27,111,214,.45);outline-offset:3px;border-color:#9ec8ea}
+
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .card-icon{
+    flex:0 0 auto;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;
+    color:var(--blue);background:linear-gradient(135deg, rgba(27,111,214,.12), rgba(20,184,166,.16));
+    border:1px solid #dcebf7;transition:transform .26s ease;
+  }
+  .card-icon svg{width:21px;height:21px}
+  .card:hover .card-icon{transform:scale(1.06) rotate(-3deg)}
+
+  .card-tag{
+    font-size:.68rem;font-weight:900;letter-spacing:.2px;padding:4px 9px;border-radius:999px;
+    color:#12507f;background:#e8f2fb;border:1px solid #d3e6f6;white-space:nowrap;
+  }
+  .card-tag--social{color:#0b5f86;background:#e4f6fb;border-color:#c8ecf6}
+  .card-tag--ai{color:#4c1d95;background:#f2ecff;border-color:#e0d3fb}
+
+  .card-title{margin:0;font-size:.98rem;font-weight:900;color:var(--navy);line-height:1.5}
+  .card-desc{margin:0;flex:1 1 auto;font-size:.84rem;color:var(--muted);line-height:1.6}
+
+  .card-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    align-self:flex-start;margin-top:4px;padding:9px 16px;
+    font-size:.84rem;font-weight:800;color:#fff;text-decoration:none;border-radius:11px;
+    background:linear-gradient(135deg,#123a63,#1b6fd6);
+    box-shadow:0 8px 18px -12px rgba(18,58,99,.95);
+    transition:filter .22s ease,box-shadow .22s ease,transform .22s ease;
+  }
+  .card-btn svg{width:14px;height:14px;transition:transform .22s ease}
+  .card:hover .card-btn{filter:brightness(1.08);box-shadow:0 12px 22px -12px rgba(18,58,99,1)}
+  .card:hover .card-btn svg{transform:translateX(-3px)}
+  .card:focus-within .card-btn{box-shadow:0 0 0 4px rgba(27,111,214,.22)}
+
+  .card--ai{background:linear-gradient(178deg,#fbf9ff 0%,#ffffff 42%);border-color:#e6ddfa}
+  .card--ai::before{height:4px;background:linear-gradient(90deg,#7c3aed,#0ea5e9,#14b8a6)}
+  .card--ai .card-icon{
+    color:var(--purple);background:linear-gradient(135deg, rgba(124,58,237,.14), rgba(14,165,233,.16));
+    border-color:#e6dcfa;
+  }
+  .card--ai .card-btn{
+    background:linear-gradient(135deg,#5b21b6,#0ea5e9);
+    box-shadow:0 8px 18px -12px rgba(91,33,182,.95);
+  }
+  .card--ai:hover{border-color:#cbb6f5}
+  .card--social .card-icon{
+    color:#0b76b8;background:linear-gradient(135deg, rgba(14,165,233,.15), rgba(20,184,166,.14));
+  }
+
+  /* ================ FOOTER ================ */
+  .site-footer{
+    background:linear-gradient(135deg,#071a30 0%,#0d3557 60%,#0c5f6b 100%);
+    color:#fff;padding-block:30px 26px;text-align:center;
+  }
+  .footer-school{margin:0;font-size:.98rem;font-weight:900;color:#fff}
+  .footer-credit{margin:6px 0 0;font-size:.95rem;font-weight:800;color:#8ff0e6}
+  .footer-note{margin:10px auto 0;max-width:660px;font-size:.8rem;line-height:1.85;color:#a9c7dd}
+  .footer-copy{
+    margin:14px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.14);
+    font-size:.76rem;color:#8ba9c1;
+  }
+
+  /* ================ RESPONSIVE ================ */
+  @media (max-width:720px){
+    .header-inner{padding-block:18px 42px}
+    .header-bar{gap:14px}
+    .home-link{width:100%;justify-content:center}
+    .hero{margin-top:20px}
+    .quick-card{padding:14px}
+    .quick-label{width:100%;justify-content:center}
+    .search-box{padding:14px}
+    .tabs{padding:5px;gap:6px}
+    .tab{min-width:0;flex:1 1 calc(50% - 6px);font-size:.82rem;padding:9px 10px}
+    .category{margin-top:26px}
+    /* البطاقات تبقى مريحة على الهاتف */
+    .grid{grid-template-columns:1fr;gap:12px}
+    .card{padding:18px 16px;gap:9px}
+    .card-icon{width:46px;height:46px;border-radius:13px}
+    .card-icon svg{width:23px;height:23px}
+    .card-title{font-size:1.02rem}
+    .card-desc{font-size:.9rem;line-height:1.7}
+    .card-btn{align-self:stretch;width:100%;padding:11px 20px;font-size:.9rem}
+    .sticky-brand span{max-width:140px;font-size:.84rem}
+  }
+  @media (max-width:480px){
+    .sticky-brand span{display:none}
+    .sticky-brand svg{width:28px;height:28px}
+  }
+  @media (max-width:400px){
+    .container{padding-inline:14px}
+    .chip{font-size:.78rem;padding:6px 11px}
+  }
+
+  /* ================ REDUCED MOTION ================ */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{
+      animation-duration:.001ms !important;animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+    .card:hover{transform:none}
+    .card:hover .card-icon{transform:none}
+    .card:hover .card-btn svg{transform:none}
+    .chip:hover{transform:none}
+    .home-link:hover{transform:none}
+    .sticky-bar{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">تجاوز إلى المحتوى</a>
+
+<!-- ================= STICKY BAR (خيار 1) ================= -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="container sticky-inner">
+    <span class="sticky-brand">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M24 7 42 16 24 25 6 16 24 7Z"/>
+        <path d="M13 20.5V31c0 3.3 4.9 6 11 6s11-2.7 11-6v-10.5"/>
+        <path d="M42 16v9"/>
+      </svg>
+      <span>بوابة المعلم الرقمية</span>
+    </span>
+    <a href="index.html" class="sticky-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 12h15"/><path d="m13 6 6 6-6 6"/>
+      </svg>
+      <span>الرئيسية</span>
+    </a>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="header-bar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M24 7 42 16 24 25 6 16 24 7Z"/>
+            <path d="M13 20.5V31c0 3.3 4.9 6 11 6s11-2.7 11-6v-10.5"/>
+            <path d="M42 16v9"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-school">مدرسة أبو الزيغان الثانوية للبنين</span>
+          <span class="brand-sub">البوابة الرقمية التعليمية</span>
+        </span>
+      </div>
+      <a class="home-link" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 12h15"/><path d="m13 6 6 6-6 6"/>
+        </svg>
+        <span>العودة إلى الصفحة الرئيسية</span>
+      </a>
+    </div>
+    <div class="hero">
+      <h1>بوابة المعلم الرقمية</h1>
+      <p class="hero-welcome">كل أدواتك التعليمية في مكان واحد</p>
+      <p class="hero-desc">وصول سريع إلى المنصات الرسمية وأدوات التعليم والذكاء الاصطناعي</p>
+    </div>
+  </div>
+  <div class="header-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path d="M0,44 C240,92 480,2 720,26 C960,50 1200,88 1440,42 L1440,80 L0,80 Z" fill="#eef3f9"></path>
+    </svg>
+  </div>
+</header>
+
+<!-- ================= QUICK ACCESS ================= -->
+<section class="quick-access" aria-labelledby="quickTitle">
+  <div class="container">
+    <div class="quick-card">
+      <span class="quick-label" id="quickTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z"/>
+        </svg>
+        الوصول السريع
+      </span>
+      <ul class="quick-list">
+        <li>
+          <a class="chip" href="https://www.google.com/?hl=ar" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+            بحث Google
+          </a>
+        </li>
+        <li>
+          <a class="chip" href="https://ajyal.moe.gov.jo/emis/login.aspx" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12.5 9 5 9-5"/></svg>
+            منصة أجيال
+          </a>
+        </li>
+        <li>
+          <a class="chip chip--ai" href="https://gemini.google.com/?hl=ar" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 3.5 12.8 8.2 17.5 10 12.8 11.8 11 16.5 9.2 11.8 4.5 10 9.2 8.2 11 3.5Z"/><path d="m18 15 .9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z"/></svg>
+            Gemini
+          </a>
+        </li>
+        <li>
+          <a class="chip chip--ai" href="https://www.deepseek.com/en/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2.5"/><path d="M10 3v3M14 3v3M10 18v3M14 18v3M3 10h3M3 14h3M18 10h3M18 14h3"/></svg>
+            DeepSeek
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAIN ================= -->
+<main id="main">
+  <div class="container">
+
+    <!-- SEARCH -->
+    <section class="search-section" aria-labelledby="searchLabel">
+      <div class="search-box">
+        <label id="searchLabel" for="searchInput">ابحث عن منصة أو أداة</label>
+        <div class="search-row">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+            <input id="searchInput" type="search" inputmode="search" autocomplete="off" spellcheck="false"
+                   placeholder="مثال: أجيال، الموظفين، Google، Gemini، DeepSeek" aria-describedby="searchStatus">
+          </div>
+          <button id="clearSearch" class="clear-btn" type="button" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            مسح البحث
+          </button>
+        </div>
+        <p class="search-status" id="searchStatus" role="status" aria-live="polite">يتم عرض جميع المنصات والأدوات (9)</p>
+        <p class="no-results" id="noResults" hidden>لا توجد نتائج مطابقة لبحثك. جرّب كلمة أخرى أو اضغط «مسح البحث» لعرض جميع المنصات.</p>
+      </div>
+    </section>
+
+    <!-- TABS (خيار 3) -->
+    <div class="tabs" role="group" aria-label="تصفية الفئات">
+      <button class="tab is-active" type="button" data-filter="all" aria-pressed="true">عرض الكل</button>
+      <button class="tab" type="button" data-filter="official" aria-pressed="false">المنصات الرسمية</button>
+      <button class="tab" type="button" data-filter="social" aria-pressed="false">التواصل المدرسي</button>
+      <button class="tab" type="button" data-filter="ai" aria-pressed="false">أدوات الذكاء الاصطناعي</button>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div id="categoriesArea">
+
+      <!-- CAT 1 -->
+      <section class="category category--official" data-category="official" aria-labelledby="catOfficialTitle">
+        <div class="category-head">
+          <span class="category-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 21V9l8-5 8 5v12"/><path d="M2 21h20"/><path d="M9.5 21v-5.5h5V21"/><path d="M9 11h1.6M13.4 11H15"/>
+            </svg>
+          </span>
+          <div>
+            <h2 class="category-title" id="catOfficialTitle">المنصات الرسمية والتعليمية</h2>
+            <p class="category-sub">البوابات الحكومية والمنصات التربوية المعتمدة</p>
+          </div>
+        </div>
+        <div class="grid">
+
+          <article class="card" data-keywords="بحث جوجل google محرك بحث معلومات مصادر موارد تعليمية">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+              </span>
+              <span class="card-tag">منصة رسمية</span>
+            </div>
+            <h3 class="card-title">بحث Google</h3>
+            <p class="card-desc">ابحث عن المعلومات والمصادر والموارد التعليمية.</p>
+            <a class="card-btn" href="https://www.google.com/?hl=ar" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+          <article class="card" data-keywords="اجيال ajyal emis وزارة التربية منصة">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
+              </span>
+              <span class="card-tag">منصة رسمية</span>
+            </div>
+            <h3 class="card-title">منصة أجيال</h3>
+            <p class="card-desc">الوصول إلى منصة أجيال التابعة لوزارة التربية والتعليم.</p>
+            <a class="card-btn" href="https://ajyal.moe.gov.jo/emis/login.aspx" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+          <article class="card" data-keywords="تدريب المعلمين teachers gov تدريب تطوير مهني">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 4 2 9l10 5 10-5Z"/><path d="M6 11.6V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.4"/><path d="M22 9v5"/></svg>
+              </span>
+              <span class="card-tag">منصة رسمية</span>
+            </div>
+            <h3 class="card-title">منصة تدريب المعلمين</h3>
+            <p class="card-desc">الوصول إلى خدمات ومحتوى تدريب المعلمين.</p>
+            <a class="card-btn" href="https://teachers.gov.jo/" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+          <article class="card" data-keywords="الموظفين emp moe بوابة خدمات الموظف">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.6"/><circle cx="8.4" cy="11" r="2"/><path d="M5 16c.6-1.6 1.9-2.4 3.4-2.4S11.3 14.4 12 16"/><path d="M15 10h4"/><path d="M15 13.5h4"/></svg>
+              </span>
+              <span class="card-tag">منصة رسمية</span>
+            </div>
+            <h3 class="card-title">منصة الموظفين</h3>
+            <p class="card-desc">الوصول إلى بوابة خدمات الموظفين.</p>
+            <a class="card-btn" href="https://emp.moe.gov.jo/public/P12_Login01_Employee/" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+          <article class="card" data-keywords="اكاديمية الملكة رانيا eqrta lms تدريب المعلمين تطوير مهني">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.4 13.8-1.9 6.4L12 17.4l5.5 2.8-1.9-6.4"/><path d="M12 6.6 12.9 8.5l2.1.3-1.5 1.5.4 2.1-1.9-1-1.9 1 .4-2.1L9 8.8l2.1-.3z"/></svg>
+              </span>
+              <span class="card-tag">منصة رسمية</span>
+            </div>
+            <h3 class="card-title">أكاديمية الملكة رانيا لتدريب المعلمين</h3>
+            <p class="card-desc">الوصول إلى منصة الأكاديمية للتعلم والتطوير المهني.</p>
+            <a class="card-btn" href="https://lms.eqrta.edu.jo/Account/Login" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+          <article class="card" data-keywords="وزارة التربية والتعليم الاردنية moehrd اخبار خدمات">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l9-6 9 6v11"/><path d="M2 21h20"/><path d="M9 21v-6h6v6"/><path d="M8.5 11h1.6M13.9 11h1.6"/></svg>
+              </span>
+              <span class="card-tag">منصة رسمية</span>
+            </div>
+            <h3 class="card-title">وزارة التربية والتعليم</h3>
+            <p class="card-desc">الوصول إلى الموقع الرسمي للوزارة ومتابعة الأخبار والخدمات.</p>
+            <a class="card-btn" href="https://moehrd.gov.jo/" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- CAT 2 -->
+      <section class="category category--social" data-category="social" aria-labelledby="catSocialTitle">
+        <div class="category-head">
+          <span class="category-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.4 9.4 0 0 1-2.6-.4L4 21l1.4-4.2A8.3 8.3 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4Z"/>
+            </svg>
+          </span>
+          <div>
+            <h2 class="category-title" id="catSocialTitle">التواصل المدرسي</h2>
+            <p class="category-sub">قنوات المدرسة الرسمية لمتابعة الأخبار والإعلانات</p>
+          </div>
+        </div>
+        <div class="grid">
+
+          <article class="card card--social" data-keywords="فيسبوك facebook صفحة المدرسة تواصل اجتماعي اخبار انشطة اعلانات">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.6 21v-7.4h2.6l.4-3h-3V8.7c0-.87.24-1.46 1.5-1.46h1.6V4.55A21 21 0 0 0 14.4 4.4c-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3.1Z"/></svg>
+              </span>
+              <span class="card-tag card-tag--social">تواصل اجتماعي</span>
+            </div>
+            <h3 class="card-title">صفحة المدرسة على فيسبوك</h3>
+            <p class="card-desc">متابعة أخبار المدرسة وأنشطتها وإعلاناتها المنشورة.</p>
+            <a class="card-btn" href="https://www.facebook.com/share/1C7U8pjsTP/" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- CAT 3 -->
+      <section class="category category--ai" data-category="ai" aria-labelledby="catAiTitle">
+        <div class="category-head">
+          <span class="category-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 3.5 12.8 8.2 17.5 10 12.8 11.8 11 16.5 9.2 11.8 4.5 10 9.2 8.2 11 3.5Z"/>
+              <path d="m18 14.5.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z"/>
+            </svg>
+          </span>
+          <div>
+            <h2 class="category-title" id="catAiTitle">أدوات الذكاء الاصطناعي</h2>
+            <p class="category-sub">مساعدون رقميون للتخطيط والتحضير وإعداد الأنشطة والاختبارات</p>
+          </div>
+        </div>
+        <div class="grid">
+
+          <article class="card card--ai" data-keywords="gemini جيميني ذكاء اصطناعي google افكار انشطة محتوى">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3.5 12.8 8.2 17.5 10 12.8 11.8 11 16.5 9.2 11.8 4.5 10 9.2 8.2 11 3.5Z"/><path d="m18 14.5.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z"/></svg>
+              </span>
+              <span class="card-tag card-tag--ai">ذكاء اصطناعي</span>
+            </div>
+            <h3 class="card-title">الذكاء الاصطناعي Gemini</h3>
+            <p class="card-desc">المساعدة في توليد الأفكار وإعداد الأنشطة التعليمية وصياغة المحتوى.</p>
+            <a class="card-btn" href="https://gemini.google.com/?hl=ar" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+          <article class="card card--ai" data-keywords="deepseek ديب سيك ذكاء اصطناعي تحليل نصوص حل مشكلات مواد تعليمية">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2.6"/><path d="M10 3v3M14 3v3M10 18v3M14 18v3M3 10h3M3 14h3M18 10h3M18 14h3"/><circle cx="12" cy="12" r="1.6"/></svg>
+              </span>
+              <span class="card-tag card-tag--ai">ذكاء اصطناعي</span>
+            </div>
+            <h3 class="card-title">الذكاء الاصطناعي DeepSeek</h3>
+            <p class="card-desc">المساعدة في تحليل النصوص وتطوير الأفكار وحل المشكلات وإعداد المواد التعليمية.</p>
+            <a class="card-btn" href="https://www.deepseek.com/en/" target="_blank" rel="noopener noreferrer">
+              <span>فتح الموقع</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-school">مدرسة أبو الزيغان الثانوية للبنين</p>
+    <p class="footer-credit">تصميم الأستاذ عواد دحبور</p>
+    <p class="footer-note">
+      تعمل واجهة هذه الصفحة دون اتصال بالإنترنت. أما المنصات الخارجية فهي بحاجة إلى اتصال بالإنترنت،
+      ويعتمد توافرها وتسجيل الدخول فيها على حالة الخدمة وصلاحيات المستخدم لديها.
+    </p>
+    <p class="footer-copy">بوابة المعلم الرقمية &copy; <span id="year">2025</span> — جميع الحقوق محفوظة</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============ العناصر ============ */
+  var searchInput  = document.getElementById('searchInput');
+  var clearBtn     = document.getElementById('clearSearch');
+  var statusEl     = document.getElementById('searchStatus');
+  var noResults    = document.getElementById('noResults');
+  var cards        = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var sections     = Array.prototype.slice.call(document.querySelectorAll('.category[data-category]'));
+  var tabs         = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var stickyBar    = document.getElementById('stickyBar');
+  var categoriesEl = document.getElementById('categoriesArea');
+  var total        = cards.length;
+
+  var currentTab   = 'all';
+
+  /* ============ تطبيع النص ============ */
+  function normalize(value) {
+    return (value || '').toString().toLowerCase()
+      .replace(/[\u064B-\u0652\u0640\u0670\u06D6-\u06ED]/g, '')
+      .replace(/[أإآٱ]/g, 'ا')
+      .replace(/ى/g, 'ي')
+      .replace(/ؤ/g, 'و')
+      .replace(/ئ/g, 'ي')
+      .replace(/ة/g, 'ه')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  /* ============ فهرس البحث ============ */
+  cards.forEach(function (card) {
+    var title = card.querySelector('.card-title');
+    var desc  = card.querySelector('.card-desc');
+    var extra = card.getAttribute('data-keywords') || '';
+    var text  = (title ? title.textContent : '') + ' ' +
+                (desc  ? desc.textContent  : '') + ' ' + extra;
+    card.setAttribute('data-search-index', normalize(text));
+  });
+
+  /* ============ التصفية المدمجة (بحث + تبويب) ============ */
+  function applyFilter() {
+    var query  = normalize(searchInput.value);
+    var tokens = query === '' ? [] : query.split(' ');
+    var visibleCards = 0;
+
+    sections.forEach(function (section) {
+      var cat = section.getAttribute('data-category');
+      var tabMatch = (currentTab === 'all' || currentTab === cat);
+
+      if (!tabMatch) {
+        section.setAttribute('hidden', '');
+        return;
+      }
+
+      var sectionCards = Array.prototype.slice.call(section.querySelectorAll('.card'));
+      var visibleInSection = 0;
+
+      sectionCards.forEach(function (card) {
+        var index = card.getAttribute('data-search-index') || '';
+        var match = tokens.every(function (t) { return index.indexOf(t) !== -1; });
+        if (match) {
+          card.removeAttribute('hidden');
+          visibleInSection++;
+          visibleCards++;
+        } else {
+          card.setAttribute('hidden', '');
+        }
+      });
+
+      if (visibleInSection > 0) {
+        section.removeAttribute('hidden');
+      } else {
+        section.setAttribute('hidden', '');
+      }
+    });
+
+    /* رسالة عدم وجود نتائج */
+    if (visibleCards === 0) {
+      noResults.removeAttribute('hidden');
+    } else {
+      noResults.setAttribute('hidden', '');
+    }
+
+    /* نص الحالة */
+    if (query === '' && currentTab === 'all') {
+      statusEl.textContent = 'يتم عرض جميع المنصات والأدوات (' + total + ')';
+    } else if (visibleCards === 0) {
+      statusEl.textContent = 'لا توجد نتائج مطابقة';
+    } else {
+      statusEl.textContent = 'عدد النتائج المطابقة: ' + visibleCards;
+    }
+
+    /* زر المسح */
+    if (searchInput.value.length > 0) {
+      clearBtn.removeAttribute('hidden');
+    } else {
+      clearBtn.setAttribute('hidden', '');
+    }
+  }
+
+  /* ============ أحداث البحث ============ */
+  searchInput.addEventListener('input', applyFilter);
+  searchInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { searchInput.value = ''; applyFilter(); }
+  });
+  clearBtn.addEventListener('click', function () {
+    searchInput.value = '';
+    applyFilter();
+    searchInput.focus();
+  });
+
+  /* ============ أحداث التبويبات ============ */
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      currentTab = tab.getAttribute('data-filter');
+      tabs.forEach(function (t) {
+        var active = (t === tab);
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      applyFilter();
+      if (window.scrollY > 200 && categoriesEl) {
+        categoriesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  /* ============ الشريط الثابت (خيار 1) ============ */
+  function updateStickyBar() {
+    var y = window.scrollY || window.pageYOffset || 0;
+    if (y > 300) {
+      stickyBar.classList.add('is-visible');
+    } else {
+      stickyBar.classList.remove('is-visible');
+    }
+  }
+  window.addEventListener('scroll', updateStickyBar, { passive: true });
+  updateStickyBar();
+
+  /* ============ السنة في التذييل ============ */
+  var yearEl = document.getElementById('year');
+  if (yearEl) {
+    try { yearEl.textContent = String(new Date().getFullYear()); }
+    catch (e) { /* القيمة الافتراضية */ }
+  }
+
+  /* ============ تشغيل ابتدائي ============ */
+  applyFilter();
+
+})();
+</script>
+
+</body>
+</html>

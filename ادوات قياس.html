@@ -1,0 +1,1580 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>قائمة رصد وشطب أداء طلبة الصف الأول الثانوي في البرمجة بلغة Python</title>
+<style>
+/* ============ المتغيرات العامة ============ */
+:root{
+  --bg:#eef2f8;
+  --card:#ffffff;
+  --ink:#1f2a37;
+  --muted:#667085;
+  --line:#dbe2ee;
+  --primary:#1e6fd9;
+  --primary-d:#155bb5;
+  --ok:#2e7d32;      --ok-bg:#e7f5e9;
+  --partial:#b26a00; --partial-bg:#fff3e0;
+  --no:#c62828;      --no-bg:#fdeaea;
+  --unobs:#546e7a;   --unobs-bg:#eceff1;
+  --radius:14px;
+  --shadow:0 2px 10px rgba(20,40,80,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Segoe UI","Tahoma","Cairo",Arial,sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.4}
+p{margin:0}
+
+/* ============ الترويسة ============ */
+.app{max-width:1220px;margin:0 auto;padding:16px 14px 60px}
+
+.topbar{
+  background:linear-gradient(135deg,#1e6fd9,#155bb5);
+  color:#fff;
+  border-radius:var(--radius);
+  padding:18px 20px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 6px 18px rgba(21,91,181,.25);
+  margin-bottom:16px;
+}
+.topbar h1{font-size:19px}
+.topbar .sub{font-size:13.5px;opacity:.9;margin-top:4px}
+.status{
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:99px;
+  padding:7px 16px;
+  font-size:13px;
+  white-space:nowrap;
+  font-weight:600;
+}
+.status.ok{background:#e7f5e9;color:#1b5e20;border-color:#a5d6a7}
+.status.warn{background:#fff3e0;color:#8a4b00;border-color:#ffcc80}
+.status.info{background:#e3f2fd;color:#0d47a1;border-color:#90caf9}
+
+/* ============ البطاقات ============ */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px 16px 18px;
+  margin-bottom:16px;
+}
+.card-head{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:2px solid #eef2f8;
+}
+.card-head h2{font-size:16.5px;color:#123a72}
+.head-tools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ============ الحقول ============ */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:12px;
+}
+.field{display:flex;flex-direction:column;gap:6px}
+.field > span{font-size:13.5px;font-weight:600;color:#334155}
+.req{color:#c62828}
+input[type="text"],input[type="date"],select,textarea{
+  font-family:inherit;
+  font-size:14.5px;
+  color:var(--ink);
+  background:#fbfcfe;
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  width:100%;
+  transition:border-color .15s, box-shadow .15s;
+}
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(30,111,217,.15);
+  background:#fff;
+}
+textarea{resize:vertical;min-height:74px;line-height:1.6}
+input.invalid,select.invalid{border-color:#e53935;background:#fff5f5}
+
+/* ============ الأزرار ============ */
+.btn{
+  font-family:inherit;
+  font-size:14px;
+  font-weight:600;
+  border-radius:10px;
+  border:1.5px solid var(--line);
+  background:#fff;
+  color:#334155;
+  padding:10px 16px;
+  cursor:pointer;
+  transition:all .15s ease;
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  justify-content:center;
+}
+.btn:hover{background:#f2f6fd;border-color:#b9c6da}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-d);border-color:var(--primary-d)}
+.btn-ok{background:var(--ok-bg);border-color:#a5d6a7;color:#1b5e20}
+.btn-ok:hover{background:#d6efd9}
+.btn-warn{background:var(--partial-bg);border-color:#ffcc80;color:#8a4b00}
+.btn-warn:hover{background:#ffe8c7}
+.btn-ghost{background:#f8fafc}
+.btn-danger{background:#fdeaea;border-color:#ef9a9a;color:#b71c1c}
+.btn-danger:hover{background:#fbd5d5}
+.btn-sm{padding:7px 12px;font-size:13px;min-height:36px}
+
+/* ============ الجداول ============ */
+.table-wrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+table.rubric{
+  width:100%;
+  min-width:790px;
+  border-collapse:collapse;
+  background:#fff;
+}
+table.rubric th,
+table.rubric td{
+  border:1px solid var(--line);
+  padding:8px 6px;
+  text-align:center;
+  vertical-align:middle;
+}
+table.rubric thead th{
+  background:#f4f7fd;
+  font-size:13px;
+  color:#123a72;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+table.rubric thead th.h-achieved{background:var(--ok-bg);color:var(--ok)}
+table.rubric thead th.h-partial{background:var(--partial-bg);color:var(--partial)}
+table.rubric thead th.h-not{background:var(--no-bg);color:var(--no)}
+table.rubric thead th.h-unobs{background:var(--unobs-bg);color:var(--unobs)}
+table.rubric tbody tr:nth-child(even){background:#fafcff}
+table.rubric tbody tr:hover{background:#f2f7ff}
+td.num{width:44px;font-weight:700;color:#64748b;font-size:13.5px}
+td.ind{text-align:right;font-size:14.3px;min-width:230px;padding-right:10px}
+td.lvl-cell{width:66px;padding:5px}
+td.note-cell{width:170px;padding:5px}
+
+.cell-btn{
+  width:100%;
+  min-height:44px;
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  background:#fbfcfe;
+  color:#c2cad8;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:inherit;
+  transition:all .15s ease;
+}
+.cell-btn:hover{background:#eef3fb;border-color:#b9c6da}
+.cell-btn.active{color:#fff;border-color:transparent;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.cell-btn[data-level="achieved"].active{background:var(--ok)}
+.cell-btn[data-level="partial"].active{background:var(--partial)}
+.cell-btn[data-level="not"].active{background:var(--no)}
+.cell-btn[data-level="unobserved"].active{background:var(--unobs)}
+
+.note-inp{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px;
+  font-size:13px;
+  font-family:inherit;
+  background:#fff;
+  min-height:40px;
+}
+.note-inp:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(30,111,217,.13)}
+
+/* ============ الملخص ============ */
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+  gap:16px;
+}
+.summary-block{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  background:#fbfcff;
+}
+.summary-block h3{font-size:15px;color:#123a72;margin-bottom:10px}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(96px,1fr));
+  gap:8px;
+  margin-bottom:12px;
+}
+.stat{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px 6px;
+  text-align:center;
+}
+.stat span{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.stat b{font-size:20px;color:#123a72}
+.stat.ok b{color:var(--ok)}
+.stat.partial b{color:var(--partial)}
+.stat.no b{color:var(--no)}
+.stat.unobs b{color:var(--unobs)}
+
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar{flex:1;height:11px;background:#e6ebf3;border-radius:99px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2e7d32,#66bb6a);transition:width .3s ease}
+.bar-row span{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.hint{
+  font-size:12.5px;
+  color:var(--muted);
+  background:#fff;
+  border:1px dashed var(--line);
+  border-radius:10px;
+  padding:8px 10px;
+  line-height:1.65;
+}
+.hint b{color:#123a72}
+
+/* ============ سجلات الطلبة ============ */
+.rec-tools{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:14px;
+}
+@media(max-width:620px){ .rec-tools{grid-template-columns:1fr} }
+
+.rec{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  background:#fff;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  transition:box-shadow .15s;
+}
+.rec:hover{box-shadow:0 3px 12px rgba(20,40,80,.08)}
+.rec-main{flex:1;min-width:230px}
+.rec-main h3{font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{
+  background:#e3f2fd;
+  color:#0d47a1;
+  border:1px solid #90caf9;
+  border-radius:99px;
+  font-size:11.5px;
+  padding:2px 10px;
+  font-weight:600;
+}
+.rec-meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+.rec-stats{font-size:12.5px;color:#475569;margin-top:5px;line-height:1.8}
+.rec-stats .s-ok{color:var(--ok);font-weight:700}
+.rec-stats .s-pa{color:var(--partial);font-weight:700}
+.rec-stats .s-no{color:var(--no);font-weight:700}
+.rec-stats .s-un{color:var(--unobs);font-weight:700}
+.rec-actions{display:flex;gap:6px;flex-wrap:wrap}
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:26px 10px;
+  font-size:14px;
+  border:1px dashed var(--line);
+  border-radius:12px;
+  background:#fafcff;
+}
+
+/* ============ التنبيه العائم ============ */
+#toast{
+  position:fixed;
+  bottom:22px;
+  left:50%;
+  transform:translate(-50%,26px);
+  background:#123a72;
+  color:#fff;
+  padding:12px 22px;
+  border-radius:99px;
+  font-size:14px;
+  font-weight:600;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  opacity:0;
+  pointer-events:none;
+  transition:all .28s ease;
+  z-index:9999;
+  max-width:92vw;
+  text-align:center;
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.ok{background:#1b5e20}
+#toast.err{background:#b71c1c}
+
+.footnote{
+  text-align:center;
+  font-size:12.5px;
+  color:var(--muted);
+  margin-top:20px;
+  line-height:1.9;
+}
+
+/* ============ منطقة الطباعة ============ */
+#printArea{display:none}
+
+@media print{
+  @page{ size:A4; margin:12mm 10mm; }
+  body{background:#fff;font-size:12px}
+  .app,#toast{display:none !important}
+  #printArea{display:block !important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+#printArea h1{font-size:16px;text-align:center;margin-bottom:2px}
+#printArea .p-sub{text-align:center;font-size:11.5px;color:#444;margin-bottom:10px}
+#printArea .p-meta{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:10px;
+  font-size:11.5px;
+}
+#printArea .p-meta td{
+  border:1px solid #999;
+  padding:5px 8px;
+}
+#printArea .p-meta td.lbl{background:#eef2f8;font-weight:700;width:15%}
+#printArea h2{
+  font-size:13px;
+  margin:12px 0 6px;
+  padding:5px 9px;
+  background:#eef2f8;
+  border-right:4px solid #1e6fd9;
+}
+#printArea table.p-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:11px;
+  margin-bottom:6px;
+}
+#printArea table.p-table th,
+#printArea table.p-table td{
+  border:1px solid #888;
+  padding:4px 5px;
+  vertical-align:top;
+}
+#printArea table.p-table th{background:#f2f5fa;font-weight:700;text-align:center}
+#printArea table.p-table td.c{text-align:center;width:34px}
+#printArea table.p-table td.lv{text-align:center;width:82px;font-weight:700}
+#printArea tr{page-break-inside:avoid}
+#printArea .lv-achieved{background:#e7f5e9;color:#1b5e20}
+#printArea .lv-partial{background:#fff3e0;color:#8a4b00}
+#printArea .lv-not{background:#fdeaea;color:#b71c1c}
+#printArea .lv-unobserved{background:#eceff1;color:#37474f}
+#printArea .lv-none{background:#fafafa;color:#888}
+#printArea .p-sum{
+  width:100%;
+  border-collapse:collapse;
+  font-size:11px;
+  margin-bottom:8px;
+}
+#printArea .p-sum th,#printArea .p-sum td{border:1px solid #888;padding:4px 6px;text-align:center}
+#printArea .p-sum th{background:#f2f5fa}
+#printArea .p-notes{border:1px solid #888;padding:6px 9px;font-size:11.5px;margin-bottom:6px;min-height:26px}
+#printArea .p-notes .t{font-weight:700;color:#123a72;display:block;margin-bottom:2px}
+#printArea .p-sign{
+  display:flex;
+  justify-content:space-between;
+  margin-top:22px;
+  font-size:11.5px;
+}
+#printArea .p-sign div{border-top:1px solid #333;padding-top:4px;width:42%;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ الترويسة ============ -->
+  <header class="topbar no-print">
+    <div>
+      <h1>قائمة رصد وشطب أداء طلبة الصف الأول الثانوي في البرمجة بلغة Python</h1>
+      <p class="sub">مهارات جملة الإدخال <code>input()</code> والتعابير الحسابية — تصميم الأستاذ عواد دحبور</p>
+    </div>
+    <div class="status" id="saveStatus">جاهز</div>
+  </header>
+
+  <main>
+
+    <!-- ============ أولًا: بيانات الطالب ============ -->
+    <section class="card">
+      <div class="card-head">
+        <h2>أولًا: بيانات الطالب</h2>
+        <span class="chip" id="modeChip">رصد جديد</span>
+      </div>
+      <div class="grid">
+        <label class="field">
+          <span>اسم الطالب <b class="req">*</b></span>
+          <input type="text" id="studentName" placeholder="اكتب اسم الطالب هنا" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>الشعبة <b class="req">*</b></span>
+          <select id="section">
+            <option value="">— اختر الشعبة —</option>
+            <option value="أول ثانوي أ">أول ثانوي أ</option>
+            <option value="أول ثانوي ب">أول ثانوي ب</option>
+            <option value="أول ثانوي ج">أول ثانوي ج</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>تاريخ الرصد</span>
+          <input type="date" id="date">
+        </label>
+        <label class="field">
+          <span>الحصة</span>
+          <select id="session">
+            <option value="الحصة الأولى">الحصة الأولى</option>
+            <option value="الحصة الثانية">الحصة الثانية</option>
+            <option value="__other">حصة أخرى…</option>
+          </select>
+        </label>
+        <label class="field" id="otherSessionWrap" hidden>
+          <span>اسم الحصة</span>
+          <input type="text" id="otherSession" placeholder="مثال: الحصة الثالثة">
+        </label>
+        <label class="field">
+          <span>اسم المعلم</span>
+          <input type="text" id="teacher" value="الأستاذ عواد دحبور">
+        </label>
+      </div>
+    </section>
+
+    <!-- ============ ثانيًا: التعابير الحسابية ============ -->
+    <section class="card">
+      <div class="card-head">
+        <h2>ثانيًا: قائمة رصد مهارات التعابير الحسابية</h2>
+        <div class="head-tools no-print">
+          <button type="button" class="btn btn-ok btn-sm" data-bulk="arith">تحديد متحقق</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-clear="arith">إلغاء تحديد القسم</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="rubric">
+          <thead>
+            <tr>
+              <th>الرقم</th>
+              <th>مؤشر الأداء</th>
+              <th class="h-achieved">متحقق</th>
+              <th class="h-partial">متحقق جزئيًا</th>
+              <th class="h-not">لم يتحقق</th>
+              <th class="h-unobs">لم يُلاحظ</th>
+              <th>ملاحظات</th>
+            </tr>
+          </thead>
+          <tbody id="arithTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ ثالثًا: جملة الإدخال ============ -->
+    <section class="card">
+      <div class="card-head">
+        <h2>ثالثًا: قائمة رصد مهارات جملة الإدخال <code>input()</code></h2>
+        <div class="head-tools no-print">
+          <button type="button" class="btn btn-ok btn-sm" data-bulk="input">تحديد متحقق</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-clear="input">إلغاء تحديد القسم</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="rubric">
+          <thead>
+            <tr>
+              <th>الرقم</th>
+              <th>مؤشر الأداء</th>
+              <th class="h-achieved">متحقق</th>
+              <th class="h-partial">متحقق جزئيًا</th>
+              <th class="h-not">لم يتحقق</th>
+              <th class="h-unobs">لم يُلاحظ</th>
+              <th>ملاحظات</th>
+            </tr>
+          </thead>
+          <tbody id="inputTbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ خامسًا: الملخص ============ -->
+    <section class="card">
+      <div class="card-head">
+        <h2>خامسًا: ملخص أداء الطالب</h2>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-block" id="sumArith"></div>
+        <div class="summary-block" id="sumInput"></div>
+      </div>
+      <p class="hint" style="margin-top:14px">
+        <b>طريقة الحساب:</b> تُحسب النسب الوصفية من المؤشرات التي رُصدت فعليًا فقط
+        (المتحقق + المتحقق جزئيًا + لم يتحقق + لم يُلاحظ).
+        المؤشر الذي لم يُسجَّل له اختيار يُعدّ «لم يُقيَّم بعد» ولا يُحتسب خطأً،
+        كما لا يُحتسب «لم يُلاحظ» ضمن مؤشرات عدم التحقق.
+        هذا الرصد وصفي تكويني، وليس علامة امتحان.
+      </p>
+    </section>
+
+    <!-- ============ سادسًا: الملاحظات العامة ============ -->
+    <section class="card">
+      <div class="card-head">
+        <h2>سادسًا: الملاحظات العامة</h2>
+      </div>
+      <div class="grid">
+        <label class="field">
+          <span>نقاط القوة لدى الطالب</span>
+          <textarea id="nStrengths" placeholder="اذكر ما أظهره الطالب من تميّز..."></textarea>
+        </label>
+        <label class="field">
+          <span>المهارات التي تحتاج إلى دعم</span>
+          <textarea id="nSupport" placeholder="المهارات التي تحتاج متابعة..."></textarea>
+        </label>
+        <label class="field">
+          <span>الصعوبات أو الأخطاء التي ظهرت أثناء النشاط</span>
+          <textarea id="nDiff" placeholder="وصف الأخطاء أو الصعوبات..."></textarea>
+        </label>
+        <label class="field">
+          <span>نوع المساعدة أو التوجيه الذي احتاج إليه الطالب</span>
+          <textarea id="nHelp" placeholder="التدخل الذي قُدّم للطالب..."></textarea>
+        </label>
+        <label class="field" style="grid-column:1/-1">
+          <span>توصية المعلم للخطوة التعليمية التالية</span>
+          <textarea id="nRec" placeholder="التوصية للدرس أو النشاط القادم..."></textarea>
+        </label>
+      </div>
+    </section>
+
+    <!-- ============ أزرار الإجراءات ============ -->
+    <section class="card no-print">
+      <div class="card-head">
+        <h2>حفظ وتصدير</h2>
+      </div>
+      <div class="head-tools" style="gap:10px">
+        <button type="button" class="btn btn-primary" id="btnSave">💾 حفظ رصد الطالب</button>
+        <button type="button" class="btn btn-warn" id="btnNew">➕ طالب جديد</button>
+        <button type="button" class="btn" id="btnPrint">🖨️ طباعة قائمة الرصد</button>
+        <button type="button" class="btn" id="btnCsv">📄 تصدير CSV (Excel)</button>
+        <button type="button" class="btn" id="btnJsonOut">⬇️ نسخة احتياطية JSON</button>
+        <button type="button" class="btn" id="btnJsonIn">⬆️ استيراد نسخة احتياطية</button>
+        <input type="file" id="fileJson" accept=".json,application/json" hidden>
+        <button type="button" class="btn btn-danger" id="btnClearAll">🗑️ حذف جميع السجلات</button>
+      </div>
+    </section>
+
+    <!-- ============ سابعًا: سجلات الطلاب ============ -->
+    <section class="card no-print">
+      <div class="card-head">
+        <h2>سابعًا: سجلات الطلاب</h2>
+        <span class="chip" id="recCount">0 سجل</span>
+      </div>
+      <div class="rec-tools">
+        <label class="field">
+          <span>البحث بالاسم</span>
+          <input type="text" id="searchName" placeholder="اكتب جزءًا من اسم الطالب..." autocomplete="off">
+        </label>
+        <label class="field">
+          <span>تصفية حسب الشعبة</span>
+          <select id="filterSection">
+            <option value="">كل الشعب</option>
+            <option value="أول ثانوي أ">أول ثانوي أ</option>
+            <option value="أول ثانوي ب">أول ثانوي ب</option>
+            <option value="أول ثانوي ج">أول ثانوي ج</option>
+          </select>
+        </label>
+      </div>
+      <div id="recordsList"></div>
+    </section>
+
+  </main>
+
+  <p class="footnote no-print">
+    قائمة رصد وشطب أداء طلبة الصف الأول الثانوي في البرمجة بلغة Python — تصميم الأستاذ عواد دحبور<br>
+    تُحفظ البيانات محليًا في متصفحك فقط (localStorage). يُنصح بتصدير نسخة احتياطية JSON بعد كل حصة.
+  </p>
+</div>
+
+<!-- ============ منطقة الطباعة (A4) ============ -->
+<div id="printArea"></div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   1) الثوابت والبيانات الأساسية
+   ========================================================= */
+const STORE_KEY  = "pywatch_records_v1";
+const DRAFT_KEY  = "pywatch_draft_v1";
+const DEFAULT_TEACHER = "الأستاذ عواد دحبور";
+
+const LEVELS = [
+  { key:"achieved",   label:"متحقق",          symbol:"✓" },
+  { key:"partial",    label:"متحقق جزئيًا",   symbol:"◐" },
+  { key:"not",        label:"لم يتحقق",       symbol:"✗" },
+  { key:"unobserved", label:"لم يُلاحظ",      symbol:"—" }
+];
+const LEVEL_LABEL = {};
+LEVELS.forEach(l => LEVEL_LABEL[l.key] = l.label);
+
+const ARITH_INDICATORS = [
+  "يميز بين الأعداد والمتغيرات في التعبير الحسابي",
+  "يستخدم عوامل الجمع والطرح والضرب والقسمة بصورة صحيحة",
+  "يحدد ناتج التعبير الحسابي البسيط",
+  "يطبق أولوية العمليات الحسابية",
+  "يوضح أثر الأقواس في ناتج التعبير",
+  'يميز بين القسمة العادية "/" والقسمة الصحيحة "//"',
+  'يوضح وظيفة باقي القسمة "%"',
+  'يستخدم عامل الأس "**" بصورة صحيحة',
+  "يتوقع الناتج قبل تشغيل التعبير البرمجي",
+  "يكتشف خطأً في تعبير حسابي ويصححه"
+];
+
+const INPUT_INDICATORS = [
+  'يوضح وظيفة جملة "input()"',
+  'يكتب جملة "input()" بصورة صحيحة',
+  "يستخدم رسالة واضحة لتوجيه المستخدم عند الإدخال",
+  "يخزن القيمة المدخلة في متغير مناسب",
+  "يميز بين القيمة النصية والقيمة العددية",
+  'يستخدم "int()" عند الحاجة إلى عدد صحيح',
+  'يستخدم "float()" عند الحاجة إلى عدد عشري',
+  "يستخدم البيانات المدخلة في عملية حسابية",
+  "ينشئ برنامجًا يستقبل الطول والعرض لحساب مساحة مستطيل",
+  "يختبر البرنامج بقيم مختلفة ويتحقق من صحة الناتج",
+  "يكتشف أخطاء الإدخال أو تحويل نوع البيانات ويصححها"
+];
+
+/* =========================================================
+   2) أدوات مساعدة
+   ========================================================= */
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function todayISO(){
+  const d = new Date();
+  const p = n => String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+function nowTime(){
+  const d = new Date();
+  const p = n => String(n).padStart(2,"0");
+  return `${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function uid(){
+  return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+}
+let toastTimer = null;
+function toast(msg, type){
+  const el = $("#toast");
+  el.textContent = msg;
+  el.className = "show " + (type || "");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ""; }, 2600);
+}
+function setStatus(text, type){
+  const el = $("#saveStatus");
+  el.textContent = text;
+  el.className = "status " + (type || "");
+}
+
+/* =========================================================
+   3) الحالة
+   ========================================================= */
+const state = {
+  editingId: null,
+  arith: ARITH_INDICATORS.map(() => ({ level:null, note:"" })),
+  input: INPUT_INDICATORS.map(() => ({ level:null, note:"" }))
+};
+let dirty = false;
+let records = [];
+let printOverride = null;
+
+/* =========================================================
+   4) بناء الجداول
+   ========================================================= */
+function buildTable(tbody, indicators, key){
+  tbody.innerHTML = indicators.map((txt, i) => `
+    <tr data-idx="${i}">
+      <td class="num">${i + 1}</td>
+      <td class="ind">${esc(txt)}</td>
+      ${LEVELS.map(l => `
+        <td class="lvl-cell">
+          <button type="button" class="cell-btn"
+                  data-key="${key}" data-idx="${i}" data-level="${l.key}"
+                  title="${l.label}" aria-label="${l.label}">☐</button>
+        </td>`).join("")}
+      <td class="note-cell">
+        <input type="text" class="note-inp" data-key="${key}" data-idx="${i}"
+               placeholder="ملاحظة (اختياري)" autocomplete="off">
+      </td>
+    </tr>`).join("");
+}
+
+function paintRow(key, idx){
+  const tbody = key === "arith" ? $("#arithTbody") : $("#inputTbody");
+  const tr = tbody.querySelector(`tr[data-idx="${idx}"]`);
+  if(!tr) return;
+  const cur = state[key][idx].level;
+  tr.querySelectorAll(".cell-btn").forEach(btn => {
+    const active = btn.dataset.level === cur;
+    btn.classList.toggle("active", active);
+    const lv = LEVELS.find(l => l.key === btn.dataset.level);
+    btn.textContent = active ? lv.symbol : "☐";
+  });
+}
+function paintAll(){
+  ["arith","input"].forEach(key => {
+    state[key].forEach((_, i) => paintRow(key, i));
+  });
+}
+
+/* =========================================================
+   5) الملخص
+   ========================================================= */
+function summarize(key){
+  const arr = state[key];
+  const s = { total: arr.length, achieved:0, partial:0, not:0, unobserved:0, none:0 };
+  arr.forEach(a => {
+    if(!a.level) s.none++;
+    else s[a.level]++;
+  });
+  s.observed = s.total - s.none;
+  return s;
+}
+function pct(a, b){ return b > 0 ? Math.round((a / b) * 1000) / 10 : 0; }
+
+function renderSummary(elId, key, title){
+  const s = summarize(key);
+  const el = document.getElementById(elId);
+  const completePct = pct(s.observed, s.total);
+  const achPct = pct(s.achieved, s.observed);
+
+  el.innerHTML = `
+    <h3>${esc(title)}</h3>
+    <div class="stats">
+      <div class="stat"><span>مؤشرات مرصودة</span><b>${s.observed} / ${s.total}</b></div>
+      <div class="stat ok"><span>متحقق</span><b>${s.achieved}</b></div>
+      <div class="stat partial"><span>متحقق جزئيًا</span><b>${s.partial}</b></div>
+      <div class="stat no"><span>لم يتحقق</span><b>${s.not}</b></div>
+      <div class="stat unobs"><span>لم يُلاحظ</span><b>${s.unobserved}</b></div>
+      <div class="stat"><span>لم يُقيَّم بعد</span><b>${s.none}</b></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar"><i style="width:${completePct}%"></i></div>
+      <span>اكتمال الرصد ${completePct}%</span>
+    </div>
+    <p class="hint">
+      نسبة المؤشرات <b>المتحققة</b> من المؤشرات المرصودة فعليًا:
+      <b>${achPct}%</b> &nbsp;(محسوبة من ${s.observed} مؤشرًا مرصودًا).
+      المؤشرات غير المرصودة (${s.none}) لم تُحتسب خطأً.
+    </p>`;
+}
+
+function updateSummaries(){
+  renderSummary("sumArith", "arith", "التعابير الحسابية");
+  renderSummary("sumInput", "input", 'جملة الإدخال "input()"');
+}
+
+/* =========================================================
+   6) تفاعل الجداول
+   ========================================================= */
+function toggleLevel(key, idx, level){
+  const item = state[key][idx];
+  item.level = (item.level === level) ? null : level;
+  paintRow(key, idx);
+  updateSummaries();
+  markDirty();
+}
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest(".cell-btn");
+  if(btn){
+    toggleLevel(btn.dataset.key, Number(btn.dataset.idx), btn.dataset.level);
+    return;
+  }
+});
+
+document.addEventListener("input", e => {
+  const inp = e.target.closest(".note-inp");
+  if(inp){
+    state[inp.dataset.key][Number(inp.dataset.idx)].note = inp.value;
+    markDirty();
+  }
+});
+
+/* أزرار الأقسام */
+document.addEventListener("click", e => {
+  const bulk = e.target.closest("[data-bulk]");
+  if(bulk){
+    const key = bulk.dataset.bulk;
+    const name = key === "arith" ? "التعابير الحسابية" : 'جملة الإدخال "input()"';
+    if(!confirm(`سيتم تحديد جميع مؤشرات قسم «${name}» كـ «متحقق».\nهل تريد المتابعة؟`)) return;
+    state[key].forEach((it, i) => { it.level = "achieved"; paintRow(key, i); });
+    updateSummaries(); markDirty();
+    toast("تم تحديد جميع المؤشرات كـ متحقق", "ok");
+    return;
+  }
+  const clr = e.target.closest("[data-clear]");
+  if(clr){
+    const key = clr.dataset.clear;
+    const name = key === "arith" ? "التعابير الحسابية" : 'جملة الإدخال "input()"';
+    if(!confirm(`سيتم إلغاء تحديد جميع مؤشرات قسم «${name}» وإعادته فارغًا.\nهل تريد المتابعة؟`)) return;
+    state[key].forEach((it, i) => { it.level = null; paintRow(key, i); });
+    updateSummaries(); markDirty();
+    toast("تم إلغاء تحديد القسم");
+  }
+});
+
+/* =========================================================
+   7) قراءة النموذج / تحميله
+   ========================================================= */
+function readNotes(){
+  return {
+    strengths: $("#nStrengths").value.trim(),
+    support:   $("#nSupport").value.trim(),
+    difficulties: $("#nDiff").value.trim(),
+    help:      $("#nHelp").value.trim(),
+    recommendation: $("#nRec").value.trim()
+  };
+}
+function writeNotes(n){
+  n = n || {};
+  $("#nStrengths").value = n.strengths || "";
+  $("#nSupport").value   = n.support || "";
+  $("#nDiff").value      = n.difficulties || "";
+  $("#nHelp").value      = n.help || "";
+  $("#nRec").value       = n.recommendation || "";
+}
+function currentSession(){
+  const v = $("#session").value;
+  return v === "__other" ? ($("#otherSession").value.trim() || "حصة أخرى") : v;
+}
+
+function snapshotForm(){
+  return {
+    studentName: $("#studentName").value.trim(),
+    section:     $("#section").value,
+    date:        $("#date").value || todayISO(),
+    session:     currentSession(),
+    teacher:     $("#teacher").value.trim() || DEFAULT_TEACHER,
+    arith: state.arith.map(x => ({ level:x.level, note:x.note.trim() })),
+    input: state.input.map(x => ({ level:x.level, note:x.note.trim() })),
+    notes: readNotes()
+  };
+}
+
+function validateAndCollect(){
+  const name = $("#studentName");
+  const sec  = $("#section");
+  name.classList.remove("invalid");
+  sec.classList.remove("invalid");
+
+  if(!name.value.trim()){
+    name.classList.add("invalid");
+    name.focus();
+    toast("يرجى إدخال اسم الطالب أولًا", "err");
+    return null;
+  }
+  if(!sec.value){
+    sec.classList.add("invalid");
+    sec.focus();
+    toast("يرجى اختيار الشعبة", "err");
+    return null;
+  }
+  return snapshotForm();
+}
+
+function loadRecord(rec){
+  state.editingId = rec.id;
+
+  $("#studentName").value = rec.studentName || "";
+  $("#section").value     = rec.section || "";
+  $("#date").value        = rec.date || todayISO();
+  $("#teacher").value     = rec.teacher || DEFAULT_TEACHER;
+
+  if(rec.session === "الحصة الأولى" || rec.session === "الحصة الثانية"){
+    $("#session").value = rec.session;
+    $("#otherSession").value = "";
+  }else{
+    $("#session").value = "__other";
+    $("#otherSession").value = rec.session || "";
+  }
+  toggleOtherSession();
+
+  state.arith = ARITH_INDICATORS.map((_, i) => ({
+    level: (rec.arith && rec.arith[i] && rec.arith[i].level) || null,
+    note:  (rec.arith && rec.arith[i] && rec.arith[i].note) || ""
+  }));
+  state.input = INPUT_INDICATORS.map((_, i) => ({
+    level: (rec.input && rec.input[i] && rec.input[i].level) || null,
+    note:  (rec.input && rec.input[i] && rec.input[i].note) || ""
+  }));
+
+  $$(".note-inp").forEach(inp => {
+    const k = inp.dataset.key, i = Number(inp.dataset.idx);
+    inp.value = state[k][i].note || "";
+  });
+
+  writeNotes(rec.notes);
+  paintAll();
+  updateSummaries();
+
+  dirty = false;
+  $("#modeChip").textContent = "وضع التعديل";
+  setStatus("سجل مفتوح للتعديل", "info");
+  saveDraft();
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function resetForm(keepStudent){
+  const name = keepStudent ? $("#studentName").value : "";
+  const sec  = keepStudent ? $("#section").value : "";
+
+  state.editingId = null;
+  state.arith = ARITH_INDICATORS.map(() => ({ level:null, note:"" }));
+  state.input = INPUT_INDICATORS.map(() => ({ level:null, note:"" }));
+
+  $("#studentName").value = name;
+  $("#section").value     = sec;
+  $("#date").value        = todayISO();
+  $("#session").value     = "الحصة الأولى";
+  $("#otherSession").value = "";
+  toggleOtherSession();
+  $("#teacher").value     = DEFAULT_TEACHER;
+
+  $$(".note-inp").forEach(inp => inp.value = "");
+  writeNotes({});
+  paintAll();
+  updateSummaries();
+
+  $("#studentName").classList.remove("invalid");
+  $("#section").classList.remove("invalid");
+
+  dirty = false;
+  $("#modeChip").textContent = "رصد جديد";
+  setStatus("نموذج جديد", "idle");
+  saveDraft();
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+/* =========================================================
+   8) الحفظ المحلي
+   ========================================================= */
+function loadRecords(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  }catch(e){
+    console.warn("تعذر قراءة السجلات:", e);
+    return [];
+  }
+}
+function persistRecords(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify(records));
+    return true;
+  }catch(e){
+    toast("تعذر الحفظ المحلي: " + e.message, "err");
+    setStatus("فشل الحفظ", "warn");
+    return false;
+  }
+}
+let draftTimer = null;
+function saveDraft(){
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => {
+    try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(snapshotForm())); }catch(e){}
+  }, 350);
+}
+function restoreDraft(){
+  try{
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if(!raw) return;
+    const d = JSON.parse(raw);
+    if(!d) return;
+
+    const hasContent =
+      (d.studentName && d.studentName.length) ||
+      (d.arith && d.arith.some(x => x.level)) ||
+      (d.input && d.input.some(x => x.level)) ||
+      (d.notes && Object.values(d.notes).some(v => v));
+
+    if(!hasContent) return;
+
+    $("#studentName").value = d.studentName || "";
+    $("#section").value     = d.section || "";
+    $("#date").value        = d.date || todayISO();
+    $("#teacher").value     = d.teacher || DEFAULT_TEACHER;
+
+    if(d.session === "الحصة الأولى" || d.session === "الحصة الثانية"){
+      $("#session").value = d.session;
+    }else{
+      $("#session").value = "__other";
+      $("#otherSession").value = d.session || "";
+    }
+    toggleOtherSession();
+
+    state.arith = ARITH_INDICATORS.map((_, i) => ({
+      level: (d.arith && d.arith[i] && d.arith[i].level) || null,
+      note:  (d.arith && d.arith[i] && d.arith[i].note) || ""
+    }));
+    state.input = INPUT_INDICATORS.map((_, i) => ({
+      level: (d.input && d.input[i] && d.input[i].level) || null,
+      note:  (d.input && d.input[i] && d.input[i].note) || ""
+    }));
+    $$(".note-inp").forEach(inp => {
+      const k = inp.dataset.key, i = Number(inp.dataset.idx);
+      inp.value = state[k][i].note || "";
+    });
+    writeNotes(d.notes);
+    paintAll();
+    updateSummaries();
+    toast("تم استعادة المسودة غير المحفوظة");
+  }catch(e){ /* تجاهل */ }
+}
+
+function markDirty(){
+  dirty = true;
+  setStatus("تغييرات غير محفوظة", "warn");
+  saveDraft();
+}
+
+/* =========================================================
+   9) حفظ الرصد
+   ========================================================= */
+function saveRecord(){
+  const data = validateAndCollect();
+  if(!data) return;
+
+  const now = new Date().toISOString();
+
+  if(state.editingId){
+    const idx = records.findIndex(r => r.id === state.editingId);
+    if(idx >= 0){
+      records[idx] = Object.assign({}, records[idx], data, { updatedAt: now });
+    }else{
+      const rec = Object.assign({ id: uid(), createdAt: now, updatedAt: now }, data);
+      records.push(rec);
+      state.editingId = rec.id;
+    }
+    toast("تم تحديث سجل الطالب بنجاح", "ok");
+  }else{
+    const dup = records.find(r =>
+      r.studentName === data.studentName &&
+      r.section === data.section &&
+      r.date === data.date &&
+      r.session === data.session
+    );
+    if(dup && !confirm("يوجد رصد مسجل لنفس الطالب في نفس التاريخ والحصة.\nهل تريد إضافة رصد جديد مع الاحتفاظ بالسجل السابق؟")){
+      return;
+    }
+    const rec = Object.assign({ id: uid(), createdAt: now, updatedAt: now }, data);
+    records.push(rec);
+    state.editingId = rec.id;
+    $("#modeChip").textContent = "وضع التعديل";
+    toast("تم حفظ رصد الطالب بنجاح", "ok");
+  }
+
+  if(persistRecords()){
+    setStatus("تم الحفظ محليًا · " + nowTime(), "ok");
+  }
+  dirty = false;
+  renderRecords();
+  saveDraft();
+}
+
+/* =========================================================
+   10) عرض السجلات
+   ========================================================= */
+function countLevels(arr){
+  const c = { achieved:0, partial:0, not:0, unobserved:0, none:0 };
+  (arr || []).forEach(x => {
+    if(!x || !x.level) c.none++;
+    else if(c[x.level] !== undefined) c[x.level]++;
+  });
+  return c;
+}
+
+function renderRecords(){
+  const q   = $("#searchName").value.trim();
+  const sec = $("#filterSection").value;
+
+  let list = records.slice().sort((a, b) => {
+    const d = (b.date || "").localeCompare(a.date || "");
+    if(d !== 0) return d;
+    return (b.updatedAt || "").localeCompare(a.updatedAt || "");
+  });
+
+  if(q)   list = list.filter(r => (r.studentName || "").includes(q));
+  if(sec) list = list.filter(r => r.section === sec);
+
+  $("#recCount").textContent = records.length + " سجل";
+
+  const box = $("#recordsList");
+  if(!list.length){
+    box.innerHTML = `<div class="empty">لا توجد سجلات مطابقة. ابدأ بتسجيل بيانات طالب ثم اضغط «حفظ رصد الطالب».</div>`;
+    return;
+  }
+
+  box.innerHTML = list.map(r => {
+    const ca = countLevels(r.arith);
+    const ci = countLevels(r.input);
+    return `
+    <div class="rec" data-id="${r.id}">
+      <div class="rec-main">
+        <h3>${esc(r.studentName)} <span class="chip">${esc(r.section)}</span></h3>
+        <p class="rec-meta">
+          📅 ${esc(r.date || "")} &nbsp;·&nbsp; 🕐 ${esc(r.session || "")} &nbsp;·&nbsp; 👤 ${esc(r.teacher || "")}
+        </p>
+        <p class="rec-stats">
+          التعابير الحسابية:
+          <span class="s-ok">✓ ${ca.achieved}</span> ·
+          <span class="s-pa">◐ ${ca.partial}</span> ·
+          <span class="s-no">✗ ${ca.not}</span> ·
+          <span class="s-un">— ${ca.unobserved}</span> ·
+          غير مرصود ${ca.none}
+          <br>
+          جملة الإدخال:
+          <span class="s-ok">✓ ${ci.achieved}</span> ·
+          <span class="s-pa">◐ ${ci.partial}</span> ·
+          <span class="s-no">✗ ${ci.not}</span> ·
+          <span class="s-un">— ${ci.unobserved}</span> ·
+          غير مرصود ${ci.none}
+        </p>
+      </div>
+      <div class="rec-actions">
+        <button type="button" class="btn btn-sm btn-primary" data-open="${r.id}">فتح / تعديل</button>
+        <button type="button" class="btn btn-sm" data-clone="${r.id}">رصد جديد لنفس الطالب</button>
+        <button type="button" class="btn btn-sm" data-print="${r.id}">طباعة</button>
+        <button type="button" class="btn btn-sm btn-danger" data-del="${r.id}">حذف</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+$("#recordsList").addEventListener("click", e => {
+  const openBtn  = e.target.closest("[data-open]");
+  const cloneBtn = e.target.closest("[data-clone]");
+  const printBtn = e.target.closest("[data-print]");
+  const delBtn   = e.target.closest("[data-del]");
+
+  if(openBtn){
+    const rec = records.find(r => r.id === openBtn.dataset.open);
+    if(rec) loadRecord(rec);
+    return;
+  }
+  if(cloneBtn){
+    const rec = records.find(r => r.id === cloneBtn.dataset.clone);
+    if(!rec) return;
+    if(dirty && !confirm("توجد تغييرات غير محفوظة في النموذج الحالي. هل تريد المتابعة؟")) return;
+    resetForm(false);
+    $("#studentName").value = rec.studentName || "";
+    $("#section").value     = rec.section || "";
+    $("#teacher").value     = rec.teacher || DEFAULT_TEACHER;
+    $("#modeChip").textContent = "رصد جديد";
+    toast("تم تجهيز رصد جديد لنفس الطالب — عدّل المؤشرات ثم احفظ");
+    return;
+  }
+  if(printBtn){
+    const rec = records.find(r => r.id === printBtn.dataset.print);
+    if(rec) printRecord(rec);
+    return;
+  }
+  if(delBtn){
+    const rec = records.find(r => r.id === delBtn.dataset.del);
+    if(!rec) return;
+    if(!confirm(`هل تريد حذف سجل الطالب «${rec.studentName}» بتاريخ ${rec.date} — ${rec.session}؟\nلا يمكن التراجع عن هذا الإجراء.`)) return;
+    records = records.filter(r => r.id !== rec.id);
+    if(state.editingId === rec.id){
+      state.editingId = null;
+      $("#modeChip").textContent = "رصد جديد";
+    }
+    persistRecords();
+    renderRecords();
+    setStatus("تم الحذف · " + nowTime(), "warn");
+    toast("تم حذف السجل", "ok");
+  }
+});
+
+$("#searchName").addEventListener("input", renderRecords);
+$("#filterSection").addEventListener("change", renderRecords);
+
+/* =========================================================
+   11) الطباعة
+   ========================================================= */
+function lvlText(l){
+  return l ? LEVEL_LABEL[l] : "—";
+}
+function printRows(indList, arr){
+  return indList.map((t, i) => {
+    const it = (arr && arr[i]) || {};
+    const lv = it.level || "none";
+    return `<tr>
+      <td class="c">${i + 1}</td>
+      <td>${esc(t)}</td>
+      <td class="lv lv-${lv}">${esc(it.level ? LEVEL_LABEL[it.level] : "لم يُقيَّم")}</td>
+      <td>${esc(it.note || "")}</td>
+    </tr>`;
+  }).join("");
+}
+function sumRow(title, arr, total){
+  const c = countLevels(arr);
+  const observed = total - c.none;
+  const p = observed > 0 ? Math.round((c.achieved / observed) * 1000) / 10 : 0;
+  return `<tr>
+    <td style="text-align:right;font-weight:700">${esc(title)}</td>
+    <td>${c.achieved}</td>
+    <td>${c.partial}</td>
+    <td>${c.not}</td>
+    <td>${c.unobserved}</td>
+    <td>${c.none}</td>
+    <td>${observed} / ${total}</td>
+    <td>${p}%</td>
+  </tr>`;
+}
+
+function renderPrintArea(data){
+  const pa = $("#printArea");
+  if(!pa) return;
+  const d = data || {};
+  const notes = d.notes || {};
+
+  pa.innerHTML = `
+    <h1>قائمة رصد وشطب أداء طلبة الصف الأول الثانوي في البرمجة بلغة Python</h1>
+    <p class="p-sub">مهارات جملة الإدخال <b>input()</b> والتعابير الحسابية — تصميم الأستاذ عواد دحبور</p>
+
+    <table class="p-meta">
+      <tr>
+        <td class="lbl">اسم الطالب</td><td>${esc(d.studentName || "—")}</td>
+        <td class="lbl">الشعبة</td><td>${esc(d.section || "—")}</td>
+      </tr>
+      <tr>
+        <td class="lbl">تاريخ الرصد</td><td>${esc(d.date || "—")}</td>
+        <td class="lbl">الحصة</td><td>${esc(d.session || "—")}</td>
+      </tr>
+      <tr>
+        <td class="lbl">اسم المعلم</td><td colspan="3">${esc(d.teacher || DEFAULT_TEACHER)}</td>
+      </tr>
+    </table>
+
+    <h2>أولًا: مهارات التعابير الحسابية</h2>
+    <table class="p-table">
+      <thead>
+        <tr>
+          <th>الرقم</th><th>مؤشر الأداء</th><th>مستوى الأداء</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody>${printRows(ARITH_INDICATORS, d.arith)}</tbody>
+    </table>
+
+    <h2>ثانيًا: مهارات جملة الإدخال "input()"</h2>
+    <table class="p-table">
+      <thead>
+        <tr>
+          <th>الرقم</th><th>مؤشر الأداء</th><th>مستوى الأداء</th><th>ملاحظات</th>
+        </tr>
+      </thead>
+      <tbody>${printRows(INPUT_INDICATORS, d.input)}</tbody>
+    </table>
+
+    <h2>ملخص الأداء</h2>
+    <table class="p-sum">
+      <thead>
+        <tr>
+          <th>القسم</th><th>متحقق</th><th>جزئيًا</th><th>لم يتحقق</th>
+          <th>لم يُلاحظ</th><th>لم يُقيَّم</th><th>المرصود</th><th>نسبة المتحقق من المرصود</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sumRow("التعابير الحسابية", d.arith, ARITH_INDICATORS.length)}
+        ${sumRow('جملة الإدخال "input()"', d.input, INPUT_INDICATORS.length)}
+      </tbody>
+    </table>
+    <p style="font-size:10.5px;color:#444;margin-bottom:8px">
+      ملاحظة: تُحسب النسبة الوصفية من المؤشرات التي رُصدت فعليًا فقط، ولا يُعدّ المؤشر غير المرصود خطأً،
+      ولا يُحتسب «لم يُلاحظ» ضمن مؤشرات عدم التحقق. هذا الرصد وصفي وليس علامة امتحان.
+    </p>
+
+    <h2>الملاحظات العامة</h2>
+    <div class="p-notes"><span class="t">نقاط القوة لدى الطالب:</span>${esc(notes.strengths || "—")}</div>
+    <div class="p-notes"><span class="t">المهارات التي تحتاج إلى دعم:</span>${esc(notes.support || "—")}</div>
+    <div class="p-notes"><span class="t">الصعوبات أو الأخطاء التي ظهرت أثناء النشاط:</span>${esc(notes.difficulties || "—")}</div>
+    <div class="p-notes"><span class="t">نوع المساعدة أو التوجيه الذي احتاج إليه الطالب:</span>${esc(notes.help || "—")}</div>
+    <div class="p-notes"><span class="t">توصية المعلم للخطوة التعليمية التالية:</span>${esc(notes.recommendation || "—")}</div>
+
+    <div class="p-sign">
+      <div>توقيع المعلم</div>
+      <div>توقيع ولي الأمر</div>
+    </div>
+  `;
+}
+
+function printRecord(rec){
+  printOverride = rec;
+  renderPrintArea(rec);
+  window.print();
+}
+window.addEventListener("beforeprint", () => {
+  renderPrintArea(printOverride || snapshotForm());
+});
+window.addEventListener("afterprint", () => {
+  printOverride = null;
+});
+
+/* =========================================================
+   12) التصدير والاستيراد
+   ========================================================= */
+function download(filename, content, mime){
+  const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 200);
+}
+function csvCell(v){
+  const s = String(v == null ? "" : v).replace(/"/g, '""');
+  return `"${s}"`;
+}
+
+function exportCSV(){
+  if(!records.length){ toast("لا توجد سجلات للتصدير", "err"); return; }
+
+  const head = ["اسم الطالب","الشعبة","التاريخ","الحصة","المعلم"];
+
+  ARITH_INDICATORS.forEach((t, i) => head.push(`ت${i+1} - ${t}`));
+  INPUT_INDICATORS.forEach((t, i) => head.push(`إ${i+1} - ${t}`));
+
+  head.push("ملخص التعابير","ملخص جملة الإدخال");
+  head.push("نقاط القوة","المهارات التي تحتاج دعمًا","الصعوبات والأخطاء",
+            "المساعدة المقدمة","توصية المعلم","آخر تحديث");
+
+  const rows = records.map(r => {
+    const row = [r.studentName, r.section, r.date, r.session, r.teacher];
+
+    (r.arith || []).forEach(it => {
+      const lvl = it && it.level ? LEVEL_LABEL[it.level] : "لم يُقيَّم";
+      row.push(it && it.note ? `${lvl} — ${it.note}` : lvl);
+    });
+    (r.input || []).forEach(it => {
+      const lvl = it && it.level ? LEVEL_LABEL[it.level] : "لم يُقيَّم";
+      row.push(it && it.note ? `${lvl} — ${it.note}` : lvl);
+    });
+
+    const ca = countLevels(r.arith);
+    const ci = countLevels(r.input);
+    row.push(`متحقق ${ca.achieved} / جزئي ${ca.partial} / لم يتحقق ${ca.not} / لم يُلاحظ ${ca.unobserved} / غير مرصود ${ca.none}`);
+    row.push(`متحقق ${ci.achieved} / جزئي ${ci.partial} / لم يتحقق ${ci.not} / لم يُلاحظ ${ci.unobserved} / غير مرصود ${ci.none}`);
+
+    const n = r.notes || {};
+    row.push(n.strengths || "", n.support || "", n.difficulties || "",
+             n.help || "", n.recommendation || "", r.updatedAt || "");
+
+    return row.map(csvCell).join(",");
+  });
+
+  const csv = "\uFEFF" + [head.map(csvCell).join(",")].concat(rows).join("\r\n");
+  download(`رصد_أداء_الطلبة_${todayISO()}.csv`, csv, "text/csv;charset=utf-8");
+  toast("تم تصدير ملف CSV بنجاح", "ok");
+}
+
+function exportJSON(){
+  if(!records.length){ toast("لا توجد سجلات للتصدير", "err"); return; }
+  const payload = {
+    app: "pywatch",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    count: records.length,
+    records: records
+  };
+  download(`نسخة_احتياطية_رصد_${todayISO()}.json`,
+           JSON.stringify(payload, null, 2),
+           "application/json;charset=utf-8");
+  toast("تم تصدير النسخة الاحتياطية", "ok");
+}
+
+function importJSON(file){
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const data = JSON.parse(reader.result);
+      let incoming = null;
+      if(Array.isArray(data)) incoming = data;
+      else if(data && Array.isArray(data.records)) incoming = data.records;
+      if(!incoming){ toast("ملف غير صالح: لا يحتوي على سجلات", "err"); return; }
+
+      incoming = incoming.filter(r => r && typeof r === "object" && r.studentName);
+      if(!incoming.length){ toast("لا توجد سجلات صالحة في الملف", "err"); return; }
+
+      if(!confirm(`سيتم استيراد ${incoming.length} سجلًا.\nسيتم تحديث السجلات المتشابهة بنفس المعرّف وإضافة الباقي.\nهل تريد المتابعة؟`)) return;
+
+      let added = 0, updated = 0;
+      incoming.forEach(rec => {
+        const recId = rec.id || uid();
+        const idx = records.findIndex(r => r.id === recId);
+        const clean = {
+          id: recId,
+          studentName: rec.studentName || "",
+          section: rec.section || "",
+          date: rec.date || todayISO(),
+          session: rec.session || "",
+          teacher: rec.teacher || DEFAULT_TEACHER,
+          arith: Array.isArray(rec.arith) ? rec.arith : [],
+          input: Array.isArray(rec.input) ? rec.input : [],
+          notes: rec.notes || {},
+          createdAt: rec.createdAt || new Date().toISOString(),
+          updatedAt: rec.updatedAt || new Date().toISOString()
+        };
+        if(idx >= 0){ records[idx] = clean; updated++; }
+        else { records.push(clean); added++; }
+      });
+
+      persistRecords();
+      renderRecords();
+      setStatus("تم الاستيراد · " + nowTime(), "ok");
+      toast(`تم الاستيراد: ${added} جديد، ${updated} محدَّث`, "ok");
+    }catch(err){
+      toast("تعذر قراءة الملف: " + err.message, "err");
+    }
+  };
+  reader.onerror = () => toast("تعذر قراءة الملف", "err");
+  reader.readAsText(file, "utf-8");
+}
+
+/* =========================================================
+   13) ربط الأزرار العامة
+   ========================================================= */
+function toggleOtherSession(){
+  const isOther = $("#session").value === "__other";
+  $("#otherSessionWrap").hidden = !isOther;
+}
+
+$("#session").addEventListener("change", () => { toggleOtherSession(); markDirty(); });
+
+$("#btnSave").addEventListener("click", saveRecord);
+
+$("#btnNew").addEventListener("click", () => {
+  if(dirty && !confirm("توجد تغييرات غير محفوظة. هل تريد تجاهلها وبدء رصد طالب جديد؟")) return;
+  resetForm(false);
+  toast("نموذج جديد جاهز");
+});
+
+$("#btnPrint").addEventListener("click", () => {
+  printOverride = null;
+  renderPrintArea(snapshotForm());
+  window.print();
+});
+
+$("#btnCsv").addEventListener("click", exportCSV);
+$("#btnJsonOut").addEventListener("click", exportJSON);
+$("#btnJsonIn").addEventListener("click", () => $("#fileJson").click());
+$("#fileJson").addEventListener("change", e => {
+  const f = e.target.files && e.target.files[0];
+  if(f) importJSON(f);
+  e.target.value = "";
+});
+
+$("#btnClearAll").addEventListener("click", () => {
+  if(!records.length){ toast("لا توجد سجلات أصلًا", "err"); return; }
+  if(!confirm(`تحذير: سيتم حذف جميع السجلات (${records.length} سجل) نهائيًا من هذا المتصفح.\nهل تريد المتابعة؟`)) return;
+  if(!confirm("تأكيد أخير: هل قمت بتصدير نسخة احتياطية؟ سيتم الحذف الآن.")) return;
+  records = [];
+  persistRecords();
+  state.editingId = null;
+  $("#modeChip").textContent = "رصد جديد";
+  renderRecords();
+  setStatus("تم حذف جميع السجلات", "warn");
+  toast("تم حذف جميع السجلات", "ok");
+});
+
+/* حفظ تلقائي للمسودة عند الكتابة في الحقول النصية */
+["#studentName","#section","#date","#teacher","#otherSession",
+ "#nStrengths","#nSupport","#nDiff","#nHelp","#nRec"].forEach(sel => {
+  const el = $(sel);
+  if(el){
+    el.addEventListener("input", markDirty);
+    el.addEventListener("change", markDirty);
+  }
+});
+
+/* تنبيه قبل مغادرة الصفحة مع تغييرات غير محفوظة */
+window.addEventListener("beforeunload", e => {
+  if(dirty){
+    e.preventDefault();
+    e.returnValue = "";
+    return "";
+  }
+});
+
+/* =========================================================
+   14) التهيئة
+   ========================================================= */
+(function init(){
+  buildTable($("#arithTbody"), ARITH_INDICATORS, "arith");
+  buildTable($("#inputTbody"), INPUT_INDICATORS, "input");
+
+  $("#date").value = todayISO();
+  toggleOtherSession();
+
+  records = loadRecords();
+
+  restoreDraft();
+  paintAll();
+  updateSummaries();
+  renderRecords();
+
+  if(state.editingId){
+    $("#modeChip").textContent = "وضع التعديل";
+  }else{
+    $("#modeChip").textContent = "رصد جديد";
+  }
+  setStatus("جاهز · الحفظ المحلي مفعّل", "ok");
+})();
+</script>
+</body>
+</html>

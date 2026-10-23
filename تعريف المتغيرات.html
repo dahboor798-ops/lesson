@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درس برمجي: مقارنة المتغيرات والنصوص</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen py-10 px-4">
+    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 md:p-8 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold">ملخص درس البرمجة</h1>
+            <p class="text-blue-100 mt-2 text-sm">مقارنة تعريف المتغيرات والنصوص بين C++ وبايثون</p>
+        </div>
+
+        <!-- Content Body -->
+        <div class="p-6 md:p-8 space-y-8">
+            
+            <!-- Section 1 -->
+            <section class="border-b border-gray-100 pb-6">
+                <h2 class="text-xl font-bold text-indigo-700 mb-4 flex items-center gap-2">
+                    <span class="bg-indigo-100 text-indigo-800 text-sm px-2.5 py-1 rounded-full">1</span>
+                    تعريف المتغيرات (مقارنة بين C++ وبايثون)
+                </h2>
+                <ul class="space-y-4 text-gray-700">
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-500 font-bold">•</span>
+                        <div class="w-full"><strong>في لغة C++:</strong> بعض اللغات تتطلب تسمية المتغير مع تحديد نوعه بوضوح، ولا يمكن إنشاء المتغير إلا بهذه الطريقة.
+                            <div class="bg-gray-900 text-green-400 p-3 rounded-lg mt-2 font-mono text-sm" dir="ltr">int x;</div>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-500 font-bold">•</span>
+                        <div class="w-full"><strong>في لغة بايثون (Python):</strong> المترجم هو من يحدد نوع المتغير تلقائياً وليس المبرمج، ويكون ذلك بناءً على القيمة المسندة للمتغير أول مرة.
+                            <div class="bg-gray-900 text-green-400 p-3 rounded-lg mt-2 font-mono text-sm" dir="ltr">x = 5</div>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-500 font-bold">•</span>
+                        <div><strong>قاعدة أساسية:</strong> في لغة بايثون، لا نستطيع إنشاء متغير إلا بإسناد قيمة له في نفس الخطوة.</div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Section 2 -->
+            <section class="border-b border-gray-100 pb-6">
+                <h2 class="text-xl font-bold text-indigo-700 mb-4 flex items-center gap-2">
+                    <span class="bg-indigo-100 text-indigo-800 text-sm px-2.5 py-1 rounded-full">2</span>
+                    النصوص (Strings) وعلامات التنصيص في بايثون
+                </h2>
+                <p class="text-gray-600 mb-4">تتوفر في بايثون عدة طرق لتعريف الجمل النصية باستخدام إشارات التنصيص:</p>
+                <div class="space-y-4">
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <h3 class="font-bold text-blue-900 mb-1">العلامة المفردة (<code class="text-red-500">'</code>) والمزدوجة (<code class="text-red-500">"</code>)</h3>
+                        <p class="text-sm text-gray-600 mb-2">كلاهما تؤديان الغرض ذاته، وتُستخدمان لتخزين نص لا يتجاوز سطرًا واحدًا في المتغير.</p>
+                        <div class="bg-gray-900 text-green-400 p-3 rounded-lg font-mono text-sm" dir="ltr">
+x = 'Hi How are you'<br>
+y = "Hi How are you"
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                        <h3 class="font-bold text-indigo-900 mb-1">العلامات الثلاثية (<code class="text-red-500">'''</code>)</h3>
+                        <p class="text-sm text-gray-600 mb-2">تُستخدم لتخزين جمل ونصوص تمتد على أكثر من سطر.</p>
+                        <div class="bg-gray-900 text-green-400 p-3 rounded-lg font-mono text-sm" dir="ltr">
+z = '''Hi How are you<br>
+I'm fine<br>
+thank you'''
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section>
+                <h2 class="text-xl font-bold text-indigo-700 mb-4 flex items-center gap-2">
+                    <span class="bg-indigo-100 text-indigo-800 text-sm px-2.5 py-1 rounded-full">3</span>
+                    طباعة المخرجات
+                </h2>
+                <p class="text-gray-600 mb-3">لطباعة قيم المتغيرات على الشاشة، نستخدم دالة الطباعة (مع مراعاة كتابتها بحروف صغيرة <code class="text-indigo-600 font-bold">print</code>):</p>
+                <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm" dir="ltr">
+print(x)<br>
+print(y)<br>
+print(z)
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-100 text-center py-4 text-xs text-gray-500 border-t border-gray-100">
+            تم تصميم هذا القالب خصيصاً لك يا عواد 🌟
+        </div>
+    </div>
+</body>
+</html>

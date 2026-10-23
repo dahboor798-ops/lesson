@@ -1,0 +1,1435 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>درس تفاعلي: التعابير الحسابية وأولويات العمليات وجملة الإدخال input()</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1e40af;
+    --primary-light:#3b82f6;
+    --accent:#0ea5e9;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+    --bg:#f1f5f9;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --code-bg:#0f172a;
+    --code-text:#e2e8f0;
+    --border:#e2e8f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Cairo',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.8;
+    font-size:16px;
+  }
+  .container{max-width:1100px;margin:0 auto;padding:0 18px;}
+  header.hero{
+    background:linear-gradient(135deg,#1e3a8a 0%,#0ea5e9 100%);
+    color:white;
+    padding:48px 18px 56px;
+    text-align:center;
+    border-radius:0 0 32px 32px;
+    box-shadow:0 8px 30px rgba(30,58,138,.25);
+  }
+  header.hero h1{font-size:2rem;font-weight:800;margin-bottom:12px;line-height:1.4;}
+  header.hero p{font-size:1.05rem;opacity:.92;max-width:720px;margin:0 auto;}
+  header.hero .badges{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .badge{
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.3);
+    color:white;padding:6px 14px;border-radius:999px;font-size:.85rem;
+    backdrop-filter:blur(6px);
+  }
+  nav.toc{
+    background:var(--card);
+    margin:-28px auto 32px;
+    max-width:900px;
+    border-radius:16px;
+    padding:20px 24px;
+    box-shadow:0 10px 30px rgba(15,23,42,.08);
+    position:relative;
+  }
+  nav.toc h3{font-size:1rem;color:var(--primary);margin-bottom:10px;}
+  nav.toc ol{padding-right:22px;font-size:.95rem;}
+  nav.toc li{margin:4px 0;}
+  nav.toc a{color:var(--primary);text-decoration:none;}
+  nav.toc a:hover{text-decoration:underline;}
+
+  section.lesson{
+    background:var(--card);
+    border-radius:18px;
+    padding:28px 26px;
+    margin-bottom:26px;
+    box-shadow:0 4px 16px rgba(15,23,42,.06);
+    scroll-margin-top:20px;
+  }
+  section.lesson > h2{
+    font-size:1.4rem;
+    color:var(--primary);
+    margin-bottom:16px;
+    padding-bottom:12px;
+    border-bottom:3px solid var(--accent);
+    display:flex;align-items:center;gap:10px;
+  }
+  section.lesson > h2 .num{
+    background:var(--primary);color:white;width:36px;height:36px;border-radius:10px;
+    display:inline-flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+  }
+  h3.sub{color:var(--primary);font-size:1.15rem;margin:22px 0 10px;}
+  h4.mini{color:#0f172a;font-size:1.02rem;margin:16px 0 8px;}
+
+  /* ===== Global inline code: force LTR ===== */
+  code {
+    direction: ltr;
+    unicode-bidi: isolate;
+    display: inline-block;
+    vertical-align: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #0f172a;
+  }
+
+  .code{
+    background:var(--code-bg);
+    color:var(--code-text);
+    padding:16px 18px;
+    border-radius:12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.92rem;
+    direction:ltr;
+    text-align:left;
+    overflow-x:auto;
+    margin:10px 0;
+    line-height:1.65;
+    border-left:4px solid var(--accent);
+    unicode-bidi: isolate;
+  }
+  .code .kw{color:#93c5fd;}
+  .code .fn{color:#fbbf24;}
+  .code .num{color:#86efac;}
+  .code .str{color:#fca5a5;}
+  .code .op{color:#f0abfc;}
+
+  .output{
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    color:#065f46;
+    padding:12px 16px;
+    border-radius:10px;
+    font-family:'JetBrains Mono',monospace;
+    direction:ltr;
+    text-align:left;
+    margin:8px 0;
+    font-size:.92rem;
+    white-space:pre-wrap;
+    unicode-bidi: isolate;
+  }
+  .note{
+    background:#eff6ff;
+    border-right:4px solid var(--primary-light);
+    padding:12px 16px;
+    border-radius:10px;
+    margin:12px 0;
+    font-size:.95rem;
+  }
+  .note.warn{background:#fffbeb;border-right-color:var(--warning);}
+  .note.danger{background:#fef2f2;border-right-color:var(--danger);}
+  .note.success{background:#f0fdf4;border-right-color:var(--success);}
+
+  table.priority{
+    width:100%;border-collapse:collapse;margin:14px 0;
+    font-size:.95rem;
+  }
+  table.priority th, table.priority td{
+    padding:10px 12px;border:1px solid var(--border);text-align:right;
+  }
+  table.priority thead{background:#eef2ff;color:var(--primary);}
+  table.priority tbody tr:nth-child(even){background:#f8fafc;}
+
+  .example-box{
+    background:#f8fafc;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px 18px;
+    margin:14px 0;
+  }
+  .example-box .q-label{
+    font-weight:700;color:var(--primary);margin-bottom:8px;font-size:.95rem;
+  }
+  .btn{
+    background:var(--primary);color:white;border:none;padding:10px 22px;border-radius:10px;
+    font-family:'Cairo',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;
+    transition:all .2s;
+  }
+  .btn:hover{background:var(--primary-light);transform:translateY(-1px);}
+  .btn.secondary{background:#64748b;}
+  .btn.secondary:hover{background:#94a3b8;}
+  .btn.success{background:var(--success);}
+  .btn.success:hover{background:#22c55e;}
+  .btn.warning{background:var(--warning);}
+  .btn.small{padding:7px 14px;font-size:.85rem;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+
+  .hidden-answer{display:none;margin-top:10px;}
+  .hidden-answer.show{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+  .order-activity{
+    background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:18px;margin:14px 0;
+  }
+  .order-activity .expr{
+    background:var(--code-bg);color:var(--code-text);padding:14px 18px;border-radius:10px;
+    font-family:'JetBrains Mono',monospace;direction:ltr;text-align:left;font-size:1.05rem;margin-bottom:14px;
+    unicode-bidi: isolate;
+  }
+  .steps-pool{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .step-item{
+    background:white;border:2px solid var(--border);border-radius:10px;padding:10px 16px;
+    cursor:pointer;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:10px;
+  }
+  .step-item:hover{border-color:var(--primary-light);background:#eff6ff;}
+  .step-item.selected{
+    background:#dbeafe;border-color:var(--primary);color:var(--primary);
+  }
+  .step-item .order-badge{
+    display:inline-flex;width:26px;height:26px;border-radius:50%;
+    background:var(--muted);color:white;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;flex-shrink:0;
+  }
+  .step-item.selected .order-badge{background:var(--primary);}
+  .order-result{
+    margin-top:12px;padding:12px 16px;border-radius:10px;font-weight:700;display:none;
+  }
+  .order-result.show{display:block;}
+  .order-result.ok{background:#dcfce7;color:#166534;}
+  .order-result.bad{background:#fee2e2;color:#991b1b;}
+
+  .quiz-card{
+    background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px;
+  }
+  .quiz-card .q-text{font-weight:700;margin-bottom:10px;}
+  .quiz-card .q-text .q-num{
+    display:inline-block;background:var(--primary);color:white;width:28px;height:28px;
+    border-radius:8px;text-align:center;line-height:28px;font-size:.85rem;margin-left:8px;
+  }
+  .quiz-options{display:flex;flex-direction:column;gap:7px;margin-top:8px;}
+  .quiz-option{
+    background:white;border:2px solid var(--border);border-radius:9px;padding:9px 14px;cursor:pointer;
+    font-family:'Cairo',sans-serif;font-size:.95rem;transition:all .15s;text-align:right;
+  }
+  .quiz-option:hover{border-color:var(--primary-light);}
+  .quiz-option.correct{border-color:var(--success);background:#f0fdf4;}
+  .quiz-option.wrong{border-color:var(--danger);background:#fef2f2;}
+  .quiz-option.disabled{cursor:not-allowed;}
+  .quiz-input{
+    padding:9px 12px;border:2px solid var(--border);border-radius:9px;font-family:'JetBrains Mono',monospace;
+    font-size:.95rem;width:140px;direction:ltr;
+  }
+  .quiz-input:focus{outline:none;border-color:var(--primary-light);}
+  .quiz-feedback{
+    margin-top:10px;padding:9px 14px;border-radius:9px;font-size:.9rem;display:none;
+  }
+  .quiz-feedback.show{display:block;}
+  .quiz-feedback.ok{background:#dcfce7;color:#166534;border-right:4px solid var(--success);}
+  .quiz-feedback.bad{background:#fee2e2;color:#991b1b;border-right:4px solid var(--danger);}
+
+  .calc-wrap{
+    display:grid;grid-template-columns:1fr;gap:16px;margin:14px 0;
+  }
+  @media (min-width:720px){ .calc-wrap{grid-template-columns:1.4fr 1fr;} }
+  .calc-pad{
+    background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:14px;
+  }
+  .calc-display{
+    background:var(--code-bg);color:var(--code-text);font-family:'JetBrains Mono',monospace;
+    padding:14px 16px;border-radius:10px;font-size:1.15rem;direction:ltr;text-align:left;
+    margin-bottom:12px;min-height:52px;word-break:break-all;
+    unicode-bidi: isolate;
+  }
+  .calc-display .placeholder{color:#64748b;font-style:italic;}
+  .btn-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .calc-btn{
+    background:white;border:2px solid var(--border);border-radius:9px;padding:11px 0;
+    font-family:'JetBrains Mono',monospace;font-weight:600;font-size:1rem;cursor:pointer;
+    transition:all .12s;
+  }
+  .calc-btn:hover{border-color:var(--primary-light);background:#eff6ff;}
+  .calc-btn.op{background:#eef2ff;color:var(--primary);}
+  .calc-btn.wide{grid-column:span 2;}
+  .calc-btn.eq{background:var(--primary);color:white;border-color:var(--primary);}
+  .calc-btn.eq:hover{background:var(--primary-light);}
+  .calc-btn.clr{background:#fee2e2;color:var(--danger);border-color:#fecaca;}
+  .calc-result{
+    background:#f0fdf4;border:1px solid #a7f3d0;border-radius:10px;padding:14px 16px;
+    font-family:'JetBrains Mono',monospace;direction:ltr;text-align:left;margin-top:10px;font-size:1rem;
+    unicode-bidi: isolate;
+  }
+  .calc-steps{
+    background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px 16px;
+    margin-top:10px;font-size:.9rem;direction:ltr;text-align:left;font-family:'JetBrains Mono',monospace;
+    color:#334155;
+    unicode-bidi: isolate;
+  }
+  .calc-steps .step-line{padding:3px 0;}
+  .calc-steps .step-line::before{content:"▸ ";color:var(--accent);font-weight:bold;}
+
+  .sim-wrap{
+    background:#f0f9ff;border:1px solid #bae6fd;border-radius:14px;padding:20px;margin:14px 0;
+  }
+  .sim-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+  @media (min-width:600px){ .sim-grid{grid-template-columns:1fr 1fr 1fr;} }
+  .sim-field label{display:block;font-weight:600;font-size:.9rem;margin-bottom:5px;color:var(--primary);}
+  .sim-field input, .sim-field select{
+    width:100%;padding:10px 12px;border:2px solid #bae6fd;border-radius:9px;
+    font-family:'Cairo',sans-serif;font-size:.95rem;background:white;
+  }
+  .sim-field input:focus, .sim-field select:focus{outline:none;border-color:var(--primary-light);}
+  .sim-output{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;}
+  @media (min-width:720px){ .sim-output{grid-template-columns:1fr 1fr;} }
+  .sim-code{
+    background:var(--code-bg);color:var(--code-text);font-family:'JetBrains Mono',monospace;
+    padding:14px 16px;border-radius:10px;font-size:.88rem;direction:ltr;text-align:left;
+    white-space:pre-wrap;line-height:1.7;
+    unicode-bidi: isolate;
+  }
+  .sim-result{
+    background:white;border:2px solid var(--success);border-radius:10px;padding:14px 16px;
+    font-size:.95rem;
+  }
+  .sim-result h4{color:var(--success);margin-bottom:8px;}
+
+  .exercise{
+    background:#fef3c7;border:1px solid #fde68a;border-radius:12px;padding:16px 18px;margin-bottom:14px;
+  }
+  .exercise h4{color:#92400e;margin-bottom:8px;}
+  .exercise textarea{
+    width:100%;min-height:90px;padding:10px 12px;border:2px solid #fcd34d;border-radius:9px;
+    font-family:'JetBrains Mono',monospace;font-size:.9rem;direction:ltr;text-align:left;resize:vertical;
+  }
+  .exercise .actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+  .solution-box{
+    display:none;margin-top:10px;background:white;border:1px solid #fcd34d;border-radius:10px;padding:12px;
+  }
+  .solution-box.show{display:block;}
+
+  .final-header{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+    background:#eef2ff;padding:14px 18px;border-radius:12px;margin-bottom:18px;
+  }
+  .final-header .score{font-weight:800;color:var(--primary);font-size:1.15rem;}
+  .score-bar{
+    background:#e2e8f0;height:12px;border-radius:999px;overflow:hidden;margin:10px 0;
+  }
+  .score-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#16a34a);width:0%;transition:width .5s;}
+
+  footer{
+    text-align:center;padding:30px 18px;color:var(--muted);font-size:.95rem;
+    border-top:1px solid var(--border);margin-top:30px;
+  }
+  footer strong{color:var(--primary);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1>التعابير الحسابية وأولويات العمليات وجملة الإدخال <code style="background:rgba(255,255,255,.15);padding:2px 10px;border-radius:6px;color:white;">input()</code></h1>
+    <p>وحدة تعليمية تفاعلية متكاملة للتعرف على كيف يفكر الحاسوب عند تنفيذ التعبيرات الحسابية في لغة بايثون، ثم استقبال البيانات من المستخدم ومعالجتها.</p>
+    <div class="badges">
+      <span class="badge">⏱️ الزمن المقترح: 50 دقيقة + امتداد اختياري</span>
+      <span class="badge">🎯 المستوى: مبتدئ</span>
+      <span class="badge">🐍 Python 3</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+  <h3>📋 محتويات الدرس</h3>
+  <ol>
+    <li><a href="#sec1">مفهوم التعبير الحسابي</a></li>
+    <li><a href="#sec2">ترتيب أولويات العمليات الحسابية</a></li>
+    <li><a href="#sec3">أمثلة متدرجة على الأولويات</a></li>
+    <li><a href="#sec4">نشاط «من ينفذ أولًا؟»</a></li>
+    <li><a href="#sec5">تحدي توقّع الناتج</a></li>
+    <li><a href="#sec6">آلة حاسبة تعليمية</a></li>
+    <li><a href="#sec7">جملة الإدخال <code>input()</code></a></li>
+    <li><a href="#sec8">نشاط «أدخل وجرّب»</a></li>
+    <li><a href="#sec9">تمارين تطبيقية على <code>input()</code></a></li>
+    <li><a href="#sec10">خلاصة جملة الإدخال</a></li>
+    <li><a href="#final">الاختبار الختامي (20 درجة)</a></li>
+  </ol>
+</nav>
+
+<!-- ============ SECTION 1 ============ -->
+<section class="lesson" id="sec1">
+  <h2><span class="num">1</span> مفهوم التعبير الحسابي</h2>
+
+  <p>التعبير الحسابي في بايثون هو تركيب مكوّن من <strong>أعداد</strong> أو <strong>متغيرات</strong> و<strong>عوامل حسابية</strong>، ويُستخدم لإجراء عملية أو أكثر ثم إعطاء ناتج واحد. يمكن تخزين هذا الناتج في متغير عبر علامة الإسناد <code>=</code>.</p>
+
+  <div class="code">
+<span class="kw">result</span> = <span class="num">5</span> <span class="op">+</span> <span class="num">3</span> <span class="op">*</span> <span class="num">2</span><br>
+<span class="fn">print</span>(result)
+  </div>
+
+  <div class="output">11</div>
+
+  <div class="note">
+    <strong>لماذا الناتج 11 وليس 16؟</strong><br>
+    لأن الحاسوب لا ينفذ العمليات بالترتيب المكتوب (من اليسار إلى اليمين) فقط، بل يتبع <strong>أولويات العمليات</strong>. الضرب <code>*</code> له أولوية أعلى من الجمع <code>+</code>، لذا يُنفَّذ أولًا: <code>3 * 2 = 6</code>، ثم <code>5 + 6 = 11</code>.
+  </div>
+</section>
+
+<!-- ============ SECTION 2 ============ -->
+<section class="lesson" id="sec2">
+  <h2><span class="num">2</span> ترتيب أولويات العمليات الحسابية</h2>
+
+  <p>عندما يحتوي التعبير على أكثر من عامل حسابي، ينفّذ بايثون العمليات وفق الترتيب الآتي (من الأعلى أولوية إلى الأدنى):</p>
+
+  <table class="priority">
+    <thead>
+      <tr>
+        <th>الترتيب</th>
+        <th>العامل</th>
+        <th>الوصف</th>
+        <th>مثال</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><code>()</code></td><td>الأقواس</td><td><code>(5 + 3) * 2</code></td></tr>
+      <tr><td>2</td><td><code>**</code></td><td>الأس</td><td><code>2 ** 3</code></td></tr>
+      <tr><td>3</td><td><code>+x</code> / <code>-x</code></td><td>الإشارات الأحادية</td><td><code>-5 + 3</code></td></tr>
+      <tr><td>4</td><td><code>*</code> / <code>/</code> / <code>//</code> / <code>%</code></td><td>الضرب والقسمة والقسمة الصحيحة وباقي القسمة</td><td><code>10 / 2 * 3</code></td></tr>
+      <tr><td>5</td><td><code>+</code> / <code>-</code></td><td>الجمع والطرح</td><td><code>5 + 3 - 2</code></td></tr>
+    </tbody>
+  </table>
+
+  <p>العمليات التي تقع في المستوى نفسه تُنفَّذ من <strong>اليسار إلى اليمين</strong>، باستثناء الأس <code>**</code> الذي يُقيَّم من <strong>اليمين إلى اليسار</strong>.</p>
+
+  <h3 class="sub">🔹 حالة خاصة: الأس والإشارة الأحادية</h3>
+
+  <div class="code">
+<span class="fn">print</span>(<span class="op">-</span><span class="num">2</span> <span class="op">**</span> <span class="num">2</span>)<br>
+<span class="fn">print</span>((<span class="op">-</span><span class="num">2</span>) <span class="op">**</span> <span class="num">2</span>)
+  </div>
+
+  <div class="output">-4<br>4</div>
+
+  <div class="note warn">
+    <strong>لماذا اختلف الناتج؟</strong><br>
+    لأن الأس <code>**</code> له أولوية أعلى من الإشارة الأحادية <code>-</code> في بايثون. لذلك:<br>
+    <code>-2 ** 2</code> تُفسَّر على أنها <code>-(2 ** 2)</code> = <code>-4</code>.<br>
+    أما <code>(-2) ** 2</code> فتُفسَّر على أنها رفع العدد <code>-2</code> للأس <code>2</code> = <code>4</code>.<br>
+    <strong>القاعدة:</strong> الأقواس تغيّر ترتيب التنفيذ دائمًا.
+  </div>
+
+  <h3 class="sub">🔹 الأسس المتتابعة تُقيَّم من اليمين إلى اليسار</h3>
+
+  <div class="code">
+<span class="fn">print</span>(<span class="num">2</span> <span class="op">**</span> <span class="num">3</span> <span class="op">**</span> <span class="num">2</span>)
+  </div>
+  <div class="output">512</div>
+
+  <p>لأن التعبير يُفسَّر على النحو الآتي:</p>
+
+  <div class="code">
+<span class="fn">print</span>(<span class="num">2</span> <span class="op">**</span> (<span class="num">3</span> <span class="op">**</span> <span class="num">2</span>))  <span style="color:#64748b;"># = 2 ** 9 = 512</span>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 ============ -->
+<section class="lesson" id="sec3">
+  <h2><span class="num">3</span> أمثلة متدرجة على الأولويات</h2>
+
+  <p>حاول أن تتوقّع الناتج قبل الضغط على زر «اعرض الناتج». ثم اقرأ التفسير.</p>
+
+  <div class="example-box">
+    <div class="q-label">المثال الأول: الضرب قبل الجمع</div>
+    <div class="code"><span class="fn">print</span>(<span class="num">4</span> <span class="op">+</span> <span class="num">3</span> <span class="op">*</span> <span class="num">2</span>)</div>
+    <button class="btn small" onclick="toggleEx('ex1')">اعرض الناتج والتفسير</button>
+    <div id="ex1" class="hidden-answer">
+      <div class="output">10</div>
+      <div class="note">الضرب أولًا: <code>3 * 2 = 6</code>، ثم الجمع: <code>4 + 6 = 10</code>.</div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="q-label">المثال الثاني: الأقواس قبل الضرب</div>
+    <div class="code"><span class="fn">print</span>((<span class="num">4</span> <span class="op">+</span> <span class="num">3</span>) <span class="op">*</span> <span class="num">2</span>)</div>
+    <button class="btn small" onclick="toggleEx('ex2')">اعرض الناتج والتفسير</button>
+    <div id="ex2" class="hidden-answer">
+      <div class="output">14</div>
+      <div class="note">الأقواس أولًا: <code>4 + 3 = 7</code>، ثم الضرب: <code>7 * 2 = 14</code>.</div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="q-label">المثال الثالث: الأس قبل الضرب والجمع</div>
+    <div class="code"><span class="fn">print</span>(<span class="num">2</span> <span class="op">+</span> <span class="num">3</span> <span class="op">**</span> <span class="num">2</span> <span class="op">*</span> <span class="num">2</span>)</div>
+    <button class="btn small" onclick="toggleEx('ex3')">اعرض الناتج والتفسير</button>
+    <div id="ex3" class="hidden-answer">
+      <div class="output">20</div>
+      <div class="note">الأس أولًا: <code>3 ** 2 = 9</code>، ثم الضرب: <code>9 * 2 = 18</code>، ثم الجمع: <code>2 + 18 = 20</code>.</div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="q-label">المثال الرابع: القسمة الصحيحة وباقي القسمة</div>
+    <div class="code"><span class="fn">print</span>(<span class="num">20</span> <span class="op">//</span> <span class="num">3</span> <span class="op">+</span> <span class="num">20</span> <span class="op">%</span> <span class="num">3</span>)</div>
+    <button class="btn small" onclick="toggleEx('ex4')">اعرض الناتج والتفسير</button>
+    <div id="ex4" class="hidden-answer">
+      <div class="output">8</div>
+      <div class="note"><code>20 // 3 = 6</code> (القسمة الصحيحة)، و<code>20 % 3 = 2</code> (الباقي)، ثم <code>6 + 2 = 8</code>. لاحظ أن <code>//</code> و<code>%</code> متساويان في الأولوية ويُنفَّذان من اليسار إلى اليمين.</div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="q-label">المثال الخامس: العمليات المتساوية في الأولوية</div>
+    <div class="code">
+<span class="fn">print</span>(<span class="num">20</span> <span class="op">/</span> <span class="num">5</span> <span class="op">*</span> <span class="num">2</span>)<br>
+<span class="fn">print</span>(<span class="num">20</span> <span class="op">-</span> <span class="num">5</span> <span class="op">+</span> <span class="num">2</span>)
+    </div>
+    <button class="btn small" onclick="toggleEx('ex5')">اعرض الناتج والتفسير</button>
+    <div id="ex5" class="hidden-answer">
+      <div class="output">8.0<br>17</div>
+      <div class="note">الضرب والقسمة متساويان في الأولوية، وكذلك الجمع والطرح. تُنفَّذ العمليات من اليسار إلى اليمين:<br>
+      <code>20 / 5 = 4.0</code> ثم <code>4.0 * 2 = 8.0</code>.<br>
+      <code>20 - 5 = 15</code> ثم <code>15 + 2 = 17</code>.</div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="q-label">المثال السادس: تعبير مركّب</div>
+    <div class="code"><span class="fn">print</span>((<span class="num">8</span> <span class="op">+</span> <span class="num">4</span>) <span class="op">//</span> <span class="num">3</span> <span class="op">**</span> <span class="num">2</span> <span class="op">+</span> <span class="num">10</span> <span class="op">%</span> <span class="num">4</span>)</div>
+    <button class="btn small" onclick="toggleEx('ex6')">اعرض الناتج والتفسير</button>
+    <div id="ex6" class="hidden-answer">
+      <div class="output">3</div>
+      <div class="note">
+        الحل خطوة بخطوة:<br>
+        1. الأقواس: <code>8 + 4 = 12</code>.<br>
+        2. الأس: <code>3 ** 2 = 9</code>.<br>
+        3. القسمة الصحيحة: <code>12 // 9 = 1</code>.<br>
+        4. باقي القسمة: <code>10 % 4 = 2</code>.<br>
+        5. الجمع النهائي: <code>1 + 2 = 3</code>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4 ============ -->
+<section class="lesson" id="sec4">
+  <h2><span class="num">4</span> نشاط «من ينفّذ أولًا؟»</h2>
+
+  <p>اقرأ التعبير، ثم اضغط على الخطوات بالترتيب الذي تعتقد أن الحاسوب سينفّذها. بعد ترتيبها اضغط «تحقق من الترتيب».</p>
+
+  <div class="order-activity" id="ord1">
+    <h4 class="mini">المستوى الأول</h4>
+    <div class="expr">result = 6 + 2 * 3 ** 2</div>
+    <div class="steps-pool" id="ord1-pool"></div>
+    <button class="btn small" onclick="resetOrder('ord1')">🔄 إعادة</button>
+    <button class="btn small success" onclick="checkOrder('ord1')">✔️ تحقق من الترتيب</button>
+    <div class="order-result" id="ord1-result"></div>
+  </div>
+
+  <div class="order-activity" id="ord2">
+    <h4 class="mini">المستوى الثاني (أصعب)</h4>
+    <div class="expr">result = (10 + 2) // 3 ** 2 + 15 % 4</div>
+    <div class="steps-pool" id="ord2-pool"></div>
+    <button class="btn small" onclick="resetOrder('ord2')">🔄 إعادة</button>
+    <button class="btn small success" onclick="checkOrder('ord2')">✔️ تحقق من الترتيب</button>
+    <div class="order-result" id="ord2-result"></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 ============ -->
+<section class="lesson" id="sec5">
+  <h2><span class="num">5</span> تحدّي توقّع الناتج</h2>
+  <p>أجب عن الأسئلة التالية. لا تظهر الإجابة إلا بعد محاولتك، وسيُشرح لك سبب الخطأ إن أخطأت.</p>
+
+  <div id="predict-quiz"></div>
+
+  <div class="note success" style="margin-top:16px;">
+    💡 <strong>تذكّر دائمًا:</strong> الأقواس ← الأس ← الإشارة الأحادية ← الضرب/القسمة/القسمة الصحيحة/الباقي ← الجمع/الطرح. وعند تساوي الأولوية: نفّذ من اليسار إلى اليمين (باستثناء <code>**</code> الذي يُقيَّم من اليمين).
+  </div>
+</section>
+
+<!-- ============ SECTION 6 ============ -->
+<section class="lesson" id="sec6">
+  <h2><span class="num">6</span> آلة حاسبة تعليمية للتعابير الحسابية</h2>
+
+  <p>كوّن تعبيرًا حسابيًا باستخدام الأزرار أدناه (أو اكتبه يدويًا في الشاشة)، ثم اضغط <strong>=</strong> لعرض خطوات الحل والناتج. هذه الآلة تحاكي ترتيب بايثون لأولويات العمليات (وليست مفسرًا كاملًا لبايثون).</p>
+
+  <div class="calc-wrap">
+    <div class="calc-pad">
+      <div class="calc-display" id="calc-display"><span class="placeholder">اكتب تعبيرًا هنا…</span></div>
+      <div class="btn-grid">
+        <button class="calc-btn" onclick="calcAdd('7')">7</button>
+        <button class="calc-btn" onclick="calcAdd('8')">8</button>
+        <button class="calc-btn" onclick="calcAdd('9')">9</button>
+        <button class="calc-btn op" onclick="calcAdd('(')">(</button>
+        <button class="calc-btn op" onclick="calcAdd(')')">)</button>
+
+        <button class="calc-btn" onclick="calcAdd('4')">4</button>
+        <button class="calc-btn" onclick="calcAdd('5')">5</button>
+        <button class="calc-btn" onclick="calcAdd('6')">6</button>
+        <button class="calc-btn op" onclick="calcAdd('**')">**</button>
+        <button class="calc-btn op" onclick="calcAdd('//')">//</button>
+
+        <button class="calc-btn" onclick="calcAdd('1')">1</button>
+        <button class="calc-btn" onclick="calcAdd('2')">2</button>
+        <button class="calc-btn" onclick="calcAdd('3')">3</button>
+        <button class="calc-btn op" onclick="calcAdd('*')">*</button>
+        <button class="calc-btn op" onclick="calcAdd('%')">%</button>
+
+        <button class="calc-btn" onclick="calcAdd('0')">0</button>
+        <button class="calc-btn" onclick="calcAdd('.')">.</button>
+        <button class="calc-btn op" onclick="calcAdd('+')">+</button>
+        <button class="calc-btn op" onclick="calcAdd('-')">−</button>
+        <button class="calc-btn op" onclick="calcAdd('/')">/</button>
+
+        <button class="calc-btn clr wide" onclick="calcClear()">مسح</button>
+        <button class="calc-btn" onclick="calcBack()">⌫</button>
+        <button class="calc-btn eq wide" onclick="calcEvaluate()">=</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="calc-result" id="calc-result" style="display:none;"></div>
+      <div class="calc-steps" id="calc-steps" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div class="note warn">
+    ⚠️ هذه الآلة <strong>محاكاة تعليمية</strong> مكتوبة بلغة JavaScript، وليست تشغيلًا حقيقيًا لبايثون. تهدف إلى إظهار ترتيب التنفيذ فقط. التزم بإدخال الأعداد والعمليات الحسابية فقط.
+  </div>
+</section>
+
+<!-- ============ SECTION 7 ============ -->
+<section class="lesson" id="sec7">
+  <h2><span class="num">7</span> جملة الإدخال <code>input()</code></h2>
+
+  <h3 class="sub">7.1 مفهوم جملة الإدخال</h3>
+  <p>تسمح الدالة <code>input()</code> للبرنامج بطلب بيانات من المستخدم أثناء تشغيله، بدلًا من كتابة القيم داخل الكود مسبقًا. عند وصول التنفيذ إلى <code>input()</code>، يتوقف البرنامج وينتظر من المستخدم كتابة شيء ثم الضغط على Enter.</p>
+
+  <div class="code">
+<span class="kw">name</span> = <span class="fn">input</span>(<span class="str">"ما اسمك؟ "</span>)<br>
+<span class="fn">print</span>(<span class="str">"أهلًا بك"</span>, name)
+  </div>
+
+  <div class="output">ما اسمك؟ عواد<br>أهلًا بك عواد</div>
+
+  <p>يعرض البرنامج السؤال، وينتظر من المستخدم كتابة اسمه، ثم يخزّن النص المدخل في المتغير <code>name</code>. لاحظ أن <strong><code>input()</code> دائمًا تُعيد نصًا (string)</strong> حتى لو كتب المستخدم أرقامًا.</p>
+
+  <h3 class="sub">7.2 الإدخال العددي والتحويل إلى عدد صحيح</h3>
+  <p>بما أن <code>input()</code> تُعيد نصًا، فإن كتابة <code>input() * 2</code> ستعيد تكرار النص مرتين، وليس ضعف العدد. لذلك نحتاج إلى تحويل النص إلى عدد صحيح باستخدام <code>int()</code>، أو إلى عدد عشري باستخدام <code>float()</code>.</p>
+
+  <div class="code">
+<span class="kw">number</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل عددًا صحيحًا: "</span>))<br>
+<span class="fn">print</span>(number <span class="op">*</span> <span class="num">2</span>)
+  </div>
+
+  <div class="note">
+    دور كل جزء:<br>
+    • <code>input()</code> لاستقبال البيانات من المستخدم كنص.<br>
+    • <code>int()</code> لتحويل النص إلى عدد صحيح، إذا كانت القيمة المدخلة عددًا صحيحًا صالحًا.<br>
+    • المتغير <code>number</code> للاحتفاظ بالقيمة.<br>
+    • <code>print()</code> لعرض الناتج.
+  </div>
+
+  <h3 class="sub">7.3 الإدخال العشري باستخدام <code>float()</code></h3>
+
+  <div class="code">
+<span class="kw">price</span> = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"أدخل السعر: "</span>))<br>
+<span class="fn">print</span>(price <span class="op">/</span> <span class="num">2</span>)
+  </div>
+
+  <div class="note danger">
+    ⚠️ <code>int()</code> <strong>لا</strong> يحوّل النصوص غير الرقمية إلى أعداد صحيحة. فإذا أدخل المستخدم نصًا مثل <code>abc</code>، سيظهر خطأ من نوع <code>ValueError</code> أثناء تنفيذ البرنامج. لذلك لا بد من التحقق من صحة المدخلات أو معالجتها.
+  </div>
+</section>
+
+<!-- ============ SECTION 8 ============ -->
+<section class="lesson" id="sec8">
+  <h2><span class="num">8</span> نشاط «أدخل وجرّب»</h2>
+
+  <p>أدخل العددين واختر العملية، ثم اضغط «نفّذ». سيعرض النشاط الكود المقابل بلغة بايثون، والناتج، وشرحًا مختصرًا عن العلاقة بين المدخلات والمتغيرات.</p>
+
+  <div class="sim-wrap">
+    <div class="sim-grid">
+      <div class="sim-field">
+        <label>العدد الأول (a):</label>
+        <input type="number" id="sim-a" value="20">
+      </div>
+      <div class="sim-field">
+        <label>العدد الثاني (b):</label>
+        <input type="number" id="sim-b" value="3">
+      </div>
+      <div class="sim-field">
+        <label>العملية:</label>
+        <select id="sim-op">
+          <option value="+">الجمع (+)</option>
+          <option value="-">الطرح (−)</option>
+          <option value="*">الضرب (*)</option>
+          <option value="/">القسمة (/)</option>
+          <option value="//">القسمة الصحيحة (//)</option>
+          <option value="%">باقي القسمة (%)</option>
+          <option value="**">الأس (**)</option>
+          <option value="expr">تعبير مركّب: a + b * 2</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="runSimulation()">▶️ نفّذ المثال</button>
+
+    <div class="sim-output">
+      <div class="sim-code" id="sim-code"># سيظهر الكود المقابل هنا</div>
+      <div class="sim-result" id="sim-result" style="display:none;">
+        <h4>الناتج والشرح</h4>
+        <div id="sim-result-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note warn">
+    ⚠️ هذا النشاط <strong>محاكاة تعليمية بـ JavaScript</strong> تحاكي سلوك <code>input()</code> و<code>int()</code> في بايثون، ولا تشغّل Python فعليًا داخل المتصفح.
+  </div>
+</section>
+
+<!-- ============ SECTION 9 ============ -->
+<section class="lesson" id="sec9">
+  <h2><span class="num">9</span> تمارين تطبيقية على <code>input()</code></h2>
+  <p>اكتب الكود في المربع ثم اضغط «اعرض تلميحًا» أو «اعرض الحل النموذجي».</p>
+
+  <div class="exercise" data-ex="1">
+    <h4>التمرين الأول: ضعف العدد</h4>
+    <p>اكتب برنامجًا يطلب من المستخدم عددًا صحيحًا، ثم يعرض ضعفه.</p>
+    <textarea placeholder="اكتب الكود هنا..."></textarea>
+    <div class="actions">
+      <button class="btn small warning" onclick="showHint(this)">💡 تلميح</button>
+      <button class="btn small secondary" onclick="showSolution(this)">📖 الحل النموذجي</button>
+    </div>
+    <div class="solution-box">
+      <div class="code">
+<span class="kw">number</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل عددًا صحيحًا: "</span>))<br>
+<span class="fn">print</span>(<span class="str">"ضعف العدد:"</span>, number <span class="op">*</span> <span class="num">2</span>)
+      </div>
+    </div>
+    <div class="hint-box" style="display:none;">
+      <div class="note">تذكّر أن <code>input()</code> تُعيد نصًا؛ استخدم <code>int()</code> حولها، ثم اضرب الناتج في 2.</div>
+    </div>
+  </div>
+
+  <div class="exercise" data-ex="2">
+    <h4>التمرين الثاني: جمع عددين</h4>
+    <p>اكتب برنامجًا يطلب عددين صحيحين، ثم يعرض ناتج جمعهما.</p>
+    <textarea placeholder="اكتب الكود هنا..."></textarea>
+    <div class="actions">
+      <button class="btn small warning" onclick="showHint(this)">💡 تلميح</button>
+      <button class="btn small secondary" onclick="showSolution(this)">📖 الحل النموذجي</button>
+    </div>
+    <div class="solution-box">
+      <div class="code">
+<span class="kw">a</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل العدد الأول: "</span>))<br>
+<span class="kw">b</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل العدد الثاني: "</span>))<br>
+<span class="fn">print</span>(<span class="str">"الناتج:"</span>, a <span class="op">+</span> b)
+      </div>
+    </div>
+    <div class="hint-box" style="display:none;">
+      <div class="note">استخدم متغيرين مختلفين، ولا تنسَ تحويل كل إدخال بـ <code>int()</code> قبل الجمع.</div>
+    </div>
+  </div>
+
+  <div class="exercise" data-ex="3">
+    <h4>التمرين الثالث: القسمة الصحيحة والباقي</h4>
+    <p>اكتب برنامجًا يطلب عددين، ثم يعرض ناتج القسمة الصحيحة وباقي القسمة، مع معالجة حالة القسمة على صفر.</p>
+    <textarea placeholder="اكتب الكود هنا..."></textarea>
+    <div class="actions">
+      <button class="btn small warning" onclick="showHint(this)">💡 تلميح</button>
+      <button class="btn small secondary" onclick="showSolution(this)">📖 الحل النموذجي</button>
+    </div>
+    <div class="solution-box">
+      <div class="code">
+<span class="kw">a</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل العدد الأول: "</span>))<br>
+<span class="kw">b</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل العدد الثاني: "</span>))<br>
+<br>
+<span class="kw">if</span> b <span class="op">!=</span> <span class="num">0</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"ناتج القسمة الصحيحة:"</span>, a <span class="op">//</span> b)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"باقي القسمة:"</span>, a <span class="op">%</span> b)<br>
+<span class="kw">else</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"لا يمكن القسمة على صفر"</span>)
+      </div>
+    </div>
+    <div class="hint-box" style="display:none;">
+      <div class="note">استخدم جملة <code>if b != 0:</code> قبل تنفيذ القسمة، واكتب في <code>else</code> رسالة تنبيه.</div>
+    </div>
+  </div>
+
+  <div class="exercise" data-ex="4">
+    <h4>التمرين الرابع: المربع والزوجية</h4>
+    <p>اكتب برنامجًا يطلب عددًا صحيحًا، ثم يحسب مربعه ويحدد ما إذا كان زوجيًا أم فرديًا باستخدام <code>%</code>.</p>
+    <textarea placeholder="اكتب الكود هنا..."></textarea>
+    <div class="actions">
+      <button class="btn small warning" onclick="showHint(this)">💡 تلميح</button>
+      <button class="btn small secondary" onclick="showSolution(this)">📖 الحل النموذجي</button>
+    </div>
+    <div class="solution-box">
+      <div class="code">
+<span class="kw">number</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخل عددًا صحيحًا: "</span>))<br>
+<span class="kw">square</span> = number <span class="op">**</span> <span class="num">2</span><br>
+<span class="fn">print</span>(<span class="str">"مربع العدد:"</span>, square)<br>
+<br>
+<span class="kw">if</span> square <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"المربع زوجي"</span>)<br>
+<span class="kw">else</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"المربع فردي"</span>)
+      </div>
+    </div>
+    <div class="hint-box" style="display:none;">
+      <div class="note">لحساب المربع استخدم <code>number ** 2</code>. ولمعرفة الزوجية استخدم <code>square % 2 == 0</code>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 10 ============ -->
+<section class="lesson" id="sec10">
+  <h2><span class="num">10</span> خلاصة جملة الإدخال</h2>
+  <table class="priority">
+    <thead>
+      <tr><th>الصيغة</th><th>الوظيفة</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>input("سؤال")</code></td><td>استقبال البيانات من المستخدم على شكل نص.</td></tr>
+      <tr><td><code>int(input("سؤال"))</code></td><td>استقبال عدد صحيح وتحويله تلقائيًا.</td></tr>
+      <tr><td><code>float(input("سؤال"))</code></td><td>استقبال عدد عشري وتحويله تلقائيًا.</td></tr>
+      <tr><td><code>name = input(...)</code></td><td>تخزين القيمة المدخلة في متغير لاستخدامها في العمليات الحسابية.</td></tr>
+      <tr><td><code>if b != 0:</code></td><td>التحقق من صحة المدخلات، وتجنّب القسمة على صفر.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note success">
+    ✅ تذكّر دائمًا: <code>input()</code> تُعيد <strong>نصًا</strong>، و<code>int()</code> / <code>float()</code> يحوّلانه إلى عدد قبل استخدامه في العمليات الحسابية.
+  </div>
+</section>
+
+<!-- ============ FINAL ASSESSMENT ============ -->
+<section class="lesson" id="final">
+  <h2><span class="num">🏆</span> الاختبار الختامي (20 درجة)</h2>
+
+  <div class="final-header">
+    <div class="score">الدرجة: <span id="final-score">0</span> / 20</div>
+    <div><button class="btn secondary small" onclick="resetFinal()">🔄 إعادة المحاولة</button></div>
+  </div>
+  <div class="score-bar"><div class="score-fill" id="score-fill"></div></div>
+
+  <div id="final-quiz"></div>
+
+  <div class="note" id="final-feedback" style="display:none;margin-top:16px;"></div>
+</section>
+
+</div>
+
+<footer>
+  <p>درس تفاعلي في لغة بايثون — التعابير الحسابية، أولويات العمليات، وجملة الإدخال <code>input()</code></p>
+  <p style="margin-top:6px;">تصميم الأستاذ <strong>عواد دحبور</strong></p>
+</footer>
+
+<script>
+/* ============ Toggle example ============ */
+function toggleEx(id){
+  document.getElementById(id).classList.toggle('show');
+}
+
+/* ============ Order activity ============ */
+const orderData = {
+  ord1: {
+    steps: [
+      {id:'a', text:'حساب الأس: 3 ** 2 = 9'},
+      {id:'b', text:'تنفيذ الضرب: 2 * 9 = 18'},
+      {id:'c', text:'تنفيذ الجمع: 6 + 18 = 24'}
+    ],
+    correct: ['a','b','c'],
+    final: '24'
+  },
+  ord2: {
+    steps: [
+      {id:'a', text:'الأقواس: 10 + 2 = 12'},
+      {id:'b', text:'الأس: 3 ** 2 = 9'},
+      {id:'c', text:'القسمة الصحيحة: 12 // 9 = 1'},
+      {id:'d', text:'باقي القسمة: 15 % 4 = 3'},
+      {id:'e', text:'الجمع: 1 + 3 = 4'}
+    ],
+    correct: ['a','b','c','d','e'],
+    final: '4'
+  }
+};
+
+const orderState = {};
+
+function initOrder(id){
+  const data = orderData[id];
+  const pool = document.getElementById(id+'-pool');
+  const shuffled = [...data.steps].sort(()=>Math.random()-0.5);
+  pool.innerHTML = '';
+  shuffled.forEach(s=>{
+    const div = document.createElement('div');
+    div.className = 'step-item';
+    div.dataset.sid = s.id;
+    div.innerHTML = `<span class="order-badge">?</span><span>${s.text}</span>`;
+    div.onclick = ()=> pickOrderStep(id, div);
+    pool.appendChild(div);
+  });
+  orderState[id] = [];
+}
+
+function pickOrderStep(id, el){
+  if(el.classList.contains('selected')) return;
+  const state = orderState[id];
+  state.push(el.dataset.sid);
+  el.classList.add('selected');
+  el.querySelector('.order-badge').textContent = state.length;
+}
+
+function resetOrder(id){
+  initOrder(id);
+  const r = document.getElementById(id+'-result');
+  r.className = 'order-result';
+  r.textContent = '';
+}
+
+function checkOrder(id){
+  const data = orderData[id];
+  const state = orderState[id];
+  const r = document.getElementById(id+'-result');
+  if(state.length !== data.correct.length){
+    r.className = 'order-result show bad';
+    r.textContent = '⚠️ يجب ترتيب جميع الخطوات قبل التحقق.';
+    return;
+  }
+  const ok = state.every((v,i)=>v === data.correct[i]);
+  if(ok){
+    r.className = 'order-result show ok';
+    r.innerHTML = `✅ ترتيب صحيح! الناتج النهائي هو <strong>${data.final}</strong>.`;
+  } else {
+    r.className = 'order-result show bad';
+    r.textContent = '❌ الترتيب غير صحيح. أعد المحاولة بالضغط على «إعادة».';
+  }
+}
+
+initOrder('ord1');
+initOrder('ord2');
+
+/* ============ Predict quiz ============ */
+const predictQuestions = [
+  {
+    q: 'ما ناتج التعبير: <code>8 + 2 * 5</code> ؟',
+    options: ['50','18','16','24'],
+    answer: '18',
+    explain: 'الضرب أولًا: <code>2 * 5 = 10</code>، ثم الجمع: <code>8 + 10 = 18</code>.'
+  },
+  {
+    q: 'ما ناتج التعبير: <code>(8 + 2) * 5</code> ؟',
+    options: ['18','50','16','24'],
+    answer: '50',
+    explain: 'الأقواس أولًا: <code>8 + 2 = 10</code>، ثم الضرب: <code>10 * 5 = 50</code>.'
+  },
+  {
+    q: 'ما ناتج التعبير: <code>3 ** 2 ** 2</code> ؟',
+    options: ['36','81','12','18'],
+    answer: '81',
+    explain: 'الأس يُقيَّم من اليمين: <code>3 ** (2 ** 2)</code> = <code>3 ** 4</code> = <code>81</code>.'
+  },
+  {
+    q: 'ما ناتج التعبير: <code>17 // 5 + 17 % 5</code> ؟',
+    options: ['5','6','4','7'],
+    answer: '5',
+    explain: '<code>17 // 5 = 3</code>، و<code>17 % 5 = 2</code>، ثم <code>3 + 2 = 5</code>.'
+  },
+  {
+    q: 'ما ناتج التعبير: <code>100 / 10 * 2</code> ؟',
+    options: ['5.0','20.0','10.0','2.0'],
+    answer: '20.0',
+    explain: 'القسمة والضرب متساويان في الأولوية، ويُنفَّذان من اليسار إلى اليمين: <code>100 / 10 = 10.0</code>، ثم <code>10.0 * 2 = 20.0</code>.'
+  },
+  {
+    q: 'ما ناتج التعبير: <code>-3 ** 2</code> ؟',
+    options: ['9','-9','6','-6'],
+    answer: '-9',
+    explain: 'الأس أعلى أولوية من الإشارة الأحادية: <code>-3 ** 2</code> = <code>-(3 ** 2)</code> = <code>-9</code>.'
+  }
+];
+
+function buildPredictQuiz(){
+  const host = document.getElementById('predict-quiz');
+  predictQuestions.forEach((q, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="q-text"><span class="q-num">${idx+1}</span>${q.q}</div>
+      <div class="quiz-options"></div>
+      <div class="quiz-feedback"></div>
+    `;
+    const optsHost = card.querySelector('.quiz-options');
+    const fb = card.querySelector('.quiz-feedback');
+    q.options.forEach(opt=>{
+      const b = document.createElement('button');
+      b.className = 'quiz-option';
+      /* إحاطة الخيارات بوسم LTR لضمان عرضها من اليسار لليمين */
+      b.innerHTML = `<span dir="ltr">${opt}</span>`;
+      b.onclick = ()=>{
+        if(card.dataset.done) return;
+        if(opt === q.answer){
+          b.classList.add('correct');
+          fb.className = 'quiz-feedback show ok';
+          fb.innerHTML = `✅ إجابة صحيحة! ${q.explain}`;
+          card.dataset.done = '1';
+          card.querySelectorAll('.quiz-option').forEach(x=>x.classList.add('disabled'));
+        } else {
+          b.classList.add('wrong');
+          fb.className = 'quiz-feedback show bad';
+          fb.innerHTML = `❌ إجابة غير صحيحة. ${q.explain}`;
+        }
+      };
+      optsHost.appendChild(b);
+    });
+    host.appendChild(card);
+  });
+}
+buildPredictQuiz();
+
+/* ============ Calculator ============ */
+let calcExpr = '';
+
+function calcUpdateDisplay(){
+  const d = document.getElementById('calc-display');
+  if(!calcExpr){ d.innerHTML = '<span class="placeholder">اكتب تعبيرًا هنا…</span>'; }
+  else { d.textContent = calcExpr; }
+}
+
+function calcAdd(tok){ calcExpr += tok; calcUpdateDisplay(); }
+function calcClear(){
+  calcExpr = '';
+  calcUpdateDisplay();
+  document.getElementById('calc-result').style.display='none';
+  document.getElementById('calc-steps').style.display='none';
+}
+function calcBack(){ calcExpr = calcExpr.slice(0,-1); calcUpdateDisplay(); }
+
+function tokenize(expr){
+  const tokens = [];
+  let i = 0;
+  while(i < expr.length){
+    const c = expr[i];
+    if(c === ' '){ i++; continue; }
+    if(/[0-9.]/.test(c)){
+      let num = '';
+      while(i < expr.length && /[0-9.]/.test(expr[i])){ num += expr[i]; i++; }
+      if((num.match(/\./g)||[]).length > 1) throw new Error('عدد غير صالح: ' + num);
+      tokens.push({type:'num', value: parseFloat(num)});
+      continue;
+    }
+    if(expr.substr(i,2) === '**'){ tokens.push({type:'op', value:'**'}); i+=2; continue; }
+    if(expr.substr(i,2) === '//'){ tokens.push({type:'op', value:'//'}); i+=2; continue; }
+    if('+-*/%'.includes(c)){ tokens.push({type:'op', value:c}); i++; continue; }
+    if(c === '('){ tokens.push({type:'lparen'}); i++; continue; }
+    if(c === ')'){ tokens.push({type:'rparen'}); i++; continue; }
+    throw new Error('رمز غير صالح: ' + c);
+  }
+  return tokens;
+}
+
+const PREC = {'u+':3.5, 'u-':3.5, '**':4, '*':2, '/':2, '//':2, '%':2, '+':1, '-':1};
+const RIGHT_ASSOC = o => o==='**' || o==='u+' || o==='u-';
+
+function toRPN(tokens){
+  const out = [];
+  const stack = [];
+  let expectOperand = true;
+  for(let j=0;j<tokens.length;j++){
+    const t = tokens[j];
+    if(t.type === 'num'){ out.push(t); expectOperand = false; }
+    else if(t.type === 'lparen'){ stack.push(t); expectOperand = true; }
+    else if(t.type === 'rparen'){
+      while(stack.length && stack[stack.length-1].type !== 'lparen'){ out.push(stack.pop()); }
+      if(!stack.length) throw new Error('قوس إغلاق غير متوقع');
+      stack.pop(); expectOperand = false;
+    } else if(t.type === 'op'){
+      let op = t.value;
+      if((op === '-' || op === '+') && expectOperand){ op = op === '-' ? 'u-' : 'u+'; }
+      if(op.startsWith('u')){ stack.push({type:'op', value:op}); }
+      else {
+        while(stack.length){
+          const top = stack[stack.length-1];
+          if(top.type === 'lparen') break;
+          const topPrec = PREC[top.value];
+          const opPrec = PREC[op];
+          if(topPrec > opPrec || (topPrec === opPrec && !RIGHT_ASSOC(op))){ out.push(stack.pop()); }
+          else break;
+        }
+        stack.push({type:'op', value:op});
+      }
+      expectOperand = true;
+    }
+  }
+  while(stack.length){
+    const s = stack.pop();
+    if(s.type === 'lparen') throw new Error('قوس مفتوح غير مغلق');
+    out.push(s);
+  }
+  return out;
+}
+
+function formatNum(n){
+  if(Number.isInteger(n)) return String(n);
+  return String(n);
+}
+
+function evalRPN(rpn){
+  const st = [];
+  const steps = [];
+  for(const t of rpn){
+    if(t.type === 'num'){ st.push(t.value); }
+    else {
+      const op = t.value;
+      if(op === 'u-'){
+        const a = st.pop();
+        const r = -a; st.push(r);
+        steps.push(`إشارة أحادية: -(${formatNum(a)}) = ${formatNum(r)}`);
+      } else if(op === 'u+'){
+        const a = st.pop(); st.push(a);
+        steps.push(`إشارة أحادية: +(${formatNum(a)}) = ${formatNum(a)}`);
+      } else {
+        const b = st.pop(); const a = st.pop();
+        if(a === undefined || b === undefined) throw new Error('تعبير غير مكتمل');
+        let r;
+        switch(op){
+          case '+': r = a+b; steps.push(`${a} + ${b} = ${r}`); break;
+          case '-': r = a-b; steps.push(`${a} - ${b} = ${r}`); break;
+          case '*': r = a*b; steps.push(`${a} * ${b} = ${r}`); break;
+          case '/': if(b===0) throw new Error('القسمة على صفر'); r = a/b; steps.push(`${a} / ${b} = ${r}`); break;
+          case '//': if(b===0) throw new Error('القسمة على صفر'); r = Math.floor(a/b); steps.push(`${a} // ${b} = ${r}`); break;
+          case '%': if(b===0) throw new Error('باقي القسمة على صفر'); r = ((a%b)+b)%b; steps.push(`${a} % ${b} = ${r}`); break;
+          case '**': r = Math.pow(a,b); steps.push(`${a} ** ${b} = ${r}`); break;
+        }
+        st.push(r);
+      }
+    }
+  }
+  if(st.length !== 1) throw new Error('تعبير غير مكتمل');
+  return { value: st[0], steps };
+}
+
+function calcEvaluate(){
+  const res = document.getElementById('calc-result');
+  const stp = document.getElementById('calc-steps');
+  if(!calcExpr.trim()){
+    res.style.display = 'block';
+    res.innerHTML = '⚠️ الرجاء كتابة تعبير أولًا.';
+    stp.style.display = 'none';
+    return;
+  }
+  try {
+    const tokens = tokenize(calcExpr);
+    const rpn = toRPN(tokens);
+    const { value, steps } = evalRPN(rpn);
+    res.style.display = 'block';
+    res.innerHTML = `= <strong>${formatNum(value)}</strong>`;
+    stp.style.display = 'block';
+    stp.innerHTML = '<strong>خطوات الحل بترتيب بايثون:</strong><br>' +
+      steps.map((s,i)=>`<div class="step-line">الخطوة ${i+1}: ${s}</div>`).join('');
+  } catch(err){
+    res.style.display = 'block';
+    res.innerHTML = `⚠️ ${err.message}`;
+    stp.style.display = 'none';
+  }
+}
+
+/* ============ Simulation ============ */
+function runSimulation(){
+  const a = document.getElementById('sim-a').value.trim();
+  const b = document.getElementById('sim-b').value.trim();
+  const op = document.getElementById('sim-op').value;
+  const codeEl = document.getElementById('sim-code');
+  const resEl = document.getElementById('sim-result');
+  const bodyEl = document.getElementById('sim-result-body');
+
+  const numA = Number(a);
+  const numB = Number(b);
+
+  if(a === '' || b === '' || Number.isNaN(numA) || Number.isNaN(numB)){
+    codeEl.textContent = '# الرجاء إدخال عددين صحيحين';
+    resEl.style.display = 'none';
+    return;
+  }
+
+  let code = '';
+  let result = '';
+  let explanation = '';
+
+  if(op === 'expr'){
+    code =
+`a = int(input("أدخل العدد الأول: "))
+b = int(input("أدخل العدد الثاني: "))
+
+result = a + b * 2
+print("الناتج:", result)`;
+    const exprResult = numA + numB * 2;
+    result = `${exprResult}`;
+    explanation = `الضرب أولًا: <code>${numB} * 2 = ${numB*2}</code>، ثم الجمع: <code>${numA} + ${numB*2} = ${exprResult}</code>. لأن الضرب أعلى أولوية من الجمع.`;
+  } else {
+    code =
+`a = int(input("أدخل العدد الأول: "))
+b = int(input("أدخل العدد الثاني: "))
+
+print(a ${op} b)`;
+    if((op === '/' || op === '//' || op === '%') && numB === 0){
+      code =
+`a = int(input("أدخل العدد الأول: "))
+b = int(input("أدخل العدد الثاني: "))
+
+if b != 0:
+    print(a ${op} b)
+else:
+    print("لا يمكن القسمة على صفر")`;
+      result = 'لا يمكن القسمة على صفر';
+      explanation = 'تمّ التحقق من أن المقسوم عليه لا يساوي صفرًا قبل القسمة.';
+    } else {
+      switch(op){
+        case '+': result = numA + numB; break;
+        case '-': result = numA - numB; break;
+        case '*': result = numA * numB; break;
+        case '/': result = numA / numB; break;
+        case '//': result = Math.floor(numA / numB); break;
+        case '%': result = ((numA % numB) + numB) % numB; break;
+        case '**': result = Math.pow(numA, numB); break;
+      }
+      const opNames = {'+':'الجمع','-':'الطرح','*':'الضرب','/':'القسمة','//':'القسمة الصحيحة','%':'باقي القسمة','**':'الأس'};
+      explanation = `تم تنفيذ عملية ${opNames[op]} بين المتغير <code>a = ${numA}</code> و<code>b = ${numB}</code>، والناتج هو <code>${result}</code>. لاحظ كيف تُخزَّن القيم المُدخلة في متغيرين ثم تُستخدم في العملية.`;
+    }
+  }
+
+  codeEl.textContent = code;
+  resEl.style.display = 'block';
+  bodyEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;margin-bottom:10px;direction:ltr;text-align:left;unicode-bidi:isolate;">${result}</div><div>${explanation}</div>`;
+}
+
+/* ============ Exercise hints/solutions ============ */
+function showHint(btn){
+  const ex = btn.closest('.exercise');
+  const hint = ex.querySelector('.hint-box');
+  hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
+}
+function showSolution(btn){
+  const ex = btn.closest('.exercise');
+  ex.querySelector('.solution-box').classList.toggle('show');
+}
+
+/* ============ Final assessment ============ */
+const finalQuestions = [
+  {
+    type: 'mc',
+    q: 'ما ناتج التعبير: <code>5 + 3 * 2</code> ؟',
+    options: ['16','11','10','13'],
+    answer: '11',
+    points: 2,
+    explain: 'الضرب أولًا: <code>3 * 2 = 6</code>، ثم الجمع: <code>5 + 6 = 11</code>.'
+  },
+  {
+    type: 'mc',
+    q: 'ما ناتج التعبير: <code>(2 + 3) * 4</code> ؟',
+    options: ['14','20','24','9'],
+    answer: '20',
+    points: 2,
+    explain: 'الأقواس أولًا: <code>2 + 3 = 5</code>، ثم الضرب: <code>5 * 4 = 20</code>. لاحظ لو أزلنا الأقواس لحصلنا على <code>2 + 12 = 14</code>، وهذا يوضح أثر الأقواس.'
+  },
+  {
+    type: 'short',
+    q: 'ما ناتج التعبير: <code>2 ** 3 ** 2</code> ؟ (اكتب الناتج كعدد صحيح)',
+    answer: '512',
+    points: 2,
+    explain: 'الأس يُقيَّم من اليمين: <code>3 ** 2 = 9</code>، ثم <code>2 ** 9 = 512</code>.'
+  },
+  {
+    type: 'mc',
+    q: 'ما ناتج التعبير: <code>-3 ** 2</code> ؟',
+    options: ['9','-9','6','-6'],
+    answer: '-9',
+    points: 2,
+    explain: 'الأس أعلى أولوية من الإشارة الأحادية: <code>-3 ** 2</code> = <code>-(3 ** 2)</code> = <code>-9</code>.'
+  },
+  {
+    type: 'mc',
+    q: 'ما ناتج التعبير: <code>20 // 3 + 20 % 3</code> ؟',
+    options: ['6','2','8','3'],
+    answer: '8',
+    points: 2,
+    explain: '<code>20 // 3 = 6</code>، و<code>20 % 3 = 2</code>، ثم <code>6 + 2 = 8</code>.'
+  },
+  {
+    type: 'short',
+    q: 'ما ناتج التعبير: <code>20 / 5 * 2</code> ؟ (اكتب الناتج)',
+    answer: '8',
+    points: 2,
+    explain: 'القسمة والضرب متساويان في الأولوية ويُنفَّذان من اليسار إلى اليمين: <code>20 / 5 = 4.0</code>، ثم <code>4.0 * 2 = 8.0</code>. الناتج 8.0 ويمكن كتابته 8.'
+  },
+  {
+    type: 'mc',
+    q: 'ماذا تُعيد الدالة <code>input()</code> دائمًا؟',
+    options: ['عددًا صحيحًا','عددًا عشريًا','نصًا (string)','قيمة منطقية (bool)'],
+    answer: 'نصًا (string)',
+    points: 2,
+    explain: '<code>input()</code> تُعيد دائمًا نصًا، حتى لو كتب المستخدم أرقامًا. لذلك نحتاج إلى <code>int()</code> أو <code>float()</code> للتحويل عند الحاجة.'
+  },
+  {
+    type: 'mc',
+    q: 'أي صيغة تُستخدم لاستقبال عدد صحيح من المستخدم؟',
+    options: ['input(int("..."))','int(input("..."))','float(input("..."))','str(input("..."))'],
+    answer: 'int(input("..."))',
+    points: 2,
+    explain: 'الصيغة الصحيحة: <code>int(input("..."))</code> — نستقبل أولًا بـ <code>input()</code> ثم نحوّل الناتج بـ <code>int()</code>.'
+  },
+  {
+    type: 'short',
+    q: 'ما ناتج التعبير: <code>10 // 3</code> ؟ (اكتب الناتج)',
+    answer: '3',
+    points: 2,
+    explain: '<code>10 // 3 = 3</code>؛ لأن القسمة الصحيحة تُعطي الجزء الصحيح من القسمة (3.333 → 3).'
+  },
+  {
+    type: 'mc',
+    q: 'ما ناتج التعبير: <code>2 + 3 * 4 ** 2</code> ؟',
+    options: ['50','80','100','144'],
+    answer: '50',
+    points: 2,
+    explain: 'الأس أولًا: <code>4 ** 2 = 16</code>. ثم الضرب: <code>3 * 16 = 48</code>. ثم الجمع: <code>2 + 48 = 50</code>.'
+  }
+];
+
+let finalScore = 0;
+const finalAnswered = new Set();
+
+/* إحاطة خيارات الاختبار الختامي بـ LTR للتعابير فقط */
+function formatOption(opt){
+  if(/[\u0600-\u06FF]/.test(opt)) return opt; // نص عربي: يُترك كما هو
+  if(/^-?\d+(\.\d+)?$/.test(opt)) return `<span dir="ltr">${opt}</span>`; // عدد صرف
+  return `<code>${opt}</code>`; // تعبير حسابي أو كود
+}
+
+function buildFinalQuiz(){
+  const host = document.getElementById('final-quiz');
+  host.innerHTML = '';
+  finalScore = 0;
+  finalAnswered.clear();
+  updateFinalScore();
+
+  finalQuestions.forEach((q, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.dataset.idx = idx;
+
+    let inner = `<div class="q-text"><span class="q-num">${idx+1}</span>${q.q} <span style="color:#64748b;font-weight:400;font-size:.85rem;">(${q.points} درجات)</span></div>`;
+
+    if(q.type === 'mc'){
+      inner += `<div class="quiz-options"></div>`;
+    } else {
+      inner += `<div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+        <input class="quiz-input" type="text" placeholder="أدخل الناتج">
+        <button class="btn small success" data-act="submit">تحقق</button>
+      </div>`;
+    }
+    inner += `<div class="quiz-feedback"></div>`;
+    card.innerHTML = inner;
+
+    if(q.type === 'mc'){
+      const optsHost = card.querySelector('.quiz-options');
+      const fb = card.querySelector('.quiz-feedback');
+      q.options.forEach(opt=>{
+        const b = document.createElement('button');
+        b.className = 'quiz-option';
+        b.innerHTML = formatOption(opt);
+        b.onclick = ()=>{
+          if(finalAnswered.has(idx)) return;
+          const ok = opt === q.answer;
+          if(ok){
+            b.classList.add('correct');
+            addFinalScore(q.points);
+            fb.className = 'quiz-feedback show ok';
+            fb.innerHTML = `✅ صحيح! ${q.explain}`;
+          } else {
+            b.classList.add('wrong');
+            card.querySelectorAll('.quiz-option').forEach(x=>{
+              if(x.textContent.trim() === q.answer) x.classList.add('correct');
+            });
+            fb.className = 'quiz-feedback show bad';
+            fb.innerHTML = `❌ إجابة غير صحيحة. ${q.explain}`;
+          }
+          finalAnswered.add(idx);
+          card.querySelectorAll('.quiz-option').forEach(x=>x.classList.add('disabled'));
+          checkFinalDone();
+        };
+        optsHost.appendChild(b);
+      });
+    } else {
+      const input = card.querySelector('.quiz-input');
+      const btn = card.querySelector('[data-act="submit"]');
+      const fb = card.querySelector('.quiz-feedback');
+      btn.onclick = ()=>{
+        if(finalAnswered.has(idx)) return;
+        const val = input.value.trim().replace(/\s+/g,'');
+        const ans = String(q.answer).trim();
+        let ok = val === ans;
+        if(!ok && !isNaN(Number(val)) && !isNaN(Number(ans)) && Number(val) === Number(ans)) ok = true;
+        if(ok){
+          addFinalScore(q.points);
+          fb.className = 'quiz-feedback show ok';
+          fb.innerHTML = `✅ إجابة صحيحة! ${q.explain}`;
+        } else {
+          fb.className = 'quiz-feedback show bad';
+          fb.innerHTML = `❌ الإجابة الصحيحة: <strong>${q.answer}</strong>. ${q.explain}`;
+        }
+        finalAnswered.add(idx);
+        input.disabled = true;
+        btn.disabled = true;
+        checkFinalDone();
+      };
+    }
+
+    host.appendChild(card);
+  });
+}
+
+function addFinalScore(p){ finalScore += p; updateFinalScore(); }
+function updateFinalScore(){
+  document.getElementById('final-score').textContent = finalScore;
+  document.getElementById('score-fill').style.width = (finalScore/20*100) + '%';
+}
+function checkFinalDone(){
+  if(finalAnswered.size === finalQuestions.length){
+    const fb = document.getElementById('final-feedback');
+    fb.style.display = 'block';
+    let msg = '';
+    if(finalScore >= 18) msg = `🎉 ممتاز! حصلت على ${finalScore} / 20. أتقنت المفاهيم تمامًا.`;
+    else if(finalScore >= 14) msg = `👍 جيد جدًا! حصلت على ${finalScore} / 20. راجع الأخطاء أعلاه لتحسين أدائك.`;
+    else if(finalScore >= 10) msg = `🙂 حصلت على ${finalScore} / 20. تحتاج إلى مراجعة أولويات العمليات وجملة input().`;
+    else msg = `📚 حصلت على ${finalScore} / 20. ننصحك بإعادة قراءة الدروس والأمثلة قبل إعادة المحاولة.`;
+    fb.innerHTML = `<strong>${msg}</strong>`;
+    fb.className = 'note success';
+  }
+}
+function resetFinal(){
+  document.getElementById('final-feedback').style.display = 'none';
+  buildFinalQuiz();
+}
+buildFinalQuiz();
+</script>
+</body>
+</html>

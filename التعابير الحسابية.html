@@ -1,0 +1,1698 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رحلتي الممتعة مع التعابير الحسابية والمنطقية في Python</title>
+<style>
+:root{
+  --bg:#f4f7fc; --card:#ffffff; --primary:#4361ee; --primary-dark:#3550c9;
+  --accent:#06d6a0; --accent-dark:#05b587; --warn:#f4a261; --danger:#ef476f;
+  --text:#16223a; --muted:#6b7890; --border:#e3e9f2; --soft:#eef3fb;
+  --code-bg:#1e293b; --code-fg:#e6edf7;
+  --shadow:0 4px 18px rgba(22,34,58,.07);
+  --shadow-lg:0 10px 34px rgba(22,34,58,.12);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:"Segoe UI","Tahoma","Noto Kufi Arabic","Cairo",sans-serif;
+  line-height:1.8; font-size:16px;
+}
+h1,h2,h3,h4{margin:0 0 .5rem; line-height:1.4; font-weight:800;}
+p{margin:0 0 .8rem;}
+
+/* ---------- Header ---------- */
+.site-header{
+  background:linear-gradient(135deg,#4361ee 0%,#7209b7 55%,#06d6a0 130%);
+  color:#fff; padding:2.2rem 1rem 1.8rem; text-align:center;
+  box-shadow:var(--shadow-lg);
+}
+.site-header h1{font-size:1.65rem; max-width:900px; margin:0 auto .55rem;}
+.site-header .subtitle{
+  margin:0; font-size:.98rem; opacity:.95;
+  background:rgba(255,255,255,.16); display:inline-block;
+  padding:.3rem 1.1rem; border-radius:999px; backdrop-filter:blur(4px);
+}
+.designer-badge{
+  display:inline-block; margin-top:.9rem; font-size:.92rem; font-weight:700;
+  background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.45);
+  padding:.35rem 1.1rem; border-radius:999px; letter-spacing:.3px;
+}
+
+/* ---------- Nav ---------- */
+.main-nav{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--border);
+  padding:.5rem .6rem; display:flex; gap:.4rem; overflow-x:auto;
+  justify-content:center; flex-wrap:nowrap; scrollbar-width:thin;
+}
+.nav-btn{
+  border:1px solid var(--border); background:#fff; color:var(--text);
+  padding:.45rem 1rem; border-radius:999px; cursor:pointer;
+  font-family:inherit; font-size:.9rem; font-weight:700; white-space:nowrap;
+  transition:.18s; display:flex; align-items:center; gap:.35rem;
+}
+.nav-btn:hover{background:var(--soft); border-color:#c9d7ee;}
+.nav-btn.active{background:var(--primary); color:#fff; border-color:var(--primary);}
+.nav-btn .badge{
+  background:rgba(0,0,0,.09); border-radius:999px; font-size:.72rem;
+  padding:0 .42rem; min-width:1.35rem; text-align:center;
+}
+.nav-btn.active .badge{background:rgba(255,255,255,.28);}
+
+/* ---------- Layout ---------- */
+main{max-width:1000px; margin:0 auto; padding:1.4rem 1rem 3rem;}
+
+.hero{
+  background:var(--card); border-radius:20px; padding:1.6rem 1.4rem;
+  box-shadow:var(--shadow); margin-bottom:1.4rem; border:1px solid var(--border);
+}
+.hero h2{color:var(--primary-dark); font-size:1.3rem;}
+.hero p{color:#3c4a63; margin-bottom:.6rem;}
+.hero ul{margin:.4rem 0 .2rem; padding-inline-start:1.3rem; color:#3c4a63;}
+.hero li{margin-bottom:.32rem;}
+
+.section-grid{
+  display:grid; gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+}
+.section-card{
+  background:var(--card); border:1px solid var(--border); border-radius:18px;
+  padding:1.1rem 1.1rem 1rem; text-align:right; cursor:pointer;
+  font-family:inherit; color:var(--text); box-shadow:var(--shadow);
+  transition:.2s; display:flex; flex-direction:column; gap:.4rem;
+  border-top:5px solid var(--primary);
+}
+.section-card:hover{transform:translateY(-4px); box-shadow:var(--shadow-lg);}
+.section-card .icon{font-size:1.9rem;}
+.section-card h3{font-size:1.08rem; margin:0;}
+.section-card p{font-size:.88rem; color:var(--muted); margin:0; flex:1;}
+.section-card .meta{
+  font-size:.8rem; color:var(--primary-dark); font-weight:700;
+  background:var(--soft); border-radius:999px; padding:.2rem .7rem;
+  align-self:flex-start; margin-top:.3rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  font-family:inherit; font-size:.93rem; font-weight:700; cursor:pointer;
+  border-radius:12px; padding:.55rem 1.15rem; border:1px solid var(--border);
+  background:#fff; color:var(--text); transition:.18s;
+}
+.btn:hover{background:var(--soft);}
+.btn:disabled{opacity:.42; cursor:not-allowed;}
+.btn-primary{background:var(--primary); color:#fff; border-color:var(--primary);}
+.btn-primary:hover{background:var(--primary-dark);}
+.btn-ghost{
+  background:transparent; border:1.5px dashed #c3d2ea; color:var(--primary-dark);
+  border-radius:12px; padding:.5rem 1rem; font-family:inherit;
+  font-size:.9rem; font-weight:700; cursor:pointer;
+}
+.btn-ghost:hover{background:var(--soft);}
+
+/* ---------- Section intro ---------- */
+.section-head{
+  background:var(--card); border-radius:20px; padding:1.3rem 1.3rem 1rem;
+  box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:1.1rem;
+}
+.section-head h2{color:var(--primary-dark); font-size:1.35rem;}
+.lesson{
+  background:var(--soft); border-radius:14px; padding:.85rem 1rem;
+  margin-top:.7rem; border-inline-start:5px solid var(--accent);
+}
+.lesson h4{margin:0 0 .35rem; font-size:1rem; color:#0f5132;}
+.lesson ul{margin:.3rem 0; padding-inline-start:1.25rem; font-size:.93rem;}
+.lesson li{margin-bottom:.25rem;}
+.lesson code, .inline-code{
+  font-family:"Consolas","Monaco","Courier New",monospace;
+  background:#e2e8f0; color:#0b3d91; padding:.08rem .38rem;
+  border-radius:6px; direction:ltr; display:inline-block;
+}
+
+/* ---------- Activity list ---------- */
+.act-list{display:flex; flex-direction:column; gap:.6rem; margin-top:1rem;}
+.act-item{
+  display:flex; align-items:center; gap:.75rem; background:var(--card);
+  border:1px solid var(--border); border-radius:14px; padding:.7rem .9rem;
+  cursor:pointer; font-family:inherit; color:var(--text); text-align:right;
+  transition:.16s; box-shadow:0 2px 6px rgba(22,34,58,.04);
+}
+.act-item:hover{border-color:#b9cdf0; background:#fbfdff; transform:translateX(-3px);}
+.act-item .num{
+  width:2rem; height:2rem; flex:none; border-radius:50%; background:var(--soft);
+  color:var(--primary-dark); display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:.85rem;
+}
+.act-item .t{flex:1; font-weight:700; font-size:.95rem;}
+.act-item .type-tag{
+  font-size:.72rem; background:#eef7ff; color:#2b6cb0; border-radius:999px;
+  padding:.12rem .6rem; font-weight:700;
+}
+.act-item.done .num{background:var(--accent); color:#fff;}
+.act-item.done .num::after{content:"✓";}
+.act-item.done .num span{display:none;}
+
+/* ---------- Activity view ---------- */
+.activity-header{
+  display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  margin-bottom:.9rem; flex-wrap:wrap;
+}
+.activity-header h2{font-size:1.15rem; margin:0;}
+.act-counter{font-size:.83rem; color:var(--muted); font-weight:700;}
+.btn-back{
+  background:#fff; border:1px solid var(--border); border-radius:10px;
+  padding:.38rem .85rem; font-family:inherit; font-size:.86rem; font-weight:700;
+  cursor:pointer; color:var(--primary-dark);
+}
+.btn-back:hover{background:var(--soft);}
+
+.activity-card{
+  background:var(--card); border-radius:20px; padding:1.25rem 1.15rem 1.1rem;
+  box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:1rem;
+}
+.activity-body .question{font-weight:700; font-size:1.02rem; margin-bottom:.6rem;}
+
+/* ---------- Code blocks ---------- */
+.code{
+  direction:ltr; text-align:left; background:var(--code-bg); color:var(--code-fg);
+  font-family:"Consolas","Monaco","Courier New",monospace;
+  font-size:1rem; padding:.8rem 1rem; border-radius:12px;
+  margin:.6rem 0 .8rem; overflow-x:auto; letter-spacing:.3px;
+  border-inline-start:5px solid var(--accent);
+}
+.code code{font-family:inherit;}
+
+/* ---------- Options ---------- */
+.options{display:flex; flex-wrap:wrap; gap:.55rem; margin:.3rem 0 .7rem;}
+.opt-btn{
+  font-family:"Consolas","Monaco",monospace; font-size:1rem; font-weight:700;
+  background:#fff; border:2px solid var(--border); border-radius:12px;
+  padding:.55rem 1.15rem; cursor:pointer; transition:.16s; color:var(--text);
+  direction:ltr; min-width:78px;
+}
+.opt-btn:hover:not(:disabled){border-color:var(--primary); background:#f2f6ff;}
+.opt-btn.correct{background:#d8f7ec; border-color:var(--accent); color:#056b4f;}
+.opt-btn.wrong{background:#ffe6ec; border-color:var(--danger); color:#a3173d; opacity:.85;}
+
+/* ---------- Feedback ---------- */
+.feedback{
+  border-radius:14px; padding:.85rem 1rem; margin-top:.7rem;
+  font-size:.93rem; border:1.5px solid transparent; line-height:1.75;
+}
+.feedback.success{background:#e7fbf3; border-color:#9ae6c9; color:#0b6b4c;}
+.feedback.hint{background:#fff6e6; border-color:#f7d9a3; color:#8a5a06;}
+.feedback.error{background:#ffeef2; border-color:#f8b6c6; color:#a3173d;}
+.feedback.hidden{display:none;}
+
+.solution-wrap{margin-top:.7rem;}
+.solution{
+  margin-top:.55rem; background:#f0f5ff; border:1.5px dashed #b6caf0;
+  border-radius:14px; padding:.85rem 1rem; font-size:.93rem; color:#22366b;
+  line-height:1.85;
+}
+.solution.hidden{display:none;}
+
+/* ---------- Two columns / drag ---------- */
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:.9rem; margin:.6rem 0;}
+.two-col h4{font-size:.92rem; color:var(--muted); margin-bottom:.4rem;}
+.pool, .slots{
+  background:var(--soft); border-radius:14px; padding:.6rem;
+  min-height:130px; display:flex; flex-direction:column; gap:.42rem;
+  border:1.5px dashed #ccd9ee;
+}
+.token{
+  background:#fff; border:1.5px solid var(--border); border-radius:10px;
+  padding:.45rem .8rem; font-family:inherit; font-size:.92rem; font-weight:700;
+  cursor:pointer; text-align:right; transition:.15s; color:var(--text);
+}
+.token:hover{border-color:var(--primary); background:#f4f8ff;}
+.token.placed{background:#e9f3ff; border-color:#a8c6f0;}
+.slot{
+  display:flex; align-items:center; gap:.5rem; background:#fff;
+  border-radius:10px; padding:.35rem .5rem; border:1.5px solid var(--border);
+  min-height:2.5rem;
+}
+.slot.filled{border-color:#a8c6f0; background:#f7fbff;}
+.slot-num{
+  width:1.6rem; height:1.6rem; flex:none; border-radius:50%; background:var(--soft);
+  color:var(--primary-dark); font-size:.78rem; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+}
+.slot .token{flex:1; padding:.25rem .6rem; font-size:.88rem;}
+
+/* ---------- Match ---------- */
+.match-grid{display:grid; grid-template-columns:1fr 1fr; gap:.9rem; margin:.6rem 0;}
+.match-col{display:flex; flex-direction:column; gap:.5rem;}
+.match-item{
+  background:#fff; border:2px solid var(--border); border-radius:12px;
+  padding:.6rem .8rem; cursor:pointer; font-family:"Consolas","Monaco",monospace;
+  font-size:.96rem; font-weight:700; direction:ltr; text-align:center;
+  transition:.15s; color:var(--text);
+}
+.match-item:hover:not(.matched){border-color:var(--primary); background:#f4f8ff;}
+.match-item.selected{border-color:var(--primary); background:#e3ecff; box-shadow:0 0 0 3px rgba(67,97,238,.18);}
+.match-item.matched{background:#d8f7ec; border-color:var(--accent); color:#056b4f; cursor:default;}
+.match-item.shake{animation:shake .34s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* ---------- Classify ---------- */
+.classify-item{
+  display:flex; align-items:center; gap:.7rem; background:#fff;
+  border:1.5px solid var(--border); border-radius:14px; padding:.55rem .8rem;
+  margin-bottom:.55rem; flex-wrap:wrap;
+}
+.classify-item .expr{
+  font-family:"Consolas","Monaco",monospace; font-size:1rem; font-weight:700;
+  direction:ltr; background:var(--soft); padding:.15rem .6rem; border-radius:8px;
+  color:#0b3d91; flex:1; min-width:130px; text-align:center;
+}
+.classify-btns{display:flex; gap:.4rem;}
+.classify-btns button{
+  font-family:inherit; font-size:.83rem; font-weight:700; border-radius:10px;
+  border:1.5px solid var(--border); background:#fff; padding:.32rem .75rem;
+  cursor:pointer; transition:.15s; color:var(--text);
+}
+.classify-btns button:hover:not(:disabled){border-color:var(--primary); background:#f4f8ff;}
+.classify-btns button.correct{background:#d8f7ec; border-color:var(--accent); color:#056b4f;}
+.classify-btns button.wrong{background:#ffe6ec; border-color:var(--danger); color:#a3173d;}
+
+/* ---------- Truth table ---------- */
+table.truth{
+  width:100%; border-collapse:collapse; margin:.7rem 0; font-size:.94rem;
+}
+table.truth th, table.truth td{
+  border:1.5px solid var(--border); padding:.5rem .6rem; text-align:center;
+}
+table.truth th{background:var(--soft); color:var(--primary-dark); font-weight:800;}
+table.truth td.val{font-family:"Consolas","Monaco",monospace; font-weight:700; direction:ltr;}
+.tf-btn{
+  font-family:"Consolas","Monaco",monospace; font-size:.86rem; font-weight:700;
+  border-radius:9px; border:1.5px solid var(--border); background:#fff;
+  padding:.28rem .7rem; cursor:pointer; margin:0 .15rem; transition:.15s;
+}
+.tf-btn:hover:not(:disabled){border-color:var(--primary); background:#f4f8ff;}
+.tf-btn.correct{background:#d8f7ec; border-color:var(--accent); color:#056b4f;}
+.tf-btn.wrong{background:#ffe6ec; border-color:var(--danger); color:#a3173d;}
+
+/* ---------- Builder ---------- */
+.workspace{
+  direction:ltr; text-align:left; min-height:62px; background:#fbfdff;
+  border:2px dashed #c3d2ea; border-radius:14px; padding:.6rem .8rem;
+  font-family:"Consolas","Monaco",monospace; font-size:1.05rem; font-weight:700;
+  color:#0b3d91; display:flex; flex-wrap:wrap; gap:.35rem; align-items:center;
+}
+.workspace .chip{
+  background:#e3ecff; border:1.5px solid #a8c6f0; border-radius:8px;
+  padding:.15rem .55rem; cursor:pointer; font-family:inherit; font-weight:700;
+  color:#1d3a7a; transition:.15s;
+}
+.workspace .chip:hover{background:#ffd9e1; border-color:#f8a4b8; color:#a3173d;}
+.workspace .placeholder{color:#9aabc4; font-weight:400; font-size:.9rem;}
+.token-pool{display:flex; flex-wrap:wrap; gap:.45rem; margin:.7rem 0; direction:ltr;}
+.token-pool .tk{
+  background:#fff; border:2px solid var(--border); border-radius:10px;
+  font-family:"Consolas","Monaco",monospace; font-size:.98rem; font-weight:700;
+  padding:.42rem .8rem; cursor:pointer; transition:.15s; color:var(--text);
+  min-width:44px;
+}
+.token-pool .tk:hover{border-color:var(--primary); background:#f4f8ff;}
+
+/* ---------- What-if ---------- */
+.whatif-controls{display:flex; flex-wrap:wrap; gap:1rem; margin:.7rem 0;}
+.slider-box{
+  flex:1; min-width:190px; background:var(--soft); border-radius:14px; padding:.7rem .9rem;
+}
+.slider-box label{font-weight:800; font-size:.95rem; font-family:"Consolas","Monaco",monospace; direction:ltr; display:block; margin-bottom:.2rem;}
+.slider-box input[type=range]{width:100%; accent-color:var(--primary);}
+.slider-box .val{
+  font-family:"Consolas","Monaco",monospace; font-weight:800; color:var(--primary-dark);
+  font-size:1.05rem;
+}
+.live-result{
+  background:var(--code-bg); color:var(--code-fg); border-radius:12px;
+  padding:.8rem 1rem; font-family:"Consolas","Monaco",monospace;
+  direction:ltr; text-align:left; font-size:1.05rem; margin-top:.6rem;
+  border-inline-start:5px solid var(--accent);
+}
+.live-result .res{color:#7ee7c2; font-weight:800;}
+
+/* ---------- Text input ---------- */
+.text-input{
+  width:100%; font-family:"Consolas","Monaco",monospace; font-size:1rem;
+  padding:.65rem .9rem; border-radius:12px; border:2px solid var(--border);
+  direction:ltr; text-align:left; background:#fff; color:var(--text);
+  transition:.15s;
+}
+.text-input:focus{outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(67,97,238,.14);}
+
+/* ---------- Activity nav ---------- */
+.activity-nav{display:flex; gap:.6rem; justify-content:center; flex-wrap:wrap; margin-top:.4rem;}
+
+/* ---------- Footer ---------- */
+footer{
+  text-align:center; padding:1.6rem 1rem 2rem; color:var(--muted);
+  font-size:.9rem; border-top:1px solid var(--border); background:#fff;
+}
+footer .name{
+  display:inline-block; font-weight:800; color:var(--primary-dark);
+  background:var(--soft); padding:.3rem 1.1rem; border-radius:999px;
+  margin-top:.35rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:640px){
+  body{font-size:15px;}
+  .site-header h1{font-size:1.28rem;}
+  .two-col, .match-grid{grid-template-columns:1fr;}
+  main{padding:1rem .7rem 2.5rem;}
+  .activity-card{padding:1rem .8rem;}
+  .opt-btn{flex:1 1 44%;}
+  .code{font-size:.9rem;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>رحلتي الممتعة مع التعابير الحسابية والمنطقية في Python</h1>
+  <p class="subtitle">تعلّم بالتجربة والاستكشاف — بلا درجات ولا ضغط</p>
+  <div><span class="designer-badge">تصميم الأستاذ عواد دحبور</span></div>
+</header>
+
+<nav class="main-nav" id="mainNav"></nav>
+
+<main id="main"></main>
+
+<footer>
+  <p>منصة تعليمية تفاعلية لتعلّم التعابير الحسابية والمنطقية في Python</p>
+  <span class="name">تصميم الأستاذ عواد دحبور</span>
+</footer>
+
+<script>
+/* =========================================================================
+   1) مُقيّم آمن للتعابير (بدون eval) — محلّل نزولي تعاودي
+   يدعم: + - * / // % **  و  == != > < >= <=  و  and or not  و True/False
+   ========================================================================= */
+function tokenize(src){
+  const tokens = [];
+  let i = 0;
+  while (i < src.length){
+    const c = src[i];
+    if (/\s/.test(c)){ i++; continue; }
+
+    if (/[0-9]/.test(c)){
+      let j = i;
+      while (j < src.length && /[0-9]/.test(src[j])) j++;
+      if (src[j] === '.'){
+        j++;
+        while (j < src.length && /[0-9]/.test(src[j])) j++;
+      }
+      tokens.push({type:'num', value: parseFloat(src.slice(i,j))});
+      i = j; continue;
+    }
+
+    if (/[A-Za-z_]/.test(c)){
+      let j = i;
+      while (j < src.length && /[A-Za-z0-9_]/.test(src[j])) j++;
+      const w = src.slice(i,j);
+      if (w === 'and' || w === 'or' || w === 'not') tokens.push({type:'op', value:w});
+      else if (w === 'True') tokens.push({type:'bool', value:true});
+      else if (w === 'False') tokens.push({type:'bool', value:false});
+      else throw new Error('كلمة غير معروفة: ' + w);
+      i = j; continue;
+    }
+
+    const two = src.substr(i,2);
+    if (['**','//','==','!=','>=','<='].includes(two)){
+      tokens.push({type:'op', value:two}); i += 2; continue;
+    }
+    if ('+-*/%<>()'.includes(c)){
+      tokens.push({type:'op', value:c}); i++; continue;
+    }
+    if (c === '='){
+      throw new Error('استخدم == للمقارنة، وليس =');
+    }
+    throw new Error('رمز غير معروف: ' + c);
+  }
+  return tokens;
+}
+
+function evaluateExpression(src){
+  const tokens = tokenize(src);
+  let pos = 0;
+
+  const peek = () => tokens[pos];
+  const isOp = (v) => { const t = peek(); return t && t.type === 'op' && t.value === v; };
+  const truthy = (v) => (typeof v === 'boolean') ? v : (v !== 0);
+
+  function parseOr(){
+    let left = parseAnd();
+    while (isOp('or')){ pos++; const r = parseAnd(); left = truthy(left) || truthy(r); }
+    return left;
+  }
+  function parseAnd(){
+    let left = parseNot();
+    while (isOp('and')){ pos++; const r = parseNot(); left = truthy(left) && truthy(r); }
+    return left;
+  }
+  function parseNot(){
+    if (isOp('not')){ pos++; return !truthy(parseNot()); }
+    return parseComparison();
+  }
+  function parseComparison(){
+    let left = parseAdditive();
+    const cmps = ['==','!=','>=','<=','>','<'];
+    while (peek() && peek().type === 'op' && cmps.includes(peek().value)){
+      const op = tokens[pos++].value;
+      const right = parseAdditive();
+      left = compare(op, left, right);
+    }
+    return left;
+  }
+  function compare(op,a,b){
+    if (typeof a === 'boolean' || typeof b === 'boolean'){ a = truthy(a); b = truthy(b); }
+    switch(op){
+      case '==': return a === b;
+      case '!=': return a !== b;
+      case '>':  return a > b;
+      case '<':  return a < b;
+      case '>=': return a >= b;
+      case '<=': return a <= b;
+    }
+  }
+  function parseAdditive(){
+    let left = parseMultiplicative();
+    while (peek() && peek().type === 'op' && (peek().value === '+' || peek().value === '-')){
+      const op = tokens[pos++].value;
+      const r = parseMultiplicative();
+      left = (op === '+') ? left + r : left - r;
+    }
+    return left;
+  }
+  function parseMultiplicative(){
+    let left = parseUnary();
+    while (peek() && peek().type === 'op' && ['*','/','//','%'].includes(peek().value)){
+      const op = tokens[pos++].value;
+      const r = parseUnary();
+      if ((op === '/' || op === '//' || op === '%') && r === 0)
+        throw new Error('لا يمكن القسمة على صفر');
+      switch(op){
+        case '*': left = left * r; break;
+        case '/': left = left / r; break;
+        case '//': left = Math.floor(left / r); break;
+        case '%': left = ((left % r) + r) % r; break;
+      }
+    }
+    return left;
+  }
+  function parseUnary(){
+    if (peek() && peek().type === 'op' && (peek().value === '-' || peek().value === '+')){
+      const op = tokens[pos++].value;
+      const v = parseUnary();
+      return op === '-' ? -v : v;
+    }
+    return parsePower();
+  }
+  function parsePower(){
+    const base = parsePrimary();
+    if (isOp('**')){ pos++; const exp = parseUnary(); return Math.pow(base, exp); }
+    return base;
+  }
+  function parsePrimary(){
+    const t = peek();
+    if (!t) throw new Error('التعبير غير مكتمل');
+    if (t.type === 'num' || t.type === 'bool'){ pos++; return t.value; }
+    if (t.type === 'op' && t.value === '('){
+      pos++;
+      const v = parseOr();
+      if (!isOp(')')) throw new Error('قوس غير مغلق');
+      pos++;
+      return v;
+    }
+    throw new Error('رمز غير متوقع في التعبير');
+  }
+
+  const result = parseOr();
+  if (pos < tokens.length) throw new Error('يوجد جزء غير متوقع في التعبير');
+  return result;
+}
+
+/* =========================================================================
+   2) أدوات مساعدة
+   ========================================================================= */
+function h(tag, attrs = {}, ...children){
+  const e = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)){
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'html') e.innerHTML = v;
+    else if (k === 'dataset') Object.assign(e.dataset, v);
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'disabled'){ if (v) e.disabled = true; }
+    else e.setAttribute(k, v);
+  }
+  for (const c of children.flat(Infinity)){
+    if (c == null || c === false) continue;
+    e.append(c.nodeType ? c : document.createTextNode(String(c)));
+  }
+  return e;
+}
+function shuffle(arr){
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function fmt(v){
+  if (typeof v === 'boolean') return v ? 'True' : 'False';
+  if (typeof v === 'number'){
+    if (Number.isInteger(v)) return String(v);
+    return String(Math.round(v * 1e6) / 1e6);
+  }
+  return String(v);
+}
+function codeBlock(code){
+  return h('pre', {class:'code'}, h('code', {}, code));
+}
+function showFeedback(box, kind, html){
+  box.className = 'feedback ' + kind;
+  box.innerHTML = html;
+}
+function solutionBlock(text){
+  const wrap = h('div', {class:'solution-wrap'});
+  const box = h('div', {class:'solution hidden'}, text);
+  const btn = h('button', {class:'btn-ghost'}, 'اشرح لي الحل');
+  btn.addEventListener('click', () => {
+    const hidden = box.classList.toggle('hidden');
+    btn.textContent = hidden ? 'اشرح لي الحل' : 'إخفاء الشرح';
+  });
+  wrap.append(btn, box);
+  return wrap;
+}
+
+/* =========================================================================
+   3) حالة التطبيق
+   ========================================================================= */
+const state = {
+  view: 'home',
+  sectionId: null,
+  actIndex: 0,
+  explored: new Set()
+};
+function markExplored(sectionId, actIndex){
+  state.explored.add(sectionId + ':' + actIndex);
+  updateNav();
+}
+
+/* =========================================================================
+   4) بيانات المنصة التعليمية
+   ========================================================================= */
+const SECTIONS = [
+
+/* ==================== القسم الأول: التعابير الحسابية ==================== */
+{
+  id: 'arith',
+  title: 'التعابير الحسابية',
+  icon: '➗',
+  color: '#4361ee',
+  desc: 'الجمع والطرح والضرب والقسمة والقسمة الصحيحة وباقي القسمة والأس والأقواس.',
+  lesson: `
+    <h4>قبل أن نبدأ — نظرة سريعة</h4>
+    <p>في بايثون نكتب التعابير الحسابية باستخدام عوامل تشغيل، تمامًا كما في الرياضيات:</p>
+    <ul>
+      <li><span class="inline-code">+</span> الجمع &nbsp;|&nbsp; <span class="inline-code">-</span> الطرح &nbsp;|&nbsp; <span class="inline-code">*</span> الضرب</li>
+      <li><span class="inline-code">/</span> القسمة العادية (ناتجها عدد عشري مثل <span class="inline-code">5.0</span>)</li>
+      <li><span class="inline-code">//</span> القسمة الصحيحة (تعطي الجزء الصحيح فقط: <span class="inline-code">17 // 5 = 3</span>)</li>
+      <li><span class="inline-code">%</span> باقي القسمة (ما يتبقى: <span class="inline-code">17 % 5 = 2</span>)</li>
+      <li><span class="inline-code">**</span> الأس (<span class="inline-code">2 ** 5 = 32</span>)</li>
+      <li>الأقواس <span class="inline-code">( )</span> تغيّر ترتيب التنفيذ</li>
+    </ul>
+    <p><strong>أولوية العمليات:</strong> الأقواس ← الأس ← الضرب والقسمة ← الجمع والطرح.</p>
+    <p>مثال: <span class="inline-code">3 + 4 * 2</span> يساوي <strong>11</strong> (الضرب أولًا)، بينما <span class="inline-code">(3 + 4) * 2</span> يساوي <strong>14</strong>.</p>
+  `,
+  activities: [
+    { type:'predict', title:'الجمع', expr:'7 + 5',
+      options:['10','12','35','2'], correct:'12',
+      hint:'علامة + تعني ضمّ العددين معًا.',
+      explain:'7 + 5 = 12. العامل + يجمع القيمتين.' },
+
+    { type:'predict', title:'الطرح', expr:'9 - 4',
+      options:['5','13','4','36'], correct:'5',
+      hint:'الطرح يعني إنقاص العدد الثاني من الأول.',
+      explain:'9 - 4 = 5. أخذنا 4 من 9 فتبقّى 5.' },
+
+    { type:'predict', title:'الضرب', expr:'6 * 7',
+      options:['13','42','67','1'], correct:'42',
+      hint:'6 × 7 = ؟ فكّر في جدول الضرب.',
+      explain:'6 * 7 = 42. العامل * يعني الضرب وليس النجمة العادية.' },
+
+    { type:'predict', title:'القسمة العادية', expr:'20 / 4',
+      options:['5.0','5.5','4.0','24'], correct:'5.0',
+      hint:'في بايثون القسمة بـ / تعطي دائمًا ناتجًا عشريًا.',
+      explain:'20 / 4 = 5.0. لاحظ أن بايثون تكتب الناتج هكذا 5.0 وليس 5، لأن / تعطي عددًا عشريًا دائمًا.' },
+
+    { type:'predict', title:'القسمة الصحيحة', expr:'17 // 5',
+      options:['3','4','2','3.4'], correct:'3',
+      hint:'القسمة الصحيحة // تعطي الجزء الصحيح من ناتج القسمة فقط، دون باقي.',
+      explain:'17 // 5 = 3. لأن 5 تدخل في 17 ثلاث مرات كاملة (5×3=15)، ويتبقى 2. العامل // يتجاهل الباقي.' },
+
+    { type:'predict', title:'باقي القسمة', expr:'17 % 5',
+      options:['2','3','4','0'], correct:'2',
+      hint:'باقي القسمة % هو ما يتبقى بعد أخذ الجزء الصحيح.',
+      explain:'17 % 5 = 2. لأن 5×3 = 15، والباقي 17 - 15 = 2.' },
+
+    { type:'predict', title:'الأس', expr:'2 ** 5',
+      options:['10','25','32','7'], correct:'32',
+      hint:'الأس ** يعني ضرب العدد في نفسه عدة مرات.',
+      explain:'2 ** 5 = 32، أي 2×2×2×2×2 = 32. لاحظ الفرق عن 2*5 = 10.' },
+
+    { type:'predict', title:'أولوية العمليات', expr:'3 + 4 * 2',
+      options:['14','11','24','9'], correct:'11',
+      hint:'الضرب يُنفّذ قبل الجمع.',
+      explain:'3 + 4 * 2 = 3 + 8 = 11. الضرب له أولوية أعلى من الجمع، فيُنفّذ أولًا.' },
+
+    { type:'predict', title:'أثر الأقواس', expr:'(3 + 4) * 2',
+      options:['14','11','24','9'], correct:'14',
+      hint:'الأقواس تجعل الجمع يُنفّذ قبل الضرب.',
+      explain:'(3 + 4) * 2 = 7 * 2 = 14. الأقواس غيّرت الترتيب فصار الجمع أولًا.' },
+
+    { type:'fillOp', title:'أكمل العامل — باقي القسمة',
+      left:'10', right:'3', result:'1',
+      options:['+','-','*','/','//','%','**'], correct:'%',
+      hint:'الناتج 1 هو ما تبقّى بعد قسمة 10 على 3.',
+      explain:'10 % 3 = 1. لأن 3×3 = 9، والباقي 1. العامل % يعطي باقي القسمة.' },
+
+    { type:'fillOp', title:'أكمل العامل — القسمة الصحيحة',
+      left:'10', right:'3', result:'3',
+      options:['+','-','*','/','//','%','**'], correct:'//',
+      hint:'الناتج 3 هو الجزء الصحيح من قسمة 10 على 3.',
+      explain:'10 // 3 = 3. لأن 3 تدخل في 10 ثلاث مرات كاملة. العامل // يعطي الجزء الصحيح.' },
+
+    { type:'orderSteps', title:'رتّب خطوات الحل',
+      expr:'2 + 3 * 4',
+      steps:[
+        'أحدّد أولوية العمليات: الضرب قبل الجمع.',
+        'أنفّذ الضرب: 3 * 4 = 12',
+        'أنفّذ الجمع: 2 + 12',
+        'الناتج النهائي = 14'
+      ],
+      hint:'ابدأ دائمًا بتحديد العمليات ذات الأولوية الأعلى (الأس ثم الضرب/القسمة ثم الجمع/الطرح).',
+      explain:'الترتيب الصحيح: نحدّد الأولوية ← نضرب 3×4 = 12 ← نجمع 2+12 ← الناتج 14.' },
+
+    { type:'whatIf', title:'ماذا يحدث لو؟',
+      expr:'a * b + 1',
+      vars:[{name:'a', min:1, max:10, value:3},{name:'b', min:1, max:10, value:4}],
+      prompt:'حرّك المؤشرين ولاحظ كيف يتغير الناتج. جرّب أن تجعل b = 1، ثم b = 10.',
+      observations:'لاحظ أن الناتج يزداد بمقدار a في كل مرة يزيد فيها b بمقدار 1. هذا لأن a * b تعني جمع a مع نفسها b مرة.' },
+
+    { type:'buildExpr', title:'ابنِ التعبير بنفسك',
+      target:'اجعل الناتج يساوي 14',
+      tokens:['2','3','4','+','*','(',')'],
+      validate:(expr) => { try { return evaluateExpression(expr) === 14; } catch(e){ return false; } },
+      hint:'جرّب استخدام الأقواس لتغيير ترتيب العمليات. تذكّر أن 7 × 2 = 14.',
+      explain:'من الحلول الممكنة: (3 + 4) * 2 = 14، أو 2 * (3 + 4) = 14، أو 2 + 3 * 4 = 14.' }
+  ]
+},
+
+/* ==================== القسم الثاني: عوامل المقارنة ==================== */
+{
+  id: 'compare',
+  title: 'التعابير المنطقية — المقارنة',
+  icon: '⚖️',
+  color: '#7209b7',
+  desc: 'عوامل المقارنة == != > < >= <= وناتجها True أو False.',
+  lesson: `
+    <h4>نظرة سريعة على عوامل المقارنة</h4>
+    <p>عوامل المقارنة تُستخدم لسؤال سؤال، وناتجها دائمًا قيمة منطقية: <span class="inline-code">True</span> (صحيح) أو <span class="inline-code">False</span> (خطأ).</p>
+    <ul>
+      <li><span class="inline-code">==</span> يساوي &nbsp;|&nbsp; <span class="inline-code">!=</span> لا يساوي</li>
+      <li><span class="inline-code">&gt;</span> أكبر من &nbsp;|&nbsp; <span class="inline-code">&lt;</span> أصغر من</li>
+      <li><span class="inline-code">&gt;=</span> أكبر من أو يساوي &nbsp;|&nbsp; <span class="inline-code">&lt;=</span> أصغر من أو يساوي</li>
+    </ul>
+    <p><strong>تنبيه مهم جدًا:</strong> <span class="inline-code">=</span> تعني <em>إسناد قيمة</em> (مثل <span class="inline-code">x = 5</span>)، أما <span class="inline-code">==</span> فتعني <em>المقارنة</em> (مثل <span class="inline-code">5 == 5</span> فتكون True).</p>
+    <p>مثال: <span class="inline-code">7 &gt; 10</span> ناتجه <strong>False</strong> لأن 7 ليست أكبر من 10.</p>
+  `,
+  activities: [
+    { type:'predict', title:'المساواة', expr:'5 == 5',
+      options:['True','False','5','خطأ في الكتابة'], correct:'True',
+      hint:'== تسأل: هل القيمتان متساويتان؟',
+      explain:'5 == 5 ناتجها True، لأن العددين متساويان فعلًا. لاحظ استخدام == وليس =.' },
+
+    { type:'predict', title:'عدم المساواة', expr:'5 != 3',
+      options:['True','False','2','8'], correct:'True',
+      hint:'!= تسأل: هل القيمتان مختلفتان؟',
+      explain:'5 != 3 ناتجها True، لأن 5 فعلًا لا تساوي 3.' },
+
+    { type:'predict', title:'أكبر من', expr:'7 > 10',
+      options:['True','False','17','3'], correct:'False',
+      hint:'قارن العددين: أيهما أكبر؟',
+      explain:'7 > 10 ناتجها False، لأن 7 أصغر من 10 وليست أكبر منها.' },
+
+    { type:'predict', title:'أصغر من أو يساوي', expr:'4 <= 4',
+      options:['True','False','0','8'], correct:'True',
+      hint:'العلامة <= تعني أصغر من أو يساوي، فهل يتحقق أحد الشرطين؟',
+      explain:'4 <= 4 ناتجها True، لأن 4 تساوي 4 (تحقّق شرط "يساوي").' },
+
+    { type:'predict', title:'أكبر من أو يساوي', expr:'10 >= 15',
+      options:['True','False','25','5'], correct:'False',
+      hint:'هل 10 أكبر من 15، أو تساويها؟',
+      explain:'10 >= 15 ناتجها False، لأن 10 أصغر من 15 ولا تساويها، فلا يتحقق أي من الشرطين.' },
+
+    { type:'classify', title:'صنّف الناتج',
+      categories:['عدد','قيمة منطقية'],
+      items:[
+        {expr:'5 + 3', cat:'عدد'},
+        {expr:'5 > 3', cat:'قيمة منطقية'},
+        {expr:'20 // 6', cat:'عدد'},
+        {expr:'20 % 6', cat:'عدد'},
+        {expr:'10 != 4', cat:'قيمة منطقية'},
+        {expr:'2 ** 3', cat:'عدد'},
+        {expr:'7 <= 7', cat:'قيمة منطقية'}
+      ],
+      hint:'اسأل نفسك: هل التعبير يحتوي على عامل مقارنة (== != > < >= <=)؟ إن كان كذلك فناتجه قيمة منطقية.',
+      explain:'كل تعبير يحتوي على عامل مقارنة ناتجه True أو False (قيمة منطقية). أما التعابير الحسابية البحتة فناتجها عدد.' },
+
+    { type:'fillOp', title:'أكمل عامل المقارنة',
+      left:'5', right:'5', result:'False',
+      options:['==','!=','>','<','>=','<='], correct:'!=',
+      hint:'نريد ناتجًا False، أي أن المقارنة غير محققة.',
+      explain:'5 != 5 ناتجها False، لأن 5 تساوي 5 فعلًا، فجملة "لا يساوي" غير صحيحة.' },
+
+    { type:'match', title:'طابق التعبير مع ناتجه',
+      pairs:[
+        {expr:'8 > 3', result:'True'},
+        {expr:'8 < 3', result:'False'},
+        {expr:'8 == 8', result:'True'},
+        {expr:'8 != 8', result:'False'},
+        {expr:'8 >= 8', result:'True'}
+      ],
+      hint:'ابدأ بالتعابير الواضحة، ثم تبقّى الأصعب.',
+      explain:'8 > 3 → True، 8 < 3 → False، 8 == 8 → True، 8 != 8 → False، 8 >= 8 → True.' },
+
+    { type:'predict', title:'من الحياة اليومية',
+      scenario:'عمر أحمد 12 سنة، وعمر أخته 15 سنة. أي تعبير يعطي True عندما نقارن: هل أحمد أصغر من أخته؟',
+      expr:'عمر أحمد 12  |  عمر الأخت 15',
+      options:['12 > 15','12 < 15','12 == 15','12 != 15'], correct:'12 < 15',
+      hint:'"أصغر من" تُكتب بالرمز <.',
+      explain:'12 < 15 ناتجها True، لأن أحمد فعلًا أصغر من أخته. لاحظ أن 12 != 15 أيضًا True، لكن التعبير الذي يعبّر عن "أصغر من" هو 12 < 15.' },
+
+    { type:'correctExpr', title:'اكتشف الخطأ وصحّحه',
+      prompt:'التعبير التالي يحتوي على خطأ في كتابة عامل المقارنة. اكتب التعبير الصحيح في المربع أدناه.',
+      faulty:'5 = 5',
+      validate:(expr) => { try { return /==/.test(expr) && evaluateExpression(expr) === true; } catch(e){ return false; } },
+      hint:'تذكّر: = للإسناد، و == للمقارنة.',
+      explain:'الصواب هو 5 == 5. العلامة = الواحدة تُستخدم لنسند قيمة لمتغير، أما المقارنة فتستخدم ==.' }
+  ]
+},
+
+/* ==================== القسم الثالث: العوامل المنطقية ==================== */
+{
+  id: 'logic',
+  title: 'العوامل المنطقية',
+  icon: '🧠',
+  color: '#06d6a0',
+  desc: 'and و or و not وجداول الحقيقة المبسطة.',
+  lesson: `
+    <h4>نظرة سريعة على العوامل المنطقية</h4>
+    <p>نستخدم العوامل المنطقية لربط شرطين أو أكثر، أو لعكس قيمة منطقية:</p>
+    <ul>
+      <li><span class="inline-code">and</span> : تتحقق الجملة فقط إذا تحقّق <strong>الشرطان معًا</strong>.</li>
+      <li><span class="inline-code">or</span> : تتحقق الجملة إذا تحقّق <strong>أحد الشرطين على الأقل</strong>.</li>
+      <li><span class="inline-code">not</span> : <strong>تعكس</strong> القيمة المنطقية (True تصبح False والعكس).</li>
+    </ul>
+    <p><strong>مثال من الحياة:</strong> "أخرج للعب إذا أنجزت واجبي <em>و</em> كان الجو مشمسًا" → <span class="inline-code">أنجزت_واجبي and الجو_مشمس</span>.</p>
+    <p>ناتج هذه العوامل دائمًا <span class="inline-code">True</span> أو <span class="inline-code">False</span>.</p>
+  `,
+  activities: [
+    { type:'predict', title:'and — الشرطان معًا', expr:'True and False',
+      options:['True','False','خطأ','لا ناتج'], correct:'False',
+      hint:'and تحتاج أن يتحقق الشرطان معًا.',
+      explain:'True and False = False. لأن and تشترط تحقّق الطرفين معًا، وأحد الطرفين هنا False.' },
+
+    { type:'predict', title:'or — أحد الشرطين', expr:'True or False',
+      options:['True','False','خطأ','لا ناتج'], correct:'True',
+      hint:'or تكفيها واحدة صحيحة.',
+      explain:'True or False = True. لأن or تكتفي بتحقّق أحد الطرفين، والطرف الأول True.' },
+
+    { type:'predict', title:'not — عكس القيمة', expr:'not True',
+      options:['True','False','0','خطأ'], correct:'False',
+      hint:'not تعكس القيمة.',
+      explain:'not True = False. العامل not يعكس القيمة المنطقية تمامًا.' },
+
+    { type:'truthTable', title:'أكمل جدول الحقيقة لـ and',
+      op:'and',
+      rows:[
+        {a:'True',  b:'True',  answer:'True'},
+        {a:'True',  b:'False', answer:'False'},
+        {a:'False', b:'True',  answer:'False'},
+        {a:'False', b:'False', answer:'False'}
+      ],
+      hint:'اسأل في كل صف: هل الطرفان صحيحان معًا؟',
+      explain:'جدول and: الناتج True فقط عندما يكون الطرفان True معًا، وفي بقية الحالات False.' },
+
+    { type:'truthTable', title:'أكمل جدول الحقيقة لـ or',
+      op:'or',
+      rows:[
+        {a:'True',  b:'True',  answer:'True'},
+        {a:'True',  b:'False', answer:'True'},
+        {a:'False', b:'True',  answer:'True'},
+        {a:'False', b:'False', answer:'False'}
+      ],
+      hint:'اسأل في كل صف: هل يوجد طرف واحد على الأقل صحيح؟',
+      explain:'جدول or: الناتج False فقط عندما يكون الطرفان False، وفي بقية الحالات True.' },
+
+    { type:'predict', title:'and مع مقارنات', expr:'(5 > 3) and (2 < 1)',
+      options:['True','False','خطأ في الأقواس','4'], correct:'False',
+      hint:'احسب كل قوس على حدة، ثم طبّق and.',
+      explain:'(5 > 3) = True، و(2 < 1) = False. وبما أن and تحتاج الطرفين، فالناتج False.' },
+
+    { type:'predict', title:'or مع مقارنات', expr:'(5 > 3) or (2 < 1)',
+      options:['True','False','خطأ في الأقواس','4'], correct:'True',
+      hint:'احسب كل قوس، ثم طبّق or.',
+      explain:'(5 > 3) = True، و(2 < 1) = False. وبما أن or تكتفي بواحد صحيح، فالناتج True.' },
+
+    { type:'predict', title:'من الحياة اليومية',
+      scenario:'قال المعلم: "تخرج للاستراحة إذا أنهيت واجبك <strong>أو</strong> شاركت في النشاط". أنهيت واجبك=True، وشاركت=False. هل تخرج للاستراحة؟',
+      expr:'أنجزت_الواجب or شاركت_في_النشاط',
+      options:['True','False','لا يمكن الحساب','خطأ'], correct:'True',
+      hint:'الكلمة "أو" في الشرط تعني or.',
+      explain:'True or False = True. لأن or تكتفي بتحقّق أحد الشرطين، وقد أنجزت الواجب.' },
+
+    { type:'fillOp', title:'أكمل العامل المنطقي',
+      left:'True', right:'False', result:'True',
+      options:['and','or','not','=='], correct:'or',
+      hint:'نريد ناتجًا True مع وجود طرف False.',
+      explain:'True or False = True. لو استخدمنا and لكان الناتج False. أما or فتكفيها قيمة صحيحة واحدة.' },
+
+    { type:'predict', title:'not مع مقارنة', expr:'not (3 > 5)',
+      options:['True','False','3','8'], correct:'True',
+      hint:'احسب ما داخل القوس أولًا، ثم اعكسه.',
+      explain:'(3 > 5) = False، ثم not False = True. العامل not عكس النتيجة.' }
+  ]
+},
+
+/* ==================== القسم الرابع: دمج التعابير ==================== */
+{
+  id: 'mixed',
+  title: 'دمج التعابير الحسابية والمنطقية',
+  icon: '🔗',
+  color: '#f4a261',
+  desc: 'تعبيرات تجمع بين الحساب والمقارنة والعمليات المنطقية.',
+  lesson: `
+    <h4>كيف نقرأ تعبيرًا مركّبًا؟</h4>
+    <p>عندما يجتمع الحساب مع المقارنة مع المنطق، نتبع هذا الترتيب في التفكير:</p>
+    <ul>
+      <li>أولًا: احسب التعابير الحسابية داخل الأقواس (أو حسب الأولوية).</li>
+      <li>ثانيًا: نفّذ المقارنات، فتحصل على True أو False.</li>
+      <li>ثالثًا: طبّق العوامل المنطقية <span class="inline-code">and</span> و <span class="inline-code">or</span> و <span class="inline-code">not</span>.</li>
+    </ul>
+    <p><strong>مثال متدرج:</strong> <span class="inline-code">(5 + 3) &gt; 6</span></p>
+    <ul>
+      <li>نحسب القوس: 5 + 3 = 8</li>
+      <li>نقارن: 8 &gt; 6</li>
+      <li>الناتج: <strong>True</strong></li>
+    </ul>
+  `,
+  activities: [
+    { type:'predict', title:'حساب ثم مقارنة', expr:'(5 + 3) > 6',
+      options:['True','False','8','2'], correct:'True',
+      hint:'ابدأ بحساب ما داخل القوس.',
+      explain:'(5 + 3) = 8، ثم 8 > 6 = True. الناتج قيمة منطقية وليس عددًا.' },
+
+    { type:'predict', title:'باقي القسمة والمقارنة', expr:'10 % 2 == 0',
+      options:['True','False','5','0'], correct:'True',
+      hint:'نفّذ % أولًا، ثم قارن الناتج بـ 0.',
+      explain:'10 % 2 = 0 (لأن 10 عدد زوجي)، ثم 0 == 0 = True. هذه طريقة شائعة لفحص الأعداد الزوجية.' },
+
+    { type:'predict', title:'and بين مقارنتين', expr:'(7 > 4) and (3 < 5)',
+      options:['True','False','7','3'], correct:'True',
+      hint:'احسب كل قوس، ثم طبّق and.',
+      explain:'(7 > 4) = True، و(3 < 5) = True. وبما أن الطرفين صحيحان، فـ True and True = True.' },
+
+    { type:'predict', title:'not مع مقارنة', expr:'not (6 == 2)',
+      options:['True','False','6','2'], correct:'True',
+      hint:'احسب القوس أولًا ثم اعكس.',
+      explain:'(6 == 2) = False، ثم not False = True. التعبير يعني "ليس صحيحًا أن 6 تساوي 2".' },
+
+    { type:'orderSteps', title:'رتّب خطوات الحل',
+      expr:'(5 + 3) * 2 > 10',
+      steps:[
+        'أبدأ بحساب ما داخل القوس: 5 + 3 = 8',
+        'أنفّذ الضرب: 8 * 2 = 16',
+        'أنفّذ المقارنة: 16 > 10',
+        'الناتج النهائي = True'
+      ],
+      hint:'الأقواس أولًا، ثم الضرب، ثم المقارنة.',
+      explain:'الترتيب: القوس ← الضرب ← المقارنة ← الناتج True.' },
+
+    { type:'buildExpr', title:'ابنِ التعبير المناسب',
+      target:'اكتب تعبيرًا يتحقق فيه أن العدد 8 عدد زوجي (ناتجه True)',
+      tokens:['8','2','0','%','==','!=','+','*'],
+      validate:(expr) => { try { return evaluateExpression(expr) === true; } catch(e){ return false; } },
+      hint:'العدد الزوجي باقي قسمته على 2 يساوي صفرًا.',
+      explain:'من الحلول: 8 % 2 == 0 → True، أو 8 // 2 == 4 → True، أو 8 != 3 → True. الطريقة الأشهر لفحص الزوجية هي 8 % 2 == 0.' },
+
+    { type:'predict', title:'تعبير مركّب متعدد',
+      expr:'15 // 4 == 3 and 15 % 4 == 3',
+      options:['True','False','3','15'], correct:'True',
+      hint:'احسب 15 // 4 ثم 15 % 4، ثم قارن كلًّا منهما بـ 3.',
+      explain:'15 // 4 = 3 ✓، و15 % 4 = 3 ✓. الطرفان True، لذا True and True = True.' },
+
+    { type:'match', title:'طابق التعبير مع ناتجه',
+      pairs:[
+        {expr:'(4 + 2) > 5', result:'True'},
+        {expr:'9 % 3 == 0', result:'True'},
+        {expr:'(1 > 2) or (3 > 2)', result:'True'},
+        {expr:'not (5 > 1)', result:'False'},
+        {expr:'(2 + 2) == 5', result:'False'}
+      ],
+      hint:'احسب كل تعبير خطوة بخطوة قبل المطابقة.',
+      explain:'(4+2)>5 → 6>5 → True | 9%3==0 → 0==0 → True | (1>2)or(3>2) → False or True → True | not(5>1) → not True → False | (2+2)==5 → 4==5 → False.' },
+
+    { type:'whatIf', title:'ماذا يحدث لو؟',
+      expr:'(x + y) % 2 == 0',
+      vars:[{name:'x', min:0, max:10, value:3},{name:'y', min:0, max:10, value:5}],
+      prompt:'جرّب تغيير x و y ولاحظ متى يصبح الناتج True ومتى يصبح False.',
+      observations:'الناتج True عندما يكون مجموع x + y عددًا زوجيًا (باقي قسمته على 2 يساوي صفرًا). جرّب x=3 و y=5 → المجموع 8 → True. وجرّب x=3 و y=4 → المجموع 7 → False.' },
+
+    { type:'correctExpr', title:'صحّح بنفسك',
+      prompt:'أراد طالب أن يفحص: "هل العدد 12 أكبر من 10 وأصغر من 20؟" لكنه كتب التعبير بشكل خاطئ. اكتب التعبير الصحيح.',
+      faulty:'12 > 10 or 12 > 20',
+      validate:(expr) => {
+        try {
+          return evaluateExpression(expr) === true && /and/.test(expr);
+        } catch(e){ return false; }
+      },
+      hint:'نريد تحقّق الشرطين معًا: أكبر من 10، وأصغر من 20. أي عامل منطقي يعبّر عن "معًا"؟',
+      explain:'الصواب: 12 > 10 and 12 < 20. لأننا نريد الشرطين معًا، فنستخدم and، ولاحظ أن الشرط الثاني أصغر من 20 وليس أكبر.' }
+  ]
+}
+];
+
+/* =========================================================================
+   5) أنواع الأنشطة (المُصيّرات)
+   ========================================================================= */
+
+/* ---------- توقّع الناتج ---------- */
+function renderPredict(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  if (act.scenario){
+    wrap.append(h('div', {class:'lesson'}, h('div', {html: act.scenario})));
+  }
+  wrap.append(h('p', {class:'question'}, act.question || 'ما ناتج تنفيذ التعبير التالي في Python؟'));
+  if (act.expr) wrap.append(codeBlock(act.expr));
+
+  const opts = h('div', {class:'options'});
+  const fb = h('div', {class:'feedback hidden'});
+  const buttons = [];
+  let solved = false;
+
+  act.options.forEach(opt => {
+    const btn = h('button', {class:'opt-btn', type:'button'}, opt);
+    btn.addEventListener('click', () => {
+      if (solved || btn.disabled) return;
+      mark();
+      if (String(opt) === String(act.correct)){
+        solved = true;
+        btn.classList.add('correct');
+        showFeedback(fb, 'success', '<strong>أحسنت! إجابة صحيحة ✅</strong><br>' + act.explain);
+        buttons.forEach(b => { if (b !== btn) b.disabled = true; });
+      } else {
+        btn.classList.add('wrong');
+        btn.disabled = true;
+        showFeedback(fb, 'hint', '<strong>لم تصب هذه المرة 💡</strong><br>' + (act.hint || 'أعد التفكير وجرّب خيارًا آخر.'));
+      }
+    });
+    buttons.push(btn);
+    opts.append(btn);
+  });
+
+  wrap.append(opts, fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- أكمل العامل ---------- */
+function renderFillOp(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, 'اختر العامل المناسب ليكتمل التعبير ويصبح الناتج صحيحًا:'));
+
+  const equation = h('div', {class:'code'});
+  const leftSpan = h('span', {}, act.left + ' ');
+  const opSpan = h('span', {class:'blank-op'}, ' ___ ');
+  opSpan.style.cssText = 'color:#ffd166;font-weight:800;';
+  const restSpan = h('span', {}, ' ' + act.right + ' = ' + act.result);
+  equation.append(leftSpan, opSpan, restSpan);
+  wrap.append(equation);
+
+  const opts = h('div', {class:'options'});
+  const fb = h('div', {class:'feedback hidden'});
+  const buttons = [];
+  let solved = false;
+
+  act.options.forEach(op => {
+    const btn = h('button', {class:'opt-btn', type:'button'}, op);
+    btn.addEventListener('click', () => {
+      if (solved || btn.disabled) return;
+      mark();
+      if (op === act.correct){
+        solved = true;
+        btn.classList.add('correct');
+        opSpan.textContent = ' ' + op + ' ';
+        showFeedback(fb, 'success', '<strong>ممتاز! ✅</strong><br>' + act.explain);
+        buttons.forEach(b => { if (b !== btn) b.disabled = true; });
+      } else {
+        btn.classList.add('wrong');
+        btn.disabled = true;
+        showFeedback(fb, 'hint', '<strong>ليست هذه 💡</strong><br>' + (act.hint || 'جرّب عاملًا آخر وفكّر في الناتج المطلوب.'));
+      }
+    });
+    buttons.push(btn);
+    opts.append(btn);
+  });
+
+  wrap.append(opts, fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- المطابقة ---------- */
+function renderMatch(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, 'انقر على تعبير من العمود الأول، ثم على ناتجه المناسب من العمود الثاني:'));
+
+  const grid = h('div', {class:'match-grid'});
+  const leftCol = h('div', {class:'match-col'});
+  const rightCol = h('div', {class:'match-col'});
+
+  const leftItems = act.pairs.map((p,i) => ({id:'L'+i, key:i, text:p.expr, side:'L'}));
+  const rightItems = act.pairs.map((p,i) => ({id:'R'+i, key:i, text:p.result, side:'R'}));
+
+  const leftShuffled = shuffle(leftItems);
+  const rightShuffled = shuffle(rightItems);
+
+  let selected = null;
+  let matchedCount = 0;
+  const fb = h('div', {class:'feedback hidden'});
+  const allEls = [];
+
+  function makeItem(item){
+    const el = h('button', {class:'match-item', type:'button'}, item.text);
+    el.dataset.key = item.key;
+    el.dataset.side = item.side;
+    el.addEventListener('click', () => {
+      if (el.classList.contains('matched')) return;
+      mark();
+      if (!selected){
+        selected = el;
+        el.classList.add('selected');
+        return;
+      }
+      if (selected === el){
+        el.classList.remove('selected');
+        selected = null;
+        return;
+      }
+      if (selected.dataset.side === el.dataset.side){
+        selected.classList.remove('selected');
+        selected = el;
+        el.classList.add('selected');
+        return;
+      }
+      // تحقق
+      if (selected.dataset.key === el.dataset.key){
+        selected.classList.remove('selected');
+        selected.classList.add('matched');
+        el.classList.add('matched');
+        selected = null;
+        matchedCount++;
+        if (matchedCount === act.pairs.length){
+          showFeedback(fb, 'success', '<strong>رائع! طابقت جميع العناصر 🎉</strong><br>' + act.explain);
+        } else {
+          showFeedback(fb, 'success', '<strong>مطابقة صحيحة ✅</strong> تبقّى ' + (act.pairs.length - matchedCount) + '.');
+        }
+      } else {
+        const a = selected, b = el;
+        a.classList.add('shake'); b.classList.add('shake');
+        setTimeout(() => { a.classList.remove('shake'); b.classList.remove('shake'); }, 350);
+        a.classList.remove('selected');
+        selected = null;
+        showFeedback(fb, 'hint', '<strong>ليست مطابقة صحيحة 💡</strong><br>' + (act.hint || 'احسب كل تعبير على حدة ثم أعد المحاولة.'));
+      }
+    });
+    allEls.push(el);
+    return el;
+  }
+
+  leftShuffled.forEach(it => leftCol.append(makeItem(it)));
+  rightShuffled.forEach(it => rightCol.append(makeItem(it)));
+
+  grid.append(leftCol, rightCol);
+  wrap.append(grid, fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- التصنيف ---------- */
+function renderClassify(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, 'حدّد نوع ناتج كل تعبير: هل هو عدد أم قيمة منطقية (True/False)؟'));
+
+  const fb = h('div', {class:'feedback hidden'});
+  let solvedCount = 0;
+
+  act.items.forEach(item => {
+    const row = h('div', {class:'classify-item'});
+    row.append(h('span', {class:'expr'}, item.expr));
+    const btns = h('div', {class:'classify-btns'});
+    let done = false;
+    act.categories.forEach(cat => {
+      const b = h('button', {type:'button'}, cat);
+      b.addEventListener('click', () => {
+        if (done) return;
+        mark();
+        if (cat === item.cat){
+          done = true;
+          b.classList.add('correct');
+          btns.querySelectorAll('button').forEach(x => x.disabled = true);
+          solvedCount++;
+          if (solvedCount === act.items.length){
+            showFeedback(fb, 'success', '<strong>ممتاز! صنّفت كل العناصر 🎉</strong><br>' + act.explain);
+          }
+        } else {
+          b.classList.add('wrong');
+          b.disabled = true;
+          showFeedback(fb, 'hint', '<strong>ليست هذه 💡</strong><br>' + act.hint);
+        }
+      });
+      btns.append(b);
+    });
+    row.append(btns);
+    wrap.append(row);
+  });
+
+  wrap.append(fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- جدول الحقيقة ---------- */
+function renderTruthTable(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, 'أكمل جدول الحقيقة للعامل ‎' + act.op + '‎ بالنقر على القيمة الصحيحة في كل صف:'));
+
+  const table = h('table', {class:'truth'});
+  const thead = h('thead');
+  thead.append(h('tr', {},
+    h('th', {}, 'أ'),
+    h('th', {}, 'ب'),
+    h('th', {}, 'أ ' + act.op + ' ب')
+  ));
+  table.append(thead);
+
+  const tbody = h('tbody');
+  const fb = h('div', {class:'feedback hidden'});
+  let solvedCount = 0;
+
+  act.rows.forEach((row, idx) => {
+    const tr = h('tr');
+    tr.append(h('td', {class:'val'}, row.a));
+    tr.append(h('td', {class:'val'}, row.b));
+    const cell = h('td');
+    let done = false;
+
+    ['True','False'].forEach(v => {
+      const b = h('button', {class:'tf-btn', type:'button'}, v);
+      b.addEventListener('click', () => {
+        if (done) return;
+        mark();
+        if (v === row.answer){
+          done = true;
+          b.classList.add('correct');
+          cell.querySelectorAll('button').forEach(x => x.disabled = true);
+          solvedCount++;
+          if (solvedCount === act.rows.length){
+            showFeedback(fb, 'success', '<strong>أكملت الجدول بنجاح 🎉</strong><br>' + act.explain);
+          }
+        } else {
+          b.classList.add('wrong');
+          b.disabled = true;
+          showFeedback(fb, 'hint', '<strong>أعد النظر 💡</strong><br>' + act.hint);
+        }
+      });
+      cell.append(b);
+    });
+
+    tr.append(cell);
+    tbody.append(tr);
+  });
+
+  table.append(tbody);
+  wrap.append(table, fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- ترتيب الخطوات ---------- */
+function renderOrderSteps(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, 'رتّب خطوات الحل بالترتيب الصحيح. انقر على الخطوة في القائمة لوضعها في أول فراغ، وانقر عليها في الفراغ لإرجاعها:'));
+  if (act.expr) wrap.append(codeBlock(act.expr));
+
+  const steps = act.steps;
+  let pool = shuffle(steps).map(s => s);
+  const placed = new Array(steps.length).fill(null);
+
+  const poolEl = h('div', {class:'pool'});
+  const slotsEl = h('div', {class:'slots'});
+  const fb = h('div', {class:'feedback hidden'});
+
+  function render(){
+    poolEl.innerHTML = '';
+    slotsEl.innerHTML = '';
+
+    pool.forEach((item, idx) => {
+      if (item === null) return;
+      const el = h('button', {class:'token', type:'button'}, item);
+      el.addEventListener('click', () => {
+        mark();
+        const emptyIdx = placed.indexOf(null);
+        if (emptyIdx === -1) return;
+        placed[emptyIdx] = item;
+        pool[idx] = null;
+        render();
+      });
+      poolEl.append(el);
+    });
+
+    if (pool.every(x => x === null)){
+      poolEl.append(h('div', {class:'placeholder'}, '— لا توجد خطوات متبقية —'));
+    }
+
+    placed.forEach((item, idx) => {
+      const slot = h('div', {class:'slot' + (item ? ' filled' : '')});
+      slot.append(h('span', {class:'slot-num'}, String(idx + 1)));
+      if (item){
+        const el = h('button', {class:'token placed', type:'button'}, item);
+        el.addEventListener('click', () => {
+          mark();
+          const pIdx = pool.indexOf(null);
+          if (pIdx !== -1) pool[pIdx] = item;
+          else pool.push(item);
+          placed[idx] = null;
+          render();
+        });
+        slot.append(el);
+      }
+      slotsEl.append(slot);
+    });
+  }
+  render();
+
+  const checkBtn = h('button', {class:'btn btn-primary', type:'button'}, 'تحقق من الترتيب');
+  checkBtn.addEventListener('click', () => {
+    mark();
+    if (placed.includes(null)){
+      showFeedback(fb, 'hint', 'لم تكمل الترتيب بعد. انقر على الخطوات لوضعها في الفراغات.');
+      return;
+    }
+    const ok = placed.every((v,i) => v === steps[i]);
+    if (ok){
+      showFeedback(fb, 'success', '<strong>ترتيب صحيح تمامًا! 🎉</strong><br>' + act.explain);
+    } else {
+      showFeedback(fb, 'hint', '<strong>الترتيب غير صحيح بعد 💡</strong><br>' + (act.hint || 'أعد النظر في أولوية العمليات.'));
+    }
+  });
+
+  const cols = h('div', {class:'two-col'},
+    h('div', {}, h('h4', {}, 'الخطوات المتاحة'), poolEl),
+    h('div', {}, h('h4', {}, 'ترتيبك للحل'), slotsEl)
+  );
+
+  wrap.append(cols, checkBtn, fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- بناء التعبير ---------- */
+function renderBuildExpr(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, act.target));
+  wrap.append(h('p', {style:'color:#6b7890;font-size:.9rem;margin-top:-.3rem;'}, 'انقر على العناصر لبنائها بالترتيب، وانقر على عنصر داخل مساحة البناء لحذفه.'));
+
+  const chips = [];
+
+  const workspace = h('div', {class:'workspace'});
+  const poolEl = h('div', {class:'token-pool'});
+  const fb = h('div', {class:'feedback hidden'});
+
+  function renderWorkspace(){
+    workspace.innerHTML = '';
+    if (chips.length === 0){
+      workspace.append(h('span', {class:'placeholder'}, 'مساحة البناء — ابدأ بإضافة العناصر...'));
+    } else {
+      chips.forEach((c, idx) => {
+        const el = h('button', {class:'chip', type:'button'}, c);
+        el.addEventListener('click', () => {
+          mark();
+          chips.splice(idx, 1);
+          renderWorkspace();
+        });
+        workspace.append(el);
+      });
+    }
+  }
+
+  shuffle(act.tokens).forEach(tk => {
+    const b = h('button', {class:'tk', type:'button'}, tk);
+    b.addEventListener('click', () => {
+      mark();
+      chips.push(tk);
+      renderWorkspace();
+    });
+    poolEl.append(b);
+  });
+
+  renderWorkspace();
+
+  const exprText = () => chips.join(' ');
+
+  const checkBtn = h('button', {class:'btn btn-primary', type:'button'}, 'تحقق من التعبير');
+  checkBtn.addEventListener('click', () => {
+    mark();
+    if (chips.length === 0){
+      showFeedback(fb, 'hint', 'مساحة البناء فارغة. أضف بعض العناصر أولًا.');
+      return;
+    }
+    let value;
+    try {
+      value = evaluateExpression(exprText());
+    } catch(e){
+      showFeedback(fb, 'error', '<strong>هناك خطأ في كتابة التعبير:</strong> ' + e.message + '<br>جرّب تعديل العناصر.');
+      return;
+    }
+    if (act.validate(exprText())){
+      showFeedback(fb, 'success',
+        '<strong>ممتاز! تعبيرك صحيح 🎉</strong><br>' +
+        'تعبيرك: <code class="inline-code">' + exprText() + '</code><br>' +
+        'الناتج: <strong>' + fmt(value) + '</strong><br>' + act.explain);
+    } else {
+      showFeedback(fb, 'hint',
+        '<strong>ليس بعد 💡</strong><br>تعبيرك الحالي: <code class="inline-code">' + exprText() + '</code> وناتجه ' +
+        '<strong>' + fmt(value) + '</strong>.<br>' + (act.hint || 'جرّب ترتيبًا أو عوامل مختلفة.'));
+    }
+  });
+
+  const clearBtn = h('button', {class:'btn', type:'button'}, 'مسح الكل');
+  clearBtn.addEventListener('click', () => {
+    mark();
+    chips.length = 0;
+    renderWorkspace();
+    fb.className = 'feedback hidden';
+  });
+
+  const btns = h('div', {class:'options'}, checkBtn, clearBtn);
+
+  wrap.append(workspace, poolEl, btns, fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- تصحيح التعبير بكتابة حرة ---------- */
+function renderCorrectExpr(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, act.prompt));
+  wrap.append(h('p', {style:'font-weight:700;margin-bottom:.25rem;'}, 'التعبير الخاطئ:'));
+  wrap.append(codeBlock(act.faulty));
+
+  const input = h('input', {class:'text-input', type:'text', placeholder:'اكتب التعبير الصحيح هنا...', dir:'ltr'});
+  const fb = h('div', {class:'feedback hidden'});
+
+  const checkBtn = h('button', {class:'btn btn-primary', type:'button'}, 'تحقق من إجابتي');
+  checkBtn.addEventListener('click', () => {
+    mark();
+    const val = input.value.trim();
+    if (!val){
+      showFeedback(fb, 'hint', 'اكتب التعبير أولًا في المربع.');
+      return;
+    }
+    let result;
+    try {
+      result = evaluateExpression(val);
+    } catch(e){
+      showFeedback(fb, 'error', '<strong>تعذّر قراءة التعبير:</strong> ' + e.message + '<br>تأكد من كتابة العوامل بشكل صحيح.');
+      return;
+    }
+    if (act.validate(val)){
+      showFeedback(fb, 'success',
+        '<strong>أحسنت! التعبير صحيح ✅</strong><br>تعبيرك: <code class="inline-code">' + val + '</code> وناتجه <strong>' + fmt(result) + '</strong>.<br>' + act.explain);
+    } else {
+      showFeedback(fb, 'hint',
+        '<strong>لم يتحقق الشرط بعد 💡</strong><br>تعبيرك: <code class="inline-code">' + val + '</code> وناتجه <strong>' + fmt(result) + '</strong>.<br>' + (act.hint || 'أعد التفكير في العامل المناسب.'));
+    }
+  });
+
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') checkBtn.click(); });
+
+  wrap.append(input, h('div', {class:'options'}, checkBtn), fb, solutionBlock(act.explain));
+  return wrap;
+}
+
+/* ---------- ماذا يحدث لو؟ ---------- */
+function renderWhatIf(act, mark){
+  const wrap = h('div', {class:'activity-body'});
+  wrap.append(h('p', {class:'question'}, act.prompt || 'غيّر القيم ولاحظ كيف يتغيّر الناتج.'));
+  wrap.append(codeBlock(act.expr));
+
+  const controls = h('div', {class:'whatif-controls'});
+  const values = {};
+  const valLabels = {};
+
+  act.vars.forEach(v => {
+    values[v.name] = v.value;
+    const box = h('div', {class:'slider-box'});
+    const label = h('label', {}, v.name + ' = ');
+    const valSpan = h('span', {class:'val'}, String(v.value));
+    label.append(valSpan);
+    valLabels[v.name] = valSpan;
+
+    const range = h('input', {type:'range', min:String(v.min), max:String(v.max), value:String(v.value), step:'1'});
+    range.addEventListener('input', () => {
+      mark();
+      values[v.name] = parseInt(range.value, 10);
+      valSpan.textContent = range.value;
+      updateLive();
+    });
+    box.append(label, range);
+    controls.append(box);
+  });
+
+  const live = h('div', {class:'live-result'});
+
+  function updateLive(){
+    let expr = act.expr;
+    Object.keys(values).forEach(k => {
+      expr = expr.replace(new RegExp('\\b' + k + '\\b', 'g'), values[k]);
+    });
+    let out;
+    try {
+      out = fmt(evaluateExpression(expr));
+    } catch(e){
+      out = 'خطأ: ' + e.message;
+    }
+    live.innerHTML = '';
+    live.append(
+      document.createTextNode(expr + '  →  '),
+      h('span', {class:'res'}, out)
+    );
+  }
+  updateLive();
+
+  wrap.append(controls, live);
+  if (act.observations){
+    wrap.append(solutionBlock(act.observations));
+  }
+  return wrap;
+}
+
+/* ---------- المُصيّر العام ---------- */
+function renderActivityBody(act, sectionId, actIndex){
+  const mark = () => markExplored(sectionId, actIndex);
+  switch(act.type){
+    case 'predict':      return renderPredict(act, mark);
+    case 'fillOp':       return renderFillOp(act, mark);
+    case 'match':        return renderMatch(act, mark);
+    case 'classify':     return renderClassify(act, mark);
+    case 'truthTable':   return renderTruthTable(act, mark);
+    case 'orderSteps':   return renderOrderSteps(act, mark);
+    case 'buildExpr':    return renderBuildExpr(act, mark);
+    case 'correctExpr':  return renderCorrectExpr(act, mark);
+    case 'whatIf':       return renderWhatIf(act, mark);
+    default:             return h('p', {}, 'نوع النشاط غير معروف.');
+  }
+}
+
+const TYPE_NAMES = {
+  predict:'توقّع الناتج', fillOp:'أكمل العامل', match:'طابق', classify:'صنّف',
+  truthTable:'جدول الحقيقة', orderSteps:'رتّب الخطوات', buildExpr:'ابنِ التعبير',
+  correctExpr:'صحّح بنفسك', whatIf:'ماذا يحدث لو؟'
+};
+
+/* =========================================================================
+   6) التنقل والواجهات
+   ========================================================================= */
+
+function updateNav(){
+  const nav = document.getElementById('mainNav');
+  nav.innerHTML = '';
+
+  const homeBtn = h('button', {class:'nav-btn' + (state.view === 'home' ? ' active' : ''), type:'button'}, '🏠 الرئيسية');
+  homeBtn.addEventListener('click', () => { state.view = 'home'; renderHome(); });
+  nav.append(homeBtn);
+
+  SECTIONS.forEach(sec => {
+    const total = sec.activities.length;
+    let done = 0;
+    for (let i = 0; i < total; i++) if (state.explored.has(sec.id + ':' + i)) done++;
+
+    const btn = h('button', {class:'nav-btn' + (state.view === 'section' && state.sectionId === sec.id ? ' active' : ''), type:'button'});
+    btn.append(document.createTextNode(sec.icon + ' ' + sec.title));
+    if (done > 0){
+      btn.append(h('span', {class:'badge'}, done + '/' + total));
+    }
+    btn.addEventListener('click', () => {
+      state.view = 'section';
+      state.sectionId = sec.id;
+      renderSection(sec.id);
+    });
+    nav.append(btn);
+  });
+}
+
+function renderHome(){
+  state.view = 'home';
+  updateNav();
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const hero = h('div', {class:'hero'});
+  hero.append(
+    h('h2', {}, 'أهلًا بك في رحلتك التعليمية 👋'),
+    h('p', {}, 'هذه منصة تفاعلية لتتعلّم كيف تكتب وتقرأ التعابير الحسابية والمنطقية في لغة Python. لن تجد هنا درجات ولا مؤقتًا ولا ترتيبًا تنافسيًا — فقط تعلّم ممتع بالتجربة والاستكشاف.'),
+    h('p', {}, 'ستتعلّم في هذه الرحلة:'),
+    h('ul', {},
+      h('li', {}, 'العمليات الحسابية: الجمع، الطرح، الضرب، القسمة، القسمة الصحيحة، باقي القسمة، الأس، والأقواس.'),
+      h('li', {}, 'عوامل المقارنة: == و != و > و < و >= و <=.'),
+      h('li', {}, 'العوامل المنطقية: and و or و not.'),
+      h('li', {}, 'دمج كل ذلك في تعابير مركّبة خطوة بخطوة.')
+    ),
+    h('p', {style:'margin-top:.7rem;font-size:.92rem;color:#6b7890;'}, '💡 لا تقلق من الخطأ: كل محاولة هي فرصة للتعلّم. تلميحات فورية وشرح للحل متاحان دائمًا.')
+  );
+
+  const grid = h('div', {class:'section-grid'});
+  SECTIONS.forEach(sec => {
+    const total = sec.activities.length;
+    let done = 0;
+    for (let i = 0; i < total; i++) if (state.explored.has(sec.id + ':' + i)) done++;
+
+    const card = h('button', {class:'section-card', type:'button'});
+    card.style.borderTopColor = sec.color;
+    card.append(
+      h('div', {class:'icon'}, sec.icon),
+      h('h3', {}, sec.title),
+      h('p', {}, sec.desc),
+      h('span', {class:'meta'}, total + ' نشاطًا' + (done > 0 ? ' • استكشفت ' + done : ''))
+    );
+    card.addEventListener('click', () => {
+      state.view = 'section';
+      state.sectionId = sec.id;
+      renderSection(sec.id);
+    });
+    grid.append(card);
+  });
+
+  main.append(hero, grid);
+  window.scrollTo(0,0);
+}
+
+function renderSection(sectionId){
+  state.view = 'section';
+  state.sectionId = sectionId;
+  updateNav();
+  const sec = SECTIONS.find(s => s.id === sectionId);
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const head = h('div', {class:'section-head'});
+  head.append(
+    h('h2', {}, sec.icon + ' ' + sec.title),
+    h('div', {class:'lesson', html: sec.lesson})
+  );
+
+  const list = h('div', {class:'act-list'});
+  sec.activities.forEach((act, idx) => {
+    const done = state.explored.has(sec.id + ':' + idx);
+    const item = h('button', {class:'act-item' + (done ? ' done' : ''), type:'button'});
+    item.append(
+      h('span', {class:'num'}, h('span', {}, String(idx + 1))),
+      h('span', {class:'t'}, act.title || ('نشاط ' + (idx + 1))),
+      h('span', {class:'type-tag'}, TYPE_NAMES[act.type] || act.type)
+    );
+    item.addEventListener('click', () => {
+      state.view = 'activity';
+      state.actIndex = idx;
+      renderActivityView(sectionId, idx);
+    });
+    list.append(item);
+  });
+
+  main.append(head, h('h3', {style:'margin-top:1.2rem;color:#3c4a63;'}, 'الأنشطة التفاعلية'), list);
+  window.scrollTo(0,0);
+}
+
+function renderActivityView(sectionId, index){
+  state.view = 'activity';
+  state.sectionId = sectionId;
+  state.actIndex = index;
+  updateNav();
+
+  const sec = SECTIONS.find(s => s.id === sectionId);
+  const act = sec.activities[index];
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const header = h('div', {class:'activity-header'});
+  const backBtn = h('button', {class:'btn-back', type:'button'}, '← عودة إلى القسم');
+  backBtn.addEventListener('click', () => {
+    state.view = 'section';
+    renderSection(sectionId);
+  });
+  header.append(
+    backBtn,
+    h('h2', {}, act.title || ('نشاط ' + (index + 1))),
+    h('span', {class:'act-counter'}, 'النشاط ' + (index + 1) + ' من ' + sec.activities.length)
+  );
+
+  const card = h('div', {class:'activity-card'});
+  card.append(renderActivityBody(act, sectionId, index));
+
+  const nav = h('div', {class:'activity-nav'});
+  const prevBtn = h('button', {class:'btn', type:'button', disabled: index === 0}, 'السابق');
+  prevBtn.addEventListener('click', () => renderActivityView(sectionId, index - 1));
+
+  const retryBtn = h('button', {class:'btn', type:'button'}, 'إعادة المحاولة');
+  retryBtn.addEventListener('click', () => renderActivityView(sectionId, index));
+
+  const nextBtn = h('button', {class:'btn btn-primary', type:'button', disabled: index === sec.activities.length - 1}, 'التالي');
+  nextBtn.addEventListener('click', () => renderActivityView(sectionId, index + 1));
+
+  nav.append(prevBtn, retryBtn, nextBtn);
+
+  main.append(header, card, nav);
+  window.scrollTo(0,0);
+}
+
+/* =========================================================================
+   7) الإقلاع
+   ========================================================================= */
+renderHome();
+</script>
+</body>
+</html>

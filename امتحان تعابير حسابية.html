@@ -1,0 +1,1262 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>امتحان التعابير الحسابية والمنطقية في لغة Python</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root{
+    --primary:#2563a8;
+    --primary-dark:#1a4778;
+    --primary-light:#e8f0fa;
+    --accent:#0f9b8e;
+    --success:#1f9d55;
+    --danger:#c0392b;
+    --warn:#b8860b;
+    --bg:#eef2f7;
+    --card:#ffffff;
+    --text:#1e2a38;
+    --muted:#64748b;
+    --border:#d6e0ec;
+    --radius:14px;
+    --shadow:0 4px 18px rgba(20,50,90,.08);
+  }
+
+  html, body { height: 100%; }
+
+  body{
+    font-family:"Segoe UI","Tahoma","Arial",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    direction:rtl;
+    padding:16px;
+    line-height:1.8;
+    -webkit-text-size-adjust:100%;
+  }
+
+  .app{ max-width:900px; margin:0 auto; }
+
+  .screen{ display:none; }
+  .screen.active{ display:block; animation:fade .25s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  /* ============ شاشة البداية ============ */
+  .start-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    margin-top:20px;
+  }
+  .brand-bar{
+    height:10px;
+    background:linear-gradient(90deg,var(--primary),var(--accent));
+  }
+  .start-body{ padding:28px 26px 22px; }
+
+  .start-card h1{
+    font-size:1.6rem;
+    color:var(--primary-dark);
+    text-align:center;
+    line-height:1.6;
+    margin-bottom:6px;
+  }
+  .subtitle{
+    text-align:center;
+    color:var(--muted);
+    font-size:1.05rem;
+    margin-bottom:22px;
+  }
+
+  .meta-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:24px;
+  }
+  .meta-item{
+    background:var(--primary-light);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 10px;
+    text-align:center;
+  }
+  .meta-item .val{
+    display:block;
+    font-size:1.35rem;
+    font-weight:700;
+    color:var(--primary-dark);
+  }
+  .meta-item .lbl{
+    display:block;
+    font-size:.88rem;
+    color:var(--muted);
+  }
+
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block;
+    font-weight:600;
+    margin-bottom:6px;
+    font-size:1rem;
+  }
+  .req{ color:var(--danger); }
+
+  .field input{
+    width:100%;
+    padding:12px 14px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    font-size:1rem;
+    font-family:inherit;
+    background:#fbfdff;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(37,99,168,.15);
+  }
+
+  .error-msg{
+    color:var(--danger);
+    font-size:.92rem;
+    margin-top:6px;
+    display:none;
+  }
+  .error-msg.show{ display:block; }
+
+  .btn{
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:600;
+    border:none;
+    border-radius:10px;
+    padding:12px 26px;
+    cursor:pointer;
+    transition:transform .12s, background .15s, box-shadow .15s;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+  }
+  .btn:active{ transform:scale(.98); }
+  .btn:focus-visible{ outline:3px solid rgba(37,99,168,.4); outline-offset:2px; }
+
+  .btn-primary{ background:var(--primary); color:#fff; }
+  .btn-primary:hover{ background:var(--primary-dark); }
+
+  .btn-success{ background:var(--success); color:#fff; }
+  .btn-success:hover{ background:#177a42; }
+
+  .btn-ghost{
+    background:#fff;
+    color:var(--primary-dark);
+    border:2px solid var(--border);
+  }
+  .btn-ghost:hover{ background:var(--primary-light); }
+  .btn-ghost:disabled{ opacity:.45; cursor:not-allowed; }
+
+  .btn-block{ width:100%; padding:14px; font-size:1.1rem; }
+
+  .instructions{
+    background:#f7fafd;
+    border-right:5px solid var(--accent);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:22px;
+    font-size:.96rem;
+    color:#33465c;
+  }
+  .instructions h3{ font-size:1rem; color:var(--primary-dark); margin-bottom:8px; }
+  .instructions ul{ padding-right:20px; }
+  .instructions li{ margin-bottom:4px; }
+
+  .footer-note{
+    text-align:center;
+    color:var(--muted);
+    font-size:.9rem;
+    padding:14px 10px 4px;
+    border-top:1px dashed var(--border);
+    margin-top:18px;
+  }
+
+  /* ============ شاشة الامتحان ============ */
+  .quiz-header{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:16px 18px;
+    margin-top:12px;
+    margin-bottom:14px;
+  }
+  .quiz-title{
+    font-size:1.08rem;
+    font-weight:700;
+    color:var(--primary-dark);
+    margin-bottom:10px;
+  }
+  .quiz-meta{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:8px;
+    font-size:.92rem;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .quiz-meta strong{ color:var(--primary-dark); }
+
+  .progress-track{
+    height:10px;
+    background:#e3ebf4;
+    border-radius:20px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--primary),var(--accent));
+    border-radius:20px;
+    transition:width .3s ease;
+  }
+
+  .question-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px 20px;
+    margin-bottom:14px;
+    min-height:240px;
+  }
+
+  .q-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .q-num{
+    background:var(--primary);
+    color:#fff;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:1.05rem;
+    flex-shrink:0;
+  }
+  .q-tag{
+    background:var(--primary-light);
+    color:var(--primary-dark);
+    font-size:.8rem;
+    font-weight:600;
+    padding:4px 12px;
+    border-radius:20px;
+  }
+
+  .q-text{
+    font-size:1.08rem;
+    font-weight:600;
+    margin-bottom:14px;
+    color:#22303f;
+  }
+
+  .code-block{
+    direction:ltr;
+    unicode-bidi:embed;
+    text-align:left;
+    font-family:"Consolas","Monaco","Courier New",monospace;
+    font-size:1.15rem;
+    background:#1e2a38;
+    color:#7ee0c0;
+    padding:14px 18px;
+    border-radius:10px;
+    margin-bottom:18px;
+    overflow-x:auto;
+    white-space:pre-wrap;
+    word-break:break-word;
+    letter-spacing:.5px;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:10px; }
+
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    background:#fbfdff;
+    transition:border-color .15s, background .15s;
+  }
+  .option:hover{ border-color:#a9c6e4; background:#f4f9ff; }
+  .option.selected{
+    border-color:var(--primary);
+    background:var(--primary-light);
+  }
+  .option input{ position:absolute; opacity:0; pointer-events:none; }
+
+  .option-letter{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:#e3ebf4;
+    color:var(--primary-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:.9rem;
+    flex-shrink:0;
+  }
+  .option.selected .option-letter{ background:var(--primary); color:#fff; }
+
+  .option-text{ font-size:1.02rem; }
+  .mono{
+    direction:ltr;
+    unicode-bidi:embed;
+    font-family:"Consolas","Monaco","Courier New",monospace;
+    font-size:1.08rem;
+    font-weight:600;
+  }
+
+  .text-answer label{
+    display:block;
+    font-weight:600;
+    margin-bottom:8px;
+    color:#33465c;
+    font-size:.98rem;
+  }
+  .text-input{
+    width:100%;
+    max-width:380px;
+    padding:13px 16px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    font-size:1.15rem;
+    font-family:"Consolas","Monaco","Courier New",monospace;
+    direction:ltr;
+    text-align:left;
+    background:#fbfdff;
+  }
+  .text-input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(37,99,168,.15);
+  }
+  .answer-hint{
+    display:block;
+    font-size:.85rem;
+    color:var(--muted);
+    margin-top:8px;
+  }
+
+  .nav-buttons{
+    display:flex;
+    gap:10px;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .nav-buttons .btn{ flex:1 1 140px; }
+
+  .question-map{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:14px;
+    margin-bottom:12px;
+  }
+  .map-btn{
+    width:38px; height:38px;
+    border-radius:9px;
+    border:2px solid var(--border);
+    background:#fff;
+    color:var(--muted);
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    font-size:.92rem;
+    transition:.15s;
+  }
+  .map-btn:hover{ border-color:var(--primary); }
+  .map-btn.answered{
+    background:#e2f5ec;
+    border-color:#8fd4b4;
+    color:#146c43;
+  }
+  .map-btn.current{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+    transform:scale(1.08);
+  }
+
+  /* ============ شاشة النتيجة ============ */
+  .result-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    margin-top:20px;
+  }
+  .result-head{
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+    color:#fff;
+    padding:24px 20px;
+    text-align:center;
+  }
+  .result-head h2{ font-size:1.5rem; margin-bottom:6px; }
+  .result-head p{ font-size:.95rem; opacity:.92; }
+
+  .result-body{ padding:24px 22px; }
+
+  .score-box{
+    text-align:center;
+    margin-bottom:24px;
+  }
+  .score-circle{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    background:conic-gradient(var(--success) var(--p,0%), #e3ebf4 0);
+    position:relative;
+    margin-bottom:14px;
+  }
+  .score-circle::after{
+    content:"";
+    position:absolute;
+    inset:12px;
+    background:#fff;
+    border-radius:50%;
+  }
+  .score-inner{
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    line-height:1.3;
+  }
+  .score-val{ font-size:2.4rem; font-weight:800; color:var(--primary-dark); }
+  .score-total{ font-size:.85rem; color:var(--muted); }
+
+  .grade-label{
+    font-size:1.15rem;
+    font-weight:700;
+    color:var(--accent);
+  }
+
+  .info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:12px;
+    margin-bottom:20px;
+  }
+  .info-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    background:#f7fafd;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:11px 14px;
+    font-size:.98rem;
+  }
+  .info-row .k{ color:var(--muted); }
+  .info-row .v{ font-weight:700; color:var(--primary-dark); }
+  .v.ok{ color:var(--success); }
+  .v.bad{ color:var(--danger); }
+  .v.skip{ color:var(--warn); }
+
+  .message-box{
+    border-right:5px solid var(--accent);
+    background:#f0fbf8;
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:1rem;
+    color:#204a44;
+    margin-bottom:20px;
+  }
+
+  .result-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding:0 22px 22px;
+  }
+  .result-actions .btn{ flex:1 1 180px; }
+
+  .result-footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:.9rem;
+    padding:14px;
+    border-top:1px dashed var(--border);
+  }
+
+  /* ============ الطباعة ============ */
+  @media print{
+    body{ background:#fff; padding:0; }
+    .screen{ display:none !important; }
+    #resultScreen{ display:block !important; }
+    .no-print{ display:none !important; }
+    .result-card{
+      box-shadow:none;
+      border:2px solid #222;
+      margin:0;
+      border-radius:0;
+    }
+    .result-head{
+      background:#fff !important;
+      color:#000 !important;
+      border-bottom:2px solid #222;
+    }
+    .score-circle{
+      background:#fff !important;
+      border:3px solid #222;
+    }
+    .score-circle::after{ background:#fff; }
+    .score-val{ color:#000; }
+    .grade-label{ color:#000; }
+    .info-row{ background:#fff; }
+    .message-box{ background:#fff; border-right-color:#222; }
+    .result-footer{ border-top:2px solid #222; }
+  }
+
+  @media (max-width:520px){
+    body{ padding:10px; }
+    .start-body{ padding:20px 16px; }
+    .start-card h1{ font-size:1.28rem; }
+    .question-card{ padding:18px 14px; }
+    .code-block{ font-size:1rem; padding:12px; }
+    .map-btn{ width:34px; height:34px; font-size:.85rem; }
+    .score-circle{ width:145px; height:145px; }
+    .score-val{ font-size:2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= شاشة البداية ================= -->
+  <section id="startScreen" class="screen active">
+    <div class="start-card">
+      <div class="brand-bar"></div>
+      <div class="start-body">
+        <h1>امتحان التعابير الحسابية والمنطقية في لغة Python</h1>
+        <p class="subtitle">الصف الأول الثانوي — مادة الحاسوب</p>
+
+        <div class="meta-grid">
+          <div class="meta-item"><span class="val">20</span><span class="lbl">عدد الأسئلة</span></div>
+          <div class="meta-item"><span class="val">100</span><span class="lbl">العلامة الكلية</span></div>
+          <div class="meta-item"><span class="val">5</span><span class="lbl">علامة كل سؤال</span></div>
+          <div class="meta-item"><span class="val">45</span><span class="lbl">دقيقة مقترحة</span></div>
+        </div>
+
+        <div class="instructions">
+          <h3>تعليمات مهمة قبل البدء</h3>
+          <ul>
+            <li>اقرأ التعبير البرمجي جيدًا قبل اختيار الإجابة أو كتابتها.</li>
+            <li>تذكّر أولوية العمليات الحسابية في بايثون: الأقواس، ثم الأس، ثم الضرب والقسمة، ثم الجمع والطرح.</li>
+            <li>انتبه للفرق بين <span class="mono">=</span> (إسناد) و <span class="mono">==</span> (مقارنة).</li>
+            <li>اكتب الإجابات المنطقية بالصيغة <span class="mono">True</span> أو <span class="mono">False</span>.</li>
+            <li>يمكنك التنقل بين الأسئلة والعودة إليها، وتبقى إجاباتك محفوظة.</li>
+            <li>لا تظهر الإجابات الصحيحة ولا العلامة إلا بعد تسليم الامتحان.</li>
+          </ul>
+        </div>
+
+        <form id="startForm" novalidate>
+          <div class="field">
+            <label for="nameInput">اسم الطالب <span class="req">*</span></label>
+            <input type="text" id="nameInput" placeholder="اكتب اسمك الثلاثي هنا" autocomplete="off">
+            <div class="error-msg" id="nameError">الرجاء إدخال اسم الطالب قبل بدء الامتحان.</div>
+          </div>
+          <div class="field">
+            <label for="sectionInput">الشعبة (اختياري)</label>
+            <input type="text" id="sectionInput" placeholder="مثال: شعبة أ" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">ابدأ الامتحان</button>
+        </form>
+
+        <div class="footer-note">تصميم الأستاذ عواد دحبور</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= شاشة الامتحان ================= -->
+  <section id="quizScreen" class="screen">
+    <div class="quiz-header">
+      <div class="quiz-title">امتحان التعابير الحسابية والمنطقية في لغة Python — الصف الأول الثانوي</div>
+      <div class="quiz-meta">
+        <span>الطالب: <strong id="studentLabel">—</strong></span>
+        <span id="progressLabel">السؤال 1 من 20</span>
+        <span id="answeredLabel">تمت الإجابة عن 0 من 20</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <div class="question-card" id="questionCard"></div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-ghost" id="prevBtn">السؤال السابق</button>
+      <button type="button" class="btn btn-primary" id="nextBtn">السؤال التالي</button>
+      <button type="button" class="btn btn-success" id="finishBtn" style="display:none;">إنهاء الامتحان</button>
+    </div>
+
+    <div class="question-map" id="questionMap"></div>
+    <div class="footer-note">تصميم الأستاذ عواد دحبور</div>
+  </section>
+
+  <!-- ================= شاشة النتيجة ================= -->
+  <section id="resultScreen" class="screen">
+    <div class="result-card" id="resultCard">
+      <div class="result-head">
+        <h2>نتيجة الامتحان الإلكتروني</h2>
+        <p>امتحان التعابير الحسابية والمنطقية في لغة Python — الصف الأول الثانوي</p>
+      </div>
+
+      <div class="result-body">
+        <div class="score-box">
+          <div class="score-circle" id="scoreCircle">
+            <div class="score-inner">
+              <span class="score-val" id="rScore">0</span>
+              <span class="score-total">من 100</span>
+            </div>
+          </div>
+          <div class="grade-label" id="rGrade">—</div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-row"><span class="k">اسم الطالب</span><span class="v" id="rName">—</span></div>
+          <div class="info-row"><span class="k">الصف</span><span class="v">الأول الثانوي</span></div>
+          <div class="info-row"><span class="k">الشعبة</span><span class="v" id="rSection">—</span></div>
+          <div class="info-row"><span class="k">عدد الإجابات الصحيحة</span><span class="v ok" id="rCorrect">0</span></div>
+          <div class="info-row"><span class="k">عدد الإجابات الخاطئة</span><span class="v bad" id="rWrong">0</span></div>
+          <div class="info-row"><span class="k">الأسئلة المتروكة</span><span class="v skip" id="rSkipped">0</span></div>
+          <div class="info-row"><span class="k">النسبة المئوية</span><span class="v" id="rPercent">0%</span></div>
+          <div class="info-row"><span class="k">تاريخ الامتحان</span><span class="v" id="rDate">—</span></div>
+        </div>
+
+        <div class="message-box" id="rMessage"></div>
+      </div>
+
+      <div class="result-actions no-print">
+        <button type="button" class="btn btn-primary" id="printBtn">طباعة النتيجة</button>
+        <button type="button" class="btn btn-ghost" id="restartBtn">بدء محاولة جديدة</button>
+      </div>
+
+      <div class="result-footer">تصميم الأستاذ عواد دحبور</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     بنك الأسئلة (20 سؤالًا — 5 علامات لكل سؤال = 100 علامة)
+     ========================================================= */
+  const questions = [
+    /* ---------- 1 : اختيار من متعدد ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "8 + 2 * 3",
+      options: ["30", "14", "24", "11"],
+      answer: 1
+    },
+    /* ---------- 2 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "(8 + 2) * 3",
+      options: ["14", "30", "24", "18"],
+      answer: 1
+    },
+    /* ---------- 3 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "17 % 5",
+      options: ["3", "4", "2", "1"],
+      answer: 2
+    },
+    /* ---------- 4 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "2 ** 3 + 1",
+      options: ["9", "7", "16", "8"],
+      answer: 0
+    },
+    /* ---------- 5 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "17 // 5",
+      options: ["3", "2", "3.4", "4"],
+      answer: 0
+    },
+    /* ---------- 6 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "أي المعاملات التالية يُستخدم للمقارنة بين قيمتين للتأكد من تساويهما؟",
+      code: "اختر المعامل الصحيح",
+      options: ["=", "==", "!=", "=>"],
+      answer: 1
+    },
+    /* ---------- 7 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "7 / 2",
+      options: ["3", "4", "3.5", "1"],
+      answer: 2
+    },
+    /* ---------- 8 ---------- */
+    {
+      type: "mcq",
+      tag: "اختيار من متعدد",
+      text: "ما ناتج تنفيذ التعبير الحسابي التالي في لغة بايثون؟",
+      code: "20 % 4",
+      options: ["5", "4", "1", "0"],
+      answer: 3
+    },
+
+    /* ---------- 9 : اكتب الإجابة ---------- */
+    {
+      type: "text",
+      tag: "اكتب الإجابة",
+      text: "اكتب ناتج تنفيذ التعبير الحسابي التالي:",
+      code: "5 + 3 * 2",
+      answer: "11",
+      hint: "اكتب الرقم فقط دون أي رموز إضافية."
+    },
+    /* ---------- 10 ---------- */
+    {
+      type: "text",
+      tag: "اكتب الإجابة",
+      text: "اكتب ناتج تنفيذ التعبير الحسابي التالي:",
+      code: "15 // 4",
+      answer: "3",
+      hint: "تذكّر أن // تعطي القسمة الصحيحة (بدون كسر)."
+    },
+    /* ---------- 11 ---------- */
+    {
+      type: "text",
+      tag: "اكتب الإجابة",
+      text: "اكتب ناتج تنفيذ التعبير الحسابي التالي:",
+      code: "3 ** 2 * 2",
+      answer: "18",
+      hint: "الأس له أولوية أعلى من الضرب."
+    },
+    /* ---------- 12 ---------- */
+    {
+      type: "text",
+      tag: "اكتب الإجابة",
+      text: "اكتب ناتج تنفيذ التعبير الحسابي التالي:",
+      code: "22 % 5",
+      answer: "2",
+      hint: "الناتج هو باقي القسمة."
+    },
+
+    /* ---------- 13 : تحديد القيمة المنطقية ---------- */
+    {
+      type: "tf",
+      tag: "القيمة المنطقية",
+      text: "ما القيمة المنطقية الناتجة عن التعبير التالي؟",
+      code: "10 > 5",
+      answer: "True"
+    },
+    /* ---------- 14 ---------- */
+    {
+      type: "tf",
+      tag: "القيمة المنطقية",
+      text: "ما القيمة المنطقية الناتجة عن التعبير التالي؟",
+      code: "True and False",
+      answer: "False"
+    },
+    /* ---------- 15 ---------- */
+    {
+      type: "tf",
+      tag: "القيمة المنطقية",
+      text: "ما القيمة المنطقية الناتجة عن التعبير التالي؟",
+      code: "not (3 > 7)",
+      answer: "True"
+    },
+
+    /* ---------- 16 : تحليل التعبير المركب ---------- */
+    {
+      type: "text",
+      tag: "تعبير مركّب",
+      text: "حلّل التعبير المركّب التالي ثم اكتب الناتج النهائي (True أو False):",
+      code: "(4 + 6) > 8 and 3 * 2 == 6",
+      answer: "True",
+      hint: "اكتب True أو False فقط."
+    },
+    /* ---------- 17 ---------- */
+    {
+      type: "text",
+      tag: "تعبير مركّب",
+      text: "حلّل التعبير المركّب التالي ثم اكتب الناتج النهائي (True أو False):",
+      code: "8 + 2 > 12 or 3 * 3 == 8",
+      answer: "False",
+      hint: "اكتب True أو False فقط."
+    },
+    /* ---------- 18 ---------- */
+    {
+      type: "text",
+      tag: "تعبير مركّب",
+      text: "حلّل التعبير المركّب التالي ثم اكتب الناتج النهائي (True أو False):",
+      code: "not (5 == 5) or 7 // 2 == 3",
+      answer: "True",
+      hint: "اكتب True أو False فقط."
+    },
+
+    /* ---------- 19 : اكتشاف الخطأ / التعبير الصحيح ---------- */
+    {
+      type: "mcq",
+      tag: "التعبير الصحيح",
+      text: "أي التعبيرات التالية صحيح نحويًا في بايثون لفحص أن قيمة المتغير x لا تساوي 5؟",
+      code: "اختر التعبير الصحيح",
+      options: ["x <> 5", "x =! 5", "x != 5", "x !== 5"],
+      answer: 2
+    },
+    /* ---------- 20 ---------- */
+    {
+      type: "mcq",
+      tag: "التعبير الصحيح",
+      text: "أي التعبيرات التالية صحيح نحويًا في بايثون لفحص أن العدد a عدد زوجي؟",
+      code: "اختر التعبير الصحيح",
+      options: ["a % 2 = 0", "a / 2 == 0", "a % 2 == 0", "a // 2 == 0"],
+      answer: 2
+    }
+  ];
+
+  const TOTAL = questions.length;          // 20
+  const MARK_PER_Q = 5;                    // 5
+  const TOTAL_MARK = TOTAL * MARK_PER_Q;   // 100
+
+  /* =========================================================
+     حالة الامتحان
+     ========================================================= */
+  const state = {
+    studentName: "",
+    section: "",
+    current: 0,
+    answers: new Array(TOTAL).fill(null),
+    submitted: false
+  };
+
+  /* =========================================================
+     عناصر الصفحة
+     ========================================================= */
+  const startScreen  = document.getElementById("startScreen");
+  const quizScreen   = document.getElementById("quizScreen");
+  const resultScreen = document.getElementById("resultScreen");
+
+  const startForm    = document.getElementById("startForm");
+  const nameInput    = document.getElementById("nameInput");
+  const sectionInput = document.getElementById("sectionInput");
+  const nameError    = document.getElementById("nameError");
+
+  const studentLabel = document.getElementById("studentLabel");
+  const progressLabel= document.getElementById("progressLabel");
+  const answeredLabel= document.getElementById("answeredLabel");
+  const progressFill = document.getElementById("progressFill");
+  const questionCard = document.getElementById("questionCard");
+  const questionMap  = document.getElementById("questionMap");
+
+  const prevBtn   = document.getElementById("prevBtn");
+  const nextBtn   = document.getElementById("nextBtn");
+  const finishBtn = document.getElementById("finishBtn");
+
+  /* =========================================================
+     أدوات مساعدة
+     ========================================================= */
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function isAnsweredValue(v) {
+    return !(v === null || v === undefined || String(v).trim() === "");
+  }
+
+  function normalize(str) {
+    return String(str).trim().replace(/\s+/g, "").toLowerCase();
+  }
+
+  function isCorrect(q, ans) {
+    if (!isAnsweredValue(ans)) return false;
+    if (q.type === "mcq") {
+      return Number(ans) === q.answer;
+    }
+    return normalize(ans) === normalize(q.answer);
+  }
+
+  function showScreen(el) {
+    [startScreen, quizScreen, resultScreen].forEach(function (s) {
+      s.classList.remove("active");
+    });
+    el.classList.add("active");
+    window.scrollTo(0, 0);
+  }
+
+  /* =========================================================
+     شاشة البداية
+     ========================================================= */
+  startForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    if (name === "") {
+      nameError.classList.add("show");
+      nameInput.focus();
+      return;
+    }
+    nameError.classList.remove("show");
+
+    state.studentName = name;
+    state.section = sectionInput.value.trim();
+    state.current = 0;
+    state.answers = new Array(TOTAL).fill(null);
+    state.submitted = false;
+
+    studentLabel.textContent = state.studentName + (state.section ? " — " + state.section : "");
+
+    showScreen(quizScreen);
+    renderQuestion();
+    updateUI();
+  });
+
+  nameInput.addEventListener("input", function () {
+    if (nameInput.value.trim() !== "") nameError.classList.remove("show");
+  });
+
+  /* =========================================================
+     عرض السؤال
+     ========================================================= */
+  function renderQuestion() {
+    const idx = state.current;
+    const q = questions[idx];
+    const saved = state.answers[idx];
+
+    let bodyHtml = "";
+
+    if (q.type === "mcq") {
+      bodyHtml = '<div class="options">' +
+        q.options.map(function (opt, i) {
+          const selected = Number(saved) === i;
+          return '<label class="option' + (selected ? " selected" : "") + '">' +
+            '<input type="radio" name="q' + idx + '" value="' + i + '"' + (selected ? " checked" : "") + '>' +
+            '<span class="option-letter">' + ["أ", "ب", "ج", "د"][i] + '</span>' +
+            '<span class="option-text mono">' + escapeHtml(opt) + '</span>' +
+          '</label>';
+        }).join("") + '</div>';
+
+    } else if (q.type === "tf") {
+      const opts = ["True", "False"];
+      bodyHtml = '<div class="options">' +
+        opts.map(function (opt, i) {
+          const selected = saved === opt;
+          return '<label class="option' + (selected ? " selected" : "") + '">' +
+            '<input type="radio" name="q' + idx + '" value="' + opt + '"' + (selected ? " checked" : "") + '>' +
+            '<span class="option-letter">' + (i === 0 ? "أ" : "ب") + '</span>' +
+            '<span class="option-text mono">' + opt + '</span>' +
+          '</label>';
+        }).join("") + '</div>';
+
+    } else {
+      const val = isAnsweredValue(saved) ? escapeHtml(saved) : "";
+      bodyHtml =
+        '<div class="text-answer">' +
+          '<label for="textInput">اكتب الناتج هنا:</label>' +
+          '<input type="text" id="textInput" class="text-input" value="' + val + '" ' +
+                 'placeholder="اكتب الإجابة..." autocomplete="off" spellcheck="false">' +
+          (q.hint ? '<span class="answer-hint">' + escapeHtml(q.hint) + '</span>' : '') +
+        '</div>';
+    }
+
+    questionCard.innerHTML =
+      '<div class="q-head">' +
+        '<div class="q-num">' + (idx + 1) + '</div>' +
+        '<div class="q-tag">' + escapeHtml(q.tag) + '</div>' +
+      '</div>' +
+      '<div class="q-text">' + escapeHtml(q.text) + '</div>' +
+      '<div class="code-block">' + escapeHtml(q.code) + '</div>' +
+      bodyHtml;
+
+    // إعادة التركيز على حقل الكتابة عند الحاجة
+    const textInput = document.getElementById("textInput");
+    if (textInput && idx === state.current) {
+      // لا نجبر التركيز تلقائيًا لتجنب فتح لوحة المفاتيح على الجوال
+    }
+  }
+
+  /* =========================================================
+     تفاعل الإجابات
+     ========================================================= */
+  questionCard.addEventListener("change", function (e) {
+    const target = e.target;
+    if (!target || target.type !== "radio") return;
+
+    const idx = state.current;
+    const q = questions[idx];
+
+    if (q.type === "mcq") {
+      state.answers[idx] = parseInt(target.value, 10);
+    } else if (q.type === "tf") {
+      state.answers[idx] = target.value;
+    }
+
+    const labels = questionCard.querySelectorAll(".option");
+    for (let i = 0; i < labels.length; i++) labels[i].classList.remove("selected");
+    const parent = target.closest(".option");
+    if (parent) parent.classList.add("selected");
+
+    updateUI();
+  });
+
+  questionCard.addEventListener("input", function (e) {
+    if (e.target && e.target.id === "textInput") {
+      state.answers[state.current] = e.target.value;
+      updateUI();
+    }
+  });
+
+  questionCard.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target && e.target.id === "textInput") {
+      e.preventDefault();
+      if (state.current < TOTAL - 1) {
+        goTo(state.current + 1);
+      } else {
+        finishExam();
+      }
+    }
+  });
+
+  /* =========================================================
+     التنقل
+     ========================================================= */
+  function goTo(index) {
+    if (index < 0 || index >= TOTAL) return;
+    state.current = index;
+    renderQuestion();
+    updateUI();
+    const card = document.getElementById("questionCard");
+    if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  prevBtn.addEventListener("click", function () {
+    if (state.current > 0) goTo(state.current - 1);
+  });
+
+  nextBtn.addEventListener("click", function () {
+    if (state.current < TOTAL - 1) goTo(state.current + 1);
+  });
+
+  finishBtn.addEventListener("click", finishExam);
+
+  questionMap.addEventListener("click", function (e) {
+    const btn = e.target.closest(".map-btn");
+    if (!btn) return;
+    const idx = parseInt(btn.getAttribute("data-jump"), 10);
+    if (!isNaN(idx)) goTo(idx);
+  });
+
+  /* =========================================================
+     تحديث الواجهة
+     ========================================================= */
+  function updateUI() {
+    const idx = state.current;
+    const answeredCount = state.answers.filter(isAnsweredValue).length;
+
+    progressLabel.textContent = "السؤال " + (idx + 1) + " من " + TOTAL;
+    answeredLabel.textContent = "تمت الإجابة عن " + answeredCount + " من " + TOTAL;
+    progressFill.style.width = (answeredCount / TOTAL * 100) + "%";
+
+    prevBtn.disabled = idx === 0;
+    nextBtn.style.display = idx === TOTAL - 1 ? "none" : "inline-flex";
+    finishBtn.style.display = idx === TOTAL - 1 ? "inline-flex" : "none";
+
+    questionMap.innerHTML = questions.map(function (q, i) {
+      const answered = isAnsweredValue(state.answers[i]);
+      let cls = "map-btn";
+      if (answered) cls += " answered";
+      if (i === idx) cls += " current";
+      return '<button type="button" class="' + cls + '" data-jump="' + i + '" ' +
+             'title="السؤال ' + (i + 1) + (answered ? " (تمت الإجابة)" : " (بدون إجابة)") + '">' +
+             (i + 1) + '</button>';
+    }).join("");
+  }
+
+  /* =========================================================
+     إنهاء الامتحان والتسليم
+     ========================================================= */
+  function finishExam() {
+    if (state.submitted) return;
+
+    const unanswered = [];
+    state.answers.forEach(function (a, i) {
+      if (!isAnsweredValue(a)) unanswered.push(i + 1);
+    });
+
+    let msg = "هل أنت متأكد من إنهاء الامتحان وتسليم الإجابات؟\nلن تتمكن من تعديل إجاباتك بعد التسليم.";
+    if (unanswered.length > 0) {
+      msg = "تنبيه: هناك " + unanswered.length + " سؤالًا بدون إجابة:\n" +
+            unanswered.join("، ") +
+            "\n\nهل تريد تسليم الامتحان على أي حال؟";
+    }
+
+    if (!window.confirm(msg)) return;
+    submitExam();
+  }
+
+  function submitExam() {
+    state.submitted = true;
+
+    let correct = 0, wrong = 0, skipped = 0;
+
+    questions.forEach(function (q, i) {
+      const a = state.answers[i];
+      if (!isAnsweredValue(a)) {
+        skipped++;
+      } else if (isCorrect(q, a)) {
+        correct++;
+      } else {
+        wrong++;
+      }
+    });
+
+    const score = correct * MARK_PER_Q;          // من 100
+    const percent = Math.round((score / TOTAL_MARK) * 100);
+
+    // تعبئة البيانات
+    document.getElementById("rName").textContent = state.studentName || "—";
+    document.getElementById("rSection").textContent = state.section || "غير محددة";
+    document.getElementById("rCorrect").textContent = correct + " إجابة";
+    document.getElementById("rWrong").textContent = wrong + " إجابة";
+    document.getElementById("rSkipped").textContent = skipped + " سؤال";
+    document.getElementById("rPercent").textContent = percent + "%";
+    document.getElementById("rScore").textContent = score;
+
+    // دائرة العلامة
+    const circle = document.getElementById("scoreCircle");
+    circle.style.setProperty("--p", percent + "%");
+
+    // التقدير والرسالة التشجيعية
+    let grade = "";
+    let message = "";
+
+    if (percent >= 90) {
+      grade = "ممتاز";
+      message = "أداء رائع ومتميز يا " + state.studentName + "! لقد أتقنت التعابير الحسابية والمنطقية في بايثون إتقانًا عاليًا. واصل هذا التفوق.";
+    } else if (percent >= 80) {
+      grade = "جيد جدًا";
+      message = "أحسنت يا " + state.studentName + "! نتيجتك جيدة جدًا وتدل على فهم واضح للمفاهيم. راجع الأسئلة التي أخطأت فيها لتصل إلى الإتقان الكامل.";
+    } else if (percent >= 70) {
+      grade = "جيد";
+      message = "نتيجة جيدة يا " + state.studentName + ". أنت على الطريق الصحيح، وتحتاج فقط إلى مزيد من التدريب على أولوية العمليات والمعاملات المنطقية.";
+    } else if (percent >= 60) {
+      grade = "متوسط";
+      message = "لا بأس يا " + state.studentName + "، لديك أساس جيد. أعد قراءة قواعد أولوية العمليات والفرق بين = و == ثم حاول مرة أخرى.";
+    } else if (percent >= 50) {
+      grade = "مقبول";
+      message = "يا " + state.studentName + "، تحتاج إلى مراجعة أساسيات التعابير الحسابية والمنطقية. تدرب على أمثلة قصيرة وستتحسن نتيجتك بسرعة بإذن الله.";
+    } else {
+      grade = "يحتاج إلى تدريب";
+      message = "لا تقلق يا " + state.studentName + "، البداية دائمًا صعبة. راجع الدرس خطوة بخطوة، وابدأ بتدريب بسيط على العمليات الحسابية ثم المعاملات المنطقية، وستلاحظ تحسنًا واضحًا.";
+    }
+
+    document.getElementById("rGrade").textContent = "التقدير: " + grade;
+    document.getElementById("rMessage").textContent = message;
+
+    // تاريخ الامتحان
+    let dateStr = "—";
+    try {
+      const now = new Date();
+      const d = now.toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" });
+      const t = now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+      dateStr = d + " — " + t;
+    } catch (err) {
+      dateStr = new Date().toLocaleString();
+    }
+    document.getElementById("rDate").textContent = dateStr;
+
+    showScreen(resultScreen);
+  }
+
+  /* =========================================================
+     الطباعة وإعادة المحاولة
+     ========================================================= */
+  document.getElementById("printBtn").addEventListener("click", function () {
+    window.print();
+  });
+
+  document.getElementById("restartBtn").addEventListener("click", function () {
+    const ok = window.confirm("هل تريد بدء محاولة جديدة؟\nسيتم حذف جميع الإجابات والنتيجة السابقة.");
+    if (!ok) return;
+
+    state.studentName = "";
+    state.section = "";
+    state.current = 0;
+    state.answers = new Array(TOTAL).fill(null);
+    state.submitted = false;
+
+    nameInput.value = "";
+    sectionInput.value = "";
+    nameError.classList.remove("show");
+
+    document.getElementById("scoreCircle").style.setProperty("--p", "0%");
+    document.getElementById("rScore").textContent = "0";
+
+    showScreen(startScreen);
+    nameInput.focus();
+  });
+
+  /* =========================================================
+     تهيئة أولية
+     ========================================================= */
+  window.addEventListener("beforeunload", function (e) {
+    if (quizScreen.classList.contains("active") && !state.submitted) {
+      e.preventDefault();
+      e.returnValue = "";
+      return "";
+    }
+  });
+
+  nameInput.focus();
+})();
+</script>
+</body>
+</html>

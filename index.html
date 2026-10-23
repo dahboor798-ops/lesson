@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="البوابة الرقمية لمدرسة أبو الزيغان الثانوية للبنين - خيارات الدخول للمعلم والطالب">
+<title>مدرسة أبو الزيغان الثانوية للبنين | البوابة الرئيسية</title>
+<style>
+  :root {
+    --navy-950: #040d1c;
+    --navy-900: #071528;
+    --navy-800: #0a1f3d;
+    --navy-700: #0f3460;
+    --blue-500: #2e90fa;
+    --blue-600: #1e6fd9;
+    --cyan-400: #22d3ee;
+    --cyan-300: #67e8f9;
+    --teal-500: #14b8a6;
+    --teal-600: #0d9488;
+    --white: #ffffff;
+    --text-soft: #cbd5e1;
+    --text-muted: #94a3b8;
+    --shadow-card: 0 20px 45px -15px rgba(2, 15, 40, 0.65);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Segoe UI", "Tahoma", "Arial", "Noto Sans Arabic", "Dubai", sans-serif;
+    color: var(--white);
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(34, 211, 238, 0.15), transparent 55%),
+      radial-gradient(ellipse at 80% 100%, rgba(20, 184, 166, 0.15), transparent 55%),
+      linear-gradient(135deg, #040d1c 0%, #071528 25%, #0a1f3d 55%, #0c2a4a 80%, #0e3a55 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ===== Animated background ===== */
+  .bg-decor {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.4;
+    animation: blobFloat 20s ease-in-out infinite;
+  }
+
+  .blob-1 {
+    width: 460px; height: 460px;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.55), transparent 70%);
+    top: -140px; right: -140px;
+    animation-delay: 0s;
+  }
+
+  .blob-2 {
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.45), transparent 70%);
+    bottom: -180px; left: -160px;
+    animation-delay: -7s;
+  }
+
+  .blob-3 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(46, 144, 250, 0.4), transparent 70%);
+    top: 40%; left: 30%;
+    animation-delay: -13s;
+    opacity: 0.25;
+  }
+
+  @keyframes blobFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -30px) scale(1.05); }
+    66% { transform: translate(-30px, 40px) scale(0.95); }
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  /* ===== Page wrapper ===== */
+  .page {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 32px 24px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 8px 0;
+    flex-wrap: wrap;
+    animation: fadeDown 0.8s ease-out both;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand-logo {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 6px 16px rgba(34, 211, 238, 0.35));
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .brand-sub {
+    font-size: 0.78rem;
+    color: var(--cyan-300);
+    letter-spacing: 0.05em;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    color: var(--cyan-300);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--cyan-400);
+    box-shadow: 0 0 12px var(--cyan-400);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    text-align: center;
+    padding: 56px 0 32px;
+    animation: fadeUp 0.9s ease-out 0.15s both;
+  }
+
+  .hero-logo {
+    width: 128px;
+    height: 128px;
+    margin: 0 auto 24px;
+    display: block;
+    filter: drop-shadow(0 12px 32px rgba(34, 211, 238, 0.4));
+    animation: logoFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, #ffffff 0%, #cbf3fb 40%, #67e8f9 75%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-tagline {
+    display: inline-block;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--text-soft);
+    padding: 12px 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+  }
+
+  .hero-tagline::before,
+  .hero-tagline::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan-400));
+  }
+
+  .hero-tagline::before { right: -44px; }
+  .hero-tagline::after { left: -44px; transform: rotate(180deg); }
+
+  /* ===== Cards ===== */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    padding: 24px 0 64px;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 44px 32px 36px;
+    border-radius: 24px;
+    background: linear-gradient(160deg, rgba(15, 52, 96, 0.72) 0%, rgba(7, 21, 40, 0.9) 100%);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.45s ease,
+      border-color 0.35s ease;
+    box-shadow: var(--shadow-card);
+    animation: fadeUp 0.9s ease-out both;
+    isolation: isolate;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.18), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    transform: translateY(-8px);
+    border-color: rgba(34, 211, 238, 0.55);
+    box-shadow:
+      0 30px 70px -20px rgba(34, 211, 238, 0.4),
+      0 20px 45px -15px rgba(0, 0, 0, 0.75);
+  }
+
+  .card:hover::before,
+  .card:focus-visible::before { opacity: 1; }
+
+  .card:focus-visible {
+    outline: 2px solid var(--cyan-400);
+    outline-offset: 6px;
+  }
+
+  .card-teacher { animation-delay: 0.3s; }
+  .card-student { animation-delay: 0.45s; }
+
+  .card-icon {
+    width: 108px;
+    height: 108px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    margin-bottom: 24px;
+    position: relative;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-teacher .card-icon {
+    background: linear-gradient(135deg, rgba(46, 144, 250, 0.25), rgba(34, 211, 238, 0.15));
+    border: 1px solid rgba(46, 144, 250, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 24px -8px rgba(46, 144, 250, 0.5);
+    color: #7dd3fc;
+  }
+
+  .card-student .card-icon {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.25), rgba(34, 211, 238, 0.15));
+    border: 1px solid rgba(20, 184, 166, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 24px -8px rgba(20, 184, 166, 0.5);
+    color: #5eead4;
+  }
+
+  .card:hover .card-icon {
+    transform: scale(1.06) rotate(-3deg);
+  }
+
+  .card-icon svg {
+    width: 62px;
+    height: 62px;
+  }
+
+  .card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+    letter-spacing: -0.005em;
+  }
+
+  .card-desc {
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 320px;
+  }
+
+  .card-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 34px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-top: auto;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-teacher .card-btn {
+    background: linear-gradient(135deg, #2e90fa, #1e6fd9);
+    box-shadow: 0 10px 24px -8px rgba(46, 144, 250, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .card-student .card-btn {
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    box-shadow: 0 10px 24px -8px rgba(20, 184, 166, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .card:hover .card-btn,
+  .card:focus-visible .card-btn {
+    transform: translateY(-2px);
+  }
+
+  .card-teacher:hover .card-btn,
+  .card-teacher:focus-visible .card-btn {
+    box-shadow: 0 16px 32px -8px rgba(46, 144, 250, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .card-student:hover .card-btn,
+  .card-student:focus-visible .card-btn {
+    box-shadow: 0 16px 32px -8px rgba(20, 184, 166, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .card-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.35s ease;
+  }
+
+  .card:hover .card-btn svg,
+  .card:focus-visible .card-btn svg {
+    transform: translateX(-4px);
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    padding: 28px 24px 32px;
+    border-top: 1px solid rgba(34, 211, 238, 0.12);
+    background: linear-gradient(to top, rgba(4, 13, 28, 0.7), transparent);
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+  }
+
+  .footer-credit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    padding: 10px 22px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(34, 211, 238, 0.15);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .footer-credit strong {
+    color: var(--cyan-300);
+    font-weight: 700;
+  }
+
+  .footer-credit svg {
+    width: 18px;
+    height: 18px;
+    color: var(--cyan-400);
+  }
+
+  /* ===== Animations ===== */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 820px) {
+    .page { padding: 20px 16px 0; }
+    .hero { padding: 40px 0 24px; }
+    .hero-logo { width: 100px; height: 100px; }
+    .hero-tagline::before,
+    .hero-tagline::after { display: none; }
+    .cards {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 16px 0 48px;
+    }
+    .card { padding: 32px 24px 28px; }
+    .card-icon { width: 88px; height: 88px; margin-bottom: 18px; }
+    .card-icon svg { width: 52px; height: 52px; }
+    .card-title { font-size: 1.2rem; }
+    .header-badge { display: none; }
+    .brand-logo { width: 52px; height: 52px; }
+    .brand-name { font-size: 0.9rem; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 1.5rem; }
+    .hero-tagline { font-size: 0.9rem; padding: 10px 20px; }
+    .card-btn { padding: 12px 26px; font-size: 0.95rem; }
+    .footer-credit { font-size: 0.85rem; padding: 8px 16px; }
+    .brand-name { font-size: 0.82rem; }
+    .brand-sub { font-size: 0.72rem; }
+  }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .blob,
+    .hero-logo,
+    .dot { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Animated background decorations -->
+  <div class="bg-decor" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <svg class="brand-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="hBorder" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2e90fa"/>
+              <stop offset="100%" stop-color="#22d3ee"/>
+            </linearGradient>
+            <linearGradient id="hAccent" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#67e8f9"/>
+              <stop offset="100%" stop-color="#14b8a6"/>
+            </linearGradient>
+            <linearGradient id="hFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0a1f3d"/>
+              <stop offset="100%" stop-color="#040d1c"/>
+            </linearGradient>
+          </defs>
+          <path d="M60 8 L102 22 V58 C102 84 82 102 60 112 C38 102 18 84 18 58 V22 Z"
+                fill="url(#hFill)" stroke="url(#hBorder)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M60 18 L92 28 V56 C92 76 78 92 60 100 C42 92 28 76 28 56 V28 Z"
+                fill="none" stroke="url(#hBorder)" stroke-width="1" opacity="0.4"/>
+          <g stroke="url(#hAccent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M60 52 C51 46 40 46 34 49 V79 C40 76 51 76 60 82"/>
+            <path d="M60 52 C69 46 80 46 86 49 V79 C80 76 69 76 60 82"/>
+            <line x1="60" y1="52" x2="60" y2="82"/>
+          </g>
+          <circle cx="60" cy="34" r="3" fill="url(#hAccent)"/>
+          <circle cx="48" cy="38" r="2" fill="url(#hAccent)" opacity="0.7"/>
+          <circle cx="72" cy="38" r="2" fill="url(#hAccent)" opacity="0.7"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">مدرسة أبو الزيغان الثانوية للبنين</span>
+          <span class="brand-sub">البوابة الرقمية التعليمية</span>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="dot"></span>
+        <span>البوابة نشطة</span>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+
+      <!-- Hero section -->
+      <section class="hero" aria-labelledby="schoolTitle">
+        <svg class="hero-logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="heroBorder" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2e90fa"/>
+              <stop offset="100%" stop-color="#22d3ee"/>
+            </linearGradient>
+            <linearGradient id="heroAccent" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#67e8f9"/>
+              <stop offset="100%" stop-color="#14b8a6"/>
+            </linearGradient>
+            <linearGradient id="heroFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0a1f3d"/>
+              <stop offset="100%" stop-color="#040d1c"/>
+            </linearGradient>
+          </defs>
+          <path d="M60 8 L102 22 V58 C102 84 82 102 60 112 C38 102 18 84 18 58 V22 Z"
+                fill="url(#heroFill)" stroke="url(#heroBorder)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M60 18 L92 28 V56 C92 76 78 92 60 100 C42 92 28 76 28 56 V28 Z"
+                fill="none" stroke="url(#heroBorder)" stroke-width="1" opacity="0.4"/>
+          <g stroke="url(#heroAccent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M60 52 C51 46 40 46 34 49 V79 C40 76 51 76 60 82"/>
+            <path d="M60 52 C69 46 80 46 86 49 V79 C80 76 69 76 60 82"/>
+            <line x1="60" y1="52" x2="60" y2="82"/>
+          </g>
+          <circle cx="60" cy="34" r="3" fill="url(#heroAccent)"/>
+          <circle cx="48" cy="38" r="2" fill="url(#heroAccent)" opacity="0.7"/>
+          <circle cx="72" cy="38" r="2" fill="url(#heroAccent)" opacity="0.7"/>
+        </svg>
+
+        <h1 id="schoolTitle" class="hero-title">مدرسة أبو الزيغان الثانوية للبنين</h1>
+        <p class="hero-tagline">بوابتنا التعليمية، نحو المعرفة والإبداع</p>
+      </section>
+
+      <!-- Login cards -->
+      <section class="cards" aria-label="خيارات الدخول إلى البوابة">
+
+        <!-- Teacher card -->
+        <a href="teacher.html" class="card card-teacher" aria-label="الدخول إلى صفحة المعلم">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="10" width="48" height="34" rx="3"/>
+              <line x1="8" y1="18" x2="56" y2="18" opacity="0.55"/>
+              <path d="M16 26 h12"/>
+              <path d="M16 32 h20"/>
+              <path d="M16 38 h16"/>
+              <line x1="32" y1="44" x2="32" y2="52"/>
+              <line x1="24" y1="52" x2="40" y2="52"/>
+            </svg>
+          </div>
+          <h2 class="card-title">الدخول إلى صفحة المعلم</h2>
+          <p class="card-desc">مساحتك التعليمية لإدارة الموارد والأنشطة والأدوات المدرسية</p>
+          <span class="card-btn">
+            دخول المعلم
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Student card -->
+        <a href="student.html" class="card card-student" aria-label="الدخول إلى صفحة الطالب">
+          <div class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 24 L32 14 L54 24 L32 34 Z"/>
+              <path d="M18 29 V38 C18 42 24 45 32 45 C40 45 46 42 46 38 V29"/>
+              <line x1="50" y1="24" x2="50" y2="40"/>
+              <circle cx="50" cy="42" r="2.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <h2 class="card-title">الدخول إلى صفحة الطالب</h2>
+          <p class="card-desc">انطلق نحو التعلم والأنشطة والإنجازات التعليمية</p>
+          <span class="card-btn">
+            دخول الطالب
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </span>
+        </a>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-credit">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5L12 2z"/>
+      </svg>
+      <span>تصميم <strong>الأستاذ عواد دحبور</strong></span>
+    </div>
+  </footer>
+
+</body>
+</html>
