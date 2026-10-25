@@ -1,0 +1,1636 @@
+
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الجمل الشرطية في بايثون — الأستاذ عواد دحبور</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --primary:#2563eb; --primary-dark:#1d4ed8; --primary-light:#dbeafe;
+    --success:#16a34a; --success-light:#dcfce7;
+    --warn:#ca8a04; --warn-light:#fef9c3;
+    --danger:#dc2626; --danger-light:#fee2e2;
+    --border:#e5e7eb; --code-bg:#0f172a; --code-ink:#e2e8f0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;overflow-x:hidden}
+  body{
+    font-family:'Amiri','Tajawal',serif;
+    background:var(--bg); color:var(--ink);
+    line-height:1.85; font-size:17px;
+  }
+  header.site-header{
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);
+    color:#fff; padding:28px 18px; text-align:center;
+  }
+  header.site-header h1{margin:0 0 6px;font-size:1.7rem;font-weight:700}
+  header.site-header p{margin:0;opacity:.9;font-size:1rem}
+  nav.main-nav{
+    background:#fff; border-bottom:1px solid var(--border);
+    padding:10px 12px; display:flex; flex-wrap:wrap; gap:6px;
+    justify-content:center; position:sticky; top:0; z-index:50;
+    box-shadow:0 2px 6px rgba(0,0,0,.04);
+  }
+  nav.main-nav button{
+    font-family:inherit; font-size:.92rem; cursor:pointer;
+    background:var(--primary-light); color:var(--primary-dark);
+    border:1px solid #bfdbfe; border-radius:20px;
+    padding:6px 14px; transition:.2s;
+  }
+  nav.main-nav button:hover{background:#bfdbfe}
+  nav.main-nav button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+  main{max-width:960px; margin:0 auto; padding:22px 14px 60px}
+  .unit{display:none; animation:fadeIn .35s}
+  .unit.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .card{
+    background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:20px; margin:0 0 18px;
+    box-shadow:0 2px 10px rgba(15,23,42,.04);
+  }
+  h2{color:var(--primary-dark); margin:0 0 14px; font-size:1.5rem}
+  h3{color:var(--ink); margin:0 0 10px; font-size:1.15rem}
+  p{margin:0 0 12px}
+
+  .instructions{
+    background:#f1f5f9; border-right:4px solid var(--primary);
+    padding:10px 14px; border-radius:8px; margin-bottom:14px;
+    color:#334155; font-size:.97rem;
+  }
+  .code-block{
+    background:var(--code-bg); color:var(--code-ink);
+    direction:ltr; text-align:left; unicode-bidi:embed;
+    font-family:'Courier New',Consolas,monospace;
+    font-size:14.5px; line-height:1.75;
+    padding:14px 16px; border-radius:10px;
+    overflow-x:auto; margin:10px 0 14px;
+    white-space:pre; tab-size:4;
+  }
+  .code-block .kw{color:#f472b6;font-weight:700}
+  .code-block .str{color:#86efac}
+  .code-block .num{color:#fbbf24}
+  .code-block .cm{color:#94a3b8;font-style:italic}
+
+  .btn{
+    font-family:inherit; font-size:.95rem; cursor:pointer;
+    background:#eef2f7; color:#1e293b; border:1px solid #cbd5e1;
+    border-radius:8px; padding:8px 16px; margin:4px 2px;
+    transition:.15s;
+  }
+  .btn:hover{background:#e2e8f0}
+  .btn-primary{background:var(--primary); color:#fff; border-color:var(--primary-dark)}
+  .btn-primary:hover{background:var(--primary-dark)}
+  .btn-success{background:var(--success); color:#fff; border-color:#15803d}
+  .btn-hint{background:#fef3c7; color:#92400e; border-color:#fde68a}
+  .btn-hint:hover{background:#fde68a}
+  .btn-ghost{background:transparent;border-color:transparent;color:var(--primary-dark)}
+
+  input[type=text], input[type=number], select, textarea{
+    font-family:'Tajawal','Courier New',monospace;
+    font-size:1rem; padding:8px 12px; border-radius:8px;
+    border:1px solid #cbd5e1; background:#fff; color:var(--ink);
+    width:100%; max-width:100%;
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--primary);border-color:transparent}
+  .input-row{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+  .input-row input, .input-row select{flex:1; min-width:180px; max-width:320px}
+  .input-row button{flex-shrink:0}
+
+  .feedback{
+    margin-top:12px; padding:10px 14px; border-radius:8px;
+    display:none; font-size:.97rem; border-right:4px solid transparent;
+  }
+  .feedback.correct{display:block;background:var(--success-light);border-color:var(--success);color:#14532d}
+  .feedback.wrong{display:block;background:var(--danger-light);border-color:var(--danger);color:#7f1d1d}
+  .feedback.warn{display:block;background:var(--warn-light);border-color:var(--warn);color:#713f12}
+  .feedback.info{display:block;background:#e0f2fe;border-color:#0284c7;color:#075985}
+
+  .hint-area{
+    margin-top:10px; padding:12px 14px; background:#fef3c7;
+    border-right:4px solid #d97706; border-radius:8px; color:#78350f;
+    font-size:.95rem;
+  }
+
+  .activity{border-top:1px dashed var(--border); padding-top:18px; margin-top:18px}
+  .activity:first-child{border-top:none; padding-top:0; margin-top:0}
+  .activity-title{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .badge{
+    display:inline-block; font-size:.75rem; padding:2px 10px;
+    background:var(--primary-light); color:var(--primary-dark);
+    border-radius:12px; font-family:'Tajawal',sans-serif;
+  }
+
+  .match-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:12px 0}
+  .match-col{display:flex; flex-direction:column; gap:8px}
+  .match-item{
+    background:#fff; border:2px solid #cbd5e1; border-radius:8px;
+    padding:10px 12px; cursor:pointer; text-align:center;
+    font-family:'Courier New',monospace; font-size:1rem;
+    transition:.15s; user-select:none;
+  }
+  .match-item:hover{border-color:var(--primary)}
+  .match-item.selected{border-color:var(--primary);background:var(--primary-light)}
+  .match-item.matched{border-color:var(--success);background:var(--success-light);cursor:default}
+  .match-item.wrong-flash{animation:wrongFlash .5s}
+  @keyframes wrongFlash{0%,100%{background:#fff}50%{background:#fee2e2}}
+  .match-item[dir=ltr]{direction:ltr}
+
+  .err-line{
+    display:block; padding:4px 10px; border-radius:6px;
+    cursor:pointer; transition:.15s;
+  }
+  .err-line:hover{background:rgba(255,255,255,.06)}
+  .err-line.selected{background:rgba(244,114,182,.25)}
+
+  .trace-box{
+    margin-top:10px; padding:12px; border-radius:8px;
+    background:#f8fafc; border:1px solid var(--border);
+    font-family:'Tajawal',sans-serif; font-size:.92rem;
+  }
+  .trace-row{padding:4px 0; display:flex; gap:10px; align-items:flex-start}
+  .trace-row .tr-label{color:var(--muted); min-width:100px}
+  .trace-row .tr-val{font-weight:600; color:#1e40af}
+  .trace-row.ok .tr-val{color:var(--success)}
+  .trace-row.fail .tr-val{color:var(--danger)}
+
+  .progress-bar-wrap{
+    background:#e5e7eb; border-radius:12px; height:10px;
+    overflow:hidden; margin:8px 0 14px;
+  }
+  .progress-bar-inner{
+    height:100%; background:linear-gradient(90deg,#2563eb,#16a34a);
+    border-radius:12px; transition:width .4s;
+  }
+
+  .chip{
+    display:inline-block; padding:3px 10px; border-radius:12px;
+    background:#eef2f7; color:#334155; margin:3px; font-size:.85rem;
+    font-family:'Tajawal',sans-serif;
+  }
+  .chip.done{background:var(--success-light);color:#14532d}
+  .chip.done::before{content:'✓ '}
+
+  .grid-cards{display:grid; gap:12px; grid-template-columns:1fr}
+  @media(min-width:640px){.grid-cards{grid-template-columns:1fr 1fr}}
+  .mini-card{
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    padding:14px; cursor:pointer; transition:.2s;
+  }
+  .mini-card:hover{border-color:var(--primary); transform:translateY(-2px)}
+  .mini-card h4{margin:0 0 6px; color:var(--primary-dark); font-size:1rem}
+  .mini-card p{margin:0; font-size:.9rem; color:var(--muted)}
+
+  footer{
+    text-align:center; padding:26px 14px; color:#64748b;
+    border-top:1px solid var(--border); font-size:1rem;
+    background:#fff; margin-top:30px;
+  }
+  footer .signature{
+    font-size:1.25rem; font-weight:700; color:var(--primary-dark);
+    margin-top:6px; letter-spacing:.5px;
+  }
+
+  @media(max-width:600px){
+    body{font-size:16px}
+    .code-block{font-size:13px; padding:12px}
+    .match-grid{grid-template-columns:1fr}
+    header.site-header h1{font-size:1.35rem}
+    h2{font-size:1.25rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>الجمل الشرطية في لغة بايثون</h1>
+  <p>بيئة تعليمية تفاعلية — تعلّم بالممارسة والتجربة والاكتشاف</p>
+</header>
+
+<nav class="main-nav" id="mainNav">
+  <button data-target="intro" class="active">المقدمة</button>
+  <button data-target="map">خريطة الأنشطة</button>
+  <button data-target="unit1">١. مفهوم القرار</button>
+  <button data-target="unit2">٢. if</button>
+  <button data-target="unit3">٣. if / else</button>
+  <button data-target="unit4">٤. elif</button>
+  <button data-target="unit5">٥. معاملات المقارنة</button>
+  <button data-target="unit6">٦. القيم المنطقية</button>
+  <button data-target="unit7">٧. اكتشاف الأخطاء</button>
+  <button data-target="unit8">٨. محاكي برمجي</button>
+  <button data-target="unit9">٩. مواقف حياتية</button>
+  <button data-target="unit10">١٠. تحدي إبداعي</button>
+  <button data-target="summary">الخلاصة</button>
+</nav>
+
+<main>
+
+<!-- ========== 0. المقدمة ========== -->
+<section id="intro" class="unit active">
+  <div class="card">
+    <h2>أهلًا بك 👋</h2>
+    <p>في هذه الصفحة ستتعلم <strong>الجمل الشرطية في لغة بايثون</strong> — أي كيف تجعل البرنامج يتخذ قرارًا بناءً على شرط معين.</p>
+    <p>هذه الصفحة ليست اختبارًا، وليست امتحانًا. ستجد فيها:</p>
+    <ul>
+      <li>أمثلة حياتية قريبة منك.</li>
+      <li>أنشطة تتوقع فيها ناتج الشيفرة قبل تشغيلها.</li>
+      <li>أنشطة تكتشف فيها الأخطاء وتصلحها.</li>
+      <li>محاكيات تجرّب فيها تغيير قيم المتغيرات ومشاهدة النتيجة.</li>
+      <li>تلميحات متدرجة تُظهر لك الحل عند الحاجة.</li>
+    </ul>
+    <p>تذكّر: <strong>الخطأ جزء من التعلم</strong>، وليس نهاية النشاط. جرّب، وأعد المحاولة، واكتشف القاعدة بنفسك.</p>
+
+    <h3>تقدّمك الحالي</h3>
+    <p id="progressSummary" style="color:#475569;font-size:.95rem">لم تبدأ أي نشاط بعد.</p>
+    <div class="progress-bar-wrap"><div class="progress-bar-inner" id="progressBar" style="width:0%"></div></div>
+    <button class="btn btn-hint" onclick="resetProgress()">إعادة ضبط التقدم</button>
+
+    <h3 style="margin-top:24px">كيف تستخدم الصفحة؟</h3>
+    <ol>
+      <li>ابدأ من وحدة «مفهوم القرار» ثم تابع بالترتيب.</li>
+      <li>في كل نشاط، جرّب المحاولة الأولى بنفسك.</li>
+      <li>إذا احتجت مساعدة، اضغط زر «تلميح» — ستظهر لك تلميحات متدرجة.</li>
+      <li>عند الانتهاء من نشاط، ستُحفظ تلقائيًا في تقدّمك على جهازك.</li>
+    </ol>
+    <div class="actions" style="text-align:center;margin-top:18px">
+      <button class="btn btn-primary" onclick="showUnit('map')">لنبدأ من خريطة الأنشطة →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== خريطة الأنشطة ========== -->
+<section id="map" class="unit">
+  <div class="card">
+    <h2>خريطة الأنشطة</h2>
+    <p class="instructions">اختر وحدة لتبدأ منها. يمكنك العودة إلى أي وحدة في أي وقت.</p>
+    <div class="grid-cards">
+      <div class="mini-card" onclick="showUnit('unit1')"><h4>١. مفهوم اتخاذ القرار</h4><p>ما معنى الشرط؟ ولماذا نحتاجه؟</p></div>
+      <div class="mini-card" onclick="showUnit('unit2')"><h4>٢. الجملة الشرطية if</h4><p>تنفيذ كتلة عند تحقق الشرط.</p></div>
+      <div class="mini-card" onclick="showUnit('unit3')"><h4>٣. الجملة if / else</h4><p>مسارَان: واحد عند الصحة وآخر عند الخطأ.</p></div>
+      <div class="mini-card" onclick="showUnit('unit4')"><h4>٤. الجملة elif</h4><p>عدة احتمالات وترتيبها المهم.</p></div>
+      <div class="mini-card" onclick="showUnit('unit5')"><h4>٥. معاملات المقارنة</h4><p>== و != و > و < و >= و <=</p></div>
+      <div class="mini-card" onclick="showUnit('unit6')"><h4>٦. القيم المنطقية والشروط المركبة</h4><p>True / False و and / or / not</p></div>
+      <div class="mini-card" onclick="showUnit('unit7')"><h4>٧. اكتشاف الأخطاء وتصحيحها</h4><p>أخطاء شائعة في الجمل الشرطية.</p></div>
+      <div class="mini-card" onclick="showUnit('unit8')"><h4>٨. المحاكي البرمجي</h4><p>غيّر القيم وشاهد التنفيذ خطوة بخطوة.</p></div>
+      <div class="mini-card" onclick="showUnit('unit9')"><h4>٩. المواقف الحياتية</h4><p>حوّل موقفًا واقعيًا إلى شيفرة.</p></div>
+      <div class="mini-card" onclick="showUnit('unit10')"><h4>١٠. التحدي الإبداعي</h4><p>ابتكر برنامجك الصغير بنفسك.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 1. مفهوم القرار ========== -->
+<section id="unit1" class="unit">
+  <div class="card">
+    <h2>١. مفهوم اتخاذ القرار في البرمجة</h2>
+    <p class="instructions">البرنامج لا ينفذ الأوامر كلها دائمًا؛ أحيانًا يحتاج إلى <strong>قرار</strong>: «إن تحقق شيء مُعيّن، نفّذ أمرًا، وإلا نفّذ غيره». هذا هو معنى <strong>الجملة الشرطية</strong>.</p>
+
+    <!-- Activity 1.1 : موقف حياتي -->
+    <div class="activity" id="act-1-1">
+      <h3 class="activity-title">نشاط ١.١ — موقف حياتي <span class="badge">اكتشاف</span></h3>
+      <p>لديك مكيّف منزلي يعمل تلقائيًا: إذا كانت درجة الحرارة أعلى من ٢٨ يعمل المكيف ويُظهر «تشغيل التبريد»، وإلا يُظهر «الجو معتدل».</p>
+      <p>غيّر درجة الحرارة وشاهد القرار:</p>
+      <div class="input-row">
+        <input type="number" id="ac-temp" value="32" min="0" max="60">
+        <button class="btn btn-primary" onclick="runAC()">شغّل البرنامج</button>
+      </div>
+      <pre class="code-block">temp = <span id="ac-temp-view">32</span>
+if temp > 28:
+    print("تشغيل التبريد")
+else:
+    print("الجو معتدل")</pre>
+      <div class="feedback" id="ac-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintAC()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 1.2 : مقارنة مثالين -->
+    <div class="activity" id="act-1-2">
+      <h3 class="activity-title">نشاط ١.٢ — قارن بين مثالين <span class="badge">اكتشاف</span></h3>
+      <p class="instructions">اقرأ المثالين ثم أجب: أيّهما سيُطبع فيه «مسموح»؟</p>
+      <pre class="code-block"><span class="cm"># المثال أ</span>
+age = 15
+if age >= 18:
+    print("مسموح")</pre>
+      <pre class="code-block"><span class="cm"># المثال ب</span>
+age = 20
+if age >= 18:
+    print("مسموح")</pre>
+      <div class="input-row">
+        <select id="cmp-1">
+          <option value="">— اختر —</option>
+          <option value="a">المثال (أ) فقط</option>
+          <option value="b">المثال (ب) فقط</option>
+          <option value="both">كلاهما</option>
+          <option value="none">لا أحد منهما</option>
+        </select>
+        <button class="btn btn-primary" onclick="checkCmp1()">تحقق</button>
+      </div>
+      <div class="feedback" id="cmp-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintCmp1()">تلميح</button>
+        <button class="btn" onclick="revealCmp1()">إظهار الشرح</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2. if ========== -->
+<section id="unit2" class="unit">
+  <div class="card">
+    <h2>٢. الجملة الشرطية <span style="font-family:monospace">if</span></h2>
+    <p class="instructions">صيغة الجملة الشرطية البسيطة:
+      <code style="direction:ltr;display:inline-block">if condition:</code> ثم <strong>كتلة بادئة</strong>. إذا كانت قيمة الشرط <code>True</code> تُنفّذ الكتلة، وإن كانت <code>False</code> تُتجاهَل.</p>
+
+    <pre class="code-block">if condition:
+    # هذا الكود ينفذ إذا تحقق الشرط فقط
+    print("...")</pre>
+
+    <!-- Activity 2.1 : توقع الناتج -->
+    <div class="activity" id="act-2-1">
+      <h3 class="activity-title">نشاط ٢.١ — توقّع الناتج <span class="badge">تنبؤ</span></h3>
+      <p>اقرأ الشيفرة التالية ثم توقع الناتج.</p>
+      <pre class="code-block">temperature = 35
+if temperature > 30:
+    print("الجو حار")</pre>
+      <div class="input-row">
+        <input type="text" id="p1-input" placeholder="اكتب الناتج المتوقع هنا">
+        <button class="btn btn-primary" onclick="checkP1()">تحقق</button>
+      </div>
+      <div class="feedback" id="p1-fb"></div>
+      <div class="hint-area" id="p1-hint" style="display:none"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintP1()">تلميح</button>
+        <button class="btn" onclick="revealP1()">إظهار الناتج والشرح</button>
+        <button class="btn btn-ghost" onclick="resetP1()">إعادة المحاولة</button>
+      </div>
+    </div>
+
+    <!-- Activity 2.2 : إكمال الشيفرة -->
+    <div class="activity" id="act-2-2">
+      <h3 class="activity-title">نشاط ٢.٢ — أكمل الشيفرة <span class="badge">إكمال</span></h3>
+      <p>الهدف: طباعة «مسموح بالدخول» إذا كان عمر الطالب ١٨ أو أكثر. اختر الشرط الصحيح.</p>
+      <pre class="code-block">age = 18
+if <select id="c2-condition" style="width:auto;display:inline;padding:2px 6px;direction:ltr">
+        <option value="">— اختر —</option>
+        <option value="age > 18">age > 18</option>
+        <option value="age >= 18">age >= 18</option>
+        <option value="age = 18">age = 18</option>
+        <option value="age == 18">age == 18</option>
+      </select>:
+    print("مسموح بالدخول")</pre>
+      <button class="btn btn-primary" onclick="checkC2()">تحقق</button>
+      <div class="feedback" id="c2-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintC2()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 2.3 : المسافات البادئة -->
+    <div class="activity" id="act-2-3">
+      <h3 class="activity-title">نشاط ٢.٣ — المسافات البادئة <span class="badge">اكتشاف</span></h3>
+      <p class="instructions">في بايثون، الكود التابع للشرط يجب أن يكون مُزاحًا للداخل (عادة ٤ مسافات). ماذا يحدث لو نسينا الإزاحة؟</p>
+      <pre class="code-block">temp = 35
+if temp > 30:
+print("حار")</pre>
+      <div class="input-row">
+        <select id="ind-q">
+          <option value="">— اختر النتيجة —</option>
+          <option value="print">يُطبع «حار» عاديًا</option>
+          <option value="error">يحدث خطأ IndentationError</option>
+          <option value="skip">لا يُطبع شيء لأن الشرط خاطئ</option>
+          <option value="two">يُطبع مرتين</option>
+        </select>
+        <button class="btn btn-primary" onclick="checkInd()">تحقق</button>
+      </div>
+      <div class="feedback" id="ind-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintInd()">تلميح</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 3. if / else ========== -->
+<section id="unit3" class="unit">
+  <div class="card">
+    <h2>٣. الجملة <span style="font-family:monospace">if … else</span></h2>
+    <p class="instructions">إذا أردنا أن ينفذ البرنامج قرارًا واحدًا عند تحقق الشرط وقرارًا <strong>آخر</strong> عند عدم تحققه، نستخدم <code>else</code>.</p>
+    <pre class="code-block">if condition:
+    # يُنفذ عند True
+    ...
+else:
+    # يُنفذ عند False
+    ...</pre>
+
+    <!-- Activity 3.1 : توقع الناتج -->
+    <div class="activity" id="act-3-1">
+      <h3 class="activity-title">نشاط ٣.١ — توقع الناتج <span class="badge">تنبؤ</span></h3>
+      <pre class="code-block">grade = 45
+if grade >= 50:
+    print("ناجح")
+else:
+    print("راسب")</pre>
+      <div class="input-row">
+        <input type="text" id="p2-input" placeholder="اكتب الناتج المتوقع">
+        <button class="btn btn-primary" onclick="checkP2()">تحقق</button>
+      </div>
+      <div class="feedback" id="p2-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintP2()">تلميح</button>
+        <button class="btn" onclick="revealP2()">إظهار الشرح</button>
+      </div>
+    </div>
+
+    <!-- Activity 3.2 : أكمل else -->
+    <div class="activity" id="act-3-2">
+      <h3 class="activity-title">نشاط ٣.٢ — أكمل فرع else <span class="badge">إكمال</span></h3>
+      <p>الهدف: طباعة «كبير» إذا كان العمر ١٨ فأكثر، و«صغير» لغير ذلك. اختر ما يكمل الشيفرة.</p>
+      <pre class="code-block">age = 15
+if age >= 18:
+    print("كبير")
+<select id="c3-else" style="width:auto;display:inline;padding:2px 6px;direction:ltr">
+      <option value="">— اختر —</option>
+      <option value="else:">else:</option>
+      <option value="elif:">elif:</option>
+      <option value="else">else</option>
+      <option value="if:">if:</option>
+    </select>
+    print("صغير")</pre>
+      <button class="btn btn-primary" onclick="checkC3()">تحقق</button>
+      <div class="feedback" id="c3-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintC3()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 3.3 : مطابقة -->
+    <div class="activity" id="act-3-3">
+      <h3 class="activity-title">نشاط ٣.٣ — مطابقة الناتج مع قيمة المتغير <span class="badge">مطابقة</span></h3>
+      <p class="instructions">لدينا الشيفرة التالية. اضغط على قيمة، ثم اضغط الناتج المناسب لها.</p>
+      <pre class="code-block">score = ?
+if score >= 60:
+    print("نجاح")
+else:
+    print("رسوب")</pre>
+      <div class="match-grid" id="m3-grid">
+        <div class="match-col" id="m3-left">
+          <div class="match-item" data-key="s1" onclick="selectMatch('m3', this)">score = 75</div>
+          <div class="match-item" data-key="s2" onclick="selectMatch('m3', this)">score = 60</div>
+          <div class="match-item" data-key="s3" onclick="selectMatch('m3', this)">score = 30</div>
+        </div>
+        <div class="match-col" id="m3-right">
+          <div class="match-item" data-key="s1" onclick="selectMatch('m3', this)">يُطبع «نجاح»</div>
+          <div class="match-item" data-key="s3" onclick="selectMatch('m3', this)">يُطبع «رسوب»</div>
+          <div class="match-item" data-key="s2" onclick="selectMatch('m3', this)">يُطبع «نجاح»</div>
+        </div>
+      </div>
+      <div class="feedback" id="m3-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintM3()">تلميح</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 4. elif ========== -->
+<section id="unit4" class="unit">
+  <div class="card">
+    <h2>٤. الجملة <span style="font-family:monospace">elif</span></h2>
+    <p class="instructions">عندما يكون لدينا أكثر من احتمال، نستخدم <code>elif</code> (اختصار else if). يُفحص كل شرط بالترتيب، وأول شرط يتحقق يُنفّذ كتلته ثم يتوقف.</p>
+    <pre class="code-block">if condition1:
+    # المسار الأول
+elif condition2:
+    # المسار الثاني
+else:
+    # المسار الافتراضي</pre>
+
+    <!-- Activity 4.1 : توقع ناتج متعدد -->
+    <div class="activity" id="act-4-1">
+      <h3 class="activity-title">نشاط ٤.١ — توقّع الناتج <span class="badge">تنبؤ</span></h3>
+      <pre class="code-block">score = 78
+if score >= 90:
+    print("ممتاز")
+elif score >= 80:
+    print("جيد جدًا")
+elif score >= 70:
+    print("جيد")
+else:
+    print("يحتاج مراجعة")</pre>
+      <div class="input-row">
+        <select id="p3-input">
+          <option value="">— اختر الناتج —</option>
+          <option value="ممتاز">ممتاز</option>
+          <option value="جيد جدًا">جيد جدًا</option>
+          <option value="جيد">جيد</option>
+          <option value="يحتاج مراجعة">يحتاج مراجعة</option>
+        </select>
+        <button class="btn btn-primary" onclick="checkP3()">تحقق</button>
+      </div>
+      <div class="feedback" id="p3-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintP3()">تلميح</button>
+        <button class="btn" onclick="revealP3()">إظهار خطوات التنفيذ</button>
+      </div>
+    </div>
+
+    <!-- Activity 4.2 : ترتيب الشروط -->
+    <div class="activity" id="act-4-2">
+      <h3 class="activity-title">نشاط ٤.٢ — ترتيب الشروط مهم! <span class="badge">اكتشاف</span></h3>
+      <p class="instructions">انظر إلى الشيفرة التالية. ماذا سيُطبع إذا كانت <code>score = 95</code>؟</p>
+      <pre class="code-block">score = 95
+if score >= 70:
+    print("جيد")
+elif score >= 90:
+    print("ممتاز")
+else:
+    print("يحتاج مراجعة")</pre>
+      <div class="input-row">
+        <select id="p4-input">
+          <option value="">— اختر —</option>
+          <option value="جيد">جيد</option>
+          <option value="ممتاز">ممتاز</option>
+          <option value="يحتاج مراجعة">يحتاج مراجعة</option>
+          <option value="لا شيء">لا شيء</option>
+        </select>
+        <button class="btn btn-primary" onclick="checkP4()">تحقق</button>
+      </div>
+      <div class="feedback" id="p4-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintP4()">تلميح</button>
+        <button class="btn" onclick="revealP4()">إظهار الشرح</button>
+      </div>
+    </div>
+
+    <!-- Activity 4.3 : أكمل elif -->
+    <div class="activity" id="act-4-3">
+      <h3 class="activity-title">نشاط ٤.٣ — أكمل سلسلة elif <span class="badge">إكمال</span></h3>
+      <p>الهدف: طباعة «موجب» إذا كان العدد أكبر من صفر، و«سالب» إذا كان أصغر من صفر، و«صفر» إذا كان يساوي صفرًا. ما الشرط الصحيح للفرع الثاني؟</p>
+      <pre class="code-block">n = -3
+if n > 0:
+    print("موجب")
+elif <select id="c4-cond" style="width:auto;display:inline;padding:2px 6px;direction:ltr">
+        <option value="">— اختر —</option>
+        <option value="n > 0">n > 0</option>
+        <option value="n < 0">n < 0</option>
+        <option value="n == 0">n == 0</option>
+        <option value="n != 0">n != 0</option>
+      </select>:
+    print("سالب")
+else:
+    print("صفر")</pre>
+      <button class="btn btn-primary" onclick="checkC4()">تحقق</button>
+      <div class="feedback" id="c4-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintC4()">تلميح</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5. معاملات المقارنة ========== -->
+<section id="unit5" class="unit">
+  <div class="card">
+    <h2>٥. معاملات المقارنة</h2>
+    <p class="instructions">معامل المقارنة يُرجع قيمة منطقية: إمّا <code>True</code> أو <code>False</code>. تذكّر الفرق المهم: <code>=</code> للإسناد، و<code>==</code> للمقارنة.</p>
+    <pre class="code-block">==   يساوي
+!=   لا يساوي
+&gt;    أكبر من
+&lt;    أصغر من
+&gt;=   أكبر من أو يساوي
+&lt;=   أصغر من أو يساوي</pre>
+
+    <!-- Activity 5.1 : مطابقة -->
+    <div class="activity" id="act-5-1">
+      <h3 class="activity-title">نشاط ٥.١ — طابق المعامل بمعناه <span class="badge">مطابقة</span></h3>
+      <div class="match-grid" id="m5-grid">
+        <div class="match-col" id="m5-left">
+          <div class="match-item" dir="ltr" data-key="op1" onclick="selectMatch('m5', this)">==</div>
+          <div class="match-item" dir="ltr" data-key="op2" onclick="selectMatch('m5', this)">!=</div>
+          <div class="match-item" dir="ltr" data-key="op3" onclick="selectMatch('m5', this)">&gt;=</div>
+          <div class="match-item" dir="ltr" data-key="op4" onclick="selectMatch('m5', this)">&lt;</div>
+        </div>
+        <div class="match-col" id="m5-right">
+          <div class="match-item" data-key="op3" onclick="selectMatch('m5', this)">أكبر من أو يساوي</div>
+          <div class="match-item" data-key="op1" onclick="selectMatch('m5', this)">يساوي</div>
+          <div class="match-item" data-key="op4" onclick="selectMatch('m5', this)">أصغر من</div>
+          <div class="match-item" data-key="op2" onclick="selectMatch('m5', this)">لا يساوي</div>
+        </div>
+      </div>
+      <div class="feedback" id="m5-fb"></div>
+    </div>
+
+    <!-- Activity 5.2 : اختر المعامل -->
+    <div class="activity" id="act-5-2">
+      <h3 class="activity-title">نشاط ٥.٢ — اختر المعامل المناسب <span class="badge">إكمال</span></h3>
+      <p>الهدف: طباعة «درجة ناجحة» إذا كانت الدرجة بين ٥٠ و١٠٠ (أي أكبر من أو تساوي ٥٠).</p>
+      <pre class="code-block">grade = 72
+if grade <select id="c5-op" style="width:auto;display:inline;padding:2px 6px;direction:ltr">
+        <option value="">— اختر —</option>
+        <option value="==">==</option>
+        <option value="!=">!=</option>
+        <option value=">">></option>
+        <option value="<"><</option>
+        <option value=">=">>=</option>
+        <option value="<="><=</option>
+      </select> 50:
+    print("درجة ناجحة")</pre>
+      <button class="btn btn-primary" onclick="checkC5()">تحقق</button>
+      <div class="feedback" id="c5-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintC5()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 5.3 : = أم == -->
+    <div class="activity" id="act-5-3">
+      <h3 class="activity-title">نشاط ٥.٣ — الفرق بين = و == <span class="badge">تصنيف</span></h3>
+      <p>صنّف الجمل التالية: هل تستخدم <code>=</code> (إسناد) أم <code>==</code> (مقارنة)؟</p>
+      <div class="input-row" style="flex-direction:column">
+        <div><strong>1.</strong> <code style="direction:ltr;display:inline-block">x ___ 5</code> — نريد إعطاء x القيمة 5 &nbsp;
+          <select id="t1"><option value="">—</option><option value="=">=</option><option value="==">==</option></select></div>
+        <div><strong>2.</strong> <code style="direction:ltr;display:inline-block">if x ___ 5:</code> — نريد التحقق هل x يساوي 5 &nbsp;
+          <select id="t2"><option value="">—</option><option value="=">=</option><option value="==">==</option></select></div>
+        <div><strong>3.</strong> <code style="direction:ltr;display:inline-block">name ___ "Ali"</code> — نريد إعطاء name القيمة "Ali" &nbsp;
+          <select id="t3"><option value="">—</option><option value="=">=</option><option value="==">==</option></select></div>
+      </div>
+      <button class="btn btn-primary" onclick="checkT3()">تحقق</button>
+      <div class="feedback" id="t3-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintT3()">تلميح</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 6. القيم المنطقية والشروط المركبة ========== -->
+<section id="unit6" class="unit">
+  <div class="card">
+    <h2>٦. القيم المنطقية والشروط المركبة</h2>
+    <p class="instructions">القيمة <code>True</code> تعني «صحيح»، و<code>False</code> تعني «خطأ». يمكن دمج شرطين باستخدام <code>and</code> (يجب تحقق الاثنين) و<code>or</code> (يكفي تحقق أحدهما) و<code>not</code> (عكس).</p>
+    <pre class="code-block">and : كلا الشرطين صحيح
+or  : أحدهما على الأقل صحيح
+not : يعكس القيمة المنطقية</pre>
+
+    <!-- Activity 6.1 : تقييم تعبيرات منطقية -->
+    <div class="activity" id="act-6-1">
+      <h3 class="activity-title">نشاط ٦.١ — قيّم التعبيرات <span class="badge">تنبؤ</span></h3>
+      <p>اختر القيمة المنطقية الصحيحة لكل تعبير.</p>
+      <div class="input-row" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <code style="direction:ltr">10 > 5</code>
+          <select id="b1"><option value="">—</option><option value="True">True</option><option value="False">False</option></select>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <code style="direction:ltr">3 == 4</code>
+          <select id="b2"><option value="">—</option><option value="True">True</option><option value="False">False</option></select>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <code style="direction:ltr">(5 > 2) and (3 < 1)</code>
+          <select id="b3"><option value="">—</option><option value="True">True</option><option value="False">False</option></select>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <code style="direction:ltr">(5 > 2) or (3 < 1)</code>
+          <select id="b4"><option value="">—</option><option value="True">True</option><option value="False">False</option></select>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <code style="direction:ltr">not (2 == 2)</code>
+          <select id="b5"><option value="">—</option><option value="True">True</option><option value="False">False</option></select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="checkB()">تحقق</button>
+      <div class="feedback" id="b-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintB()">تلميح</button>
+        <button class="btn" onclick="revealB()">إظهار الشرح</button>
+      </div>
+    </div>
+
+    <!-- Activity 6.2 : شرط مركب -->
+    <div class="activity" id="act-6-2">
+      <h3 class="activity-title">نشاط ٦.٢ — شرط مركب واقعي <span class="badge">إكمال</span></h3>
+      <p>الهدف: طباعة «مسموح بالسفر» إذا كان عمر الشخص ١٨ فأكثر <strong>وكان يملك جواز سفر</strong>. اختر الشرط المناسب.</p>
+      <pre class="code-block">age = 20
+has_passport = True
+if <select id="c6-cond" style="width:auto;display:inline;padding:2px 6px;direction:ltr">
+      <option value="">— اختر —</option>
+      <option value="age >= 18 or has_passport">age >= 18 or has_passport</option>
+      <option value="age >= 18 and has_passport">age >= 18 and has_passport</option>
+      <option value="age >= 18 and not has_passport">age >= 18 and not has_passport</option>
+      <option value="age >= 18">age >= 18</option>
+    </select>:
+    print("مسموح بالسفر")
+else:
+    print("غير مسموح")</pre>
+      <button class="btn btn-primary" onclick="checkC6()">تحقق</button>
+      <div class="feedback" id="c6-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintC6()">تلميح</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 7. اكتشاف الأخطاء ========== -->
+<section id="unit7" class="unit">
+  <div class="card">
+    <h2>٧. اكتشاف الأخطاء وتصحيحها</h2>
+    <p class="instructions">كل مبرمج يخطئ. المهم أن يكتشف الخطأ ويفهم سببه. في الأنشطة التالية ستجد أخطاء شائعة.</p>
+
+    <!-- Activity 7.1 : = بدل == -->
+    <div class="activity" id="act-7-1">
+      <h3 class="activity-title">نشاط ٧.١ — خطأ شائع: = بدل == <span class="badge">تصحيح</span></h3>
+      <p>الشيفرة التالية فيها خطأ. اضغط على السطر الذي يحتوي الخطأ.</p>
+      <pre class="code-block" id="err1-code"><span class="err-line" onclick="pickErrLine(1,1)">x = 10</span>
+<span class="err-line" onclick="pickErrLine(1,2)">if x = 5:</span>
+<span class="err-line" onclick="pickErrLine(1,3)">    print("خمسة")</span>
+<span class="err-line" onclick="pickErrLine(1,4)">else:</span>
+<span class="err-line" onclick="pickErrLine(1,5)">    print("ليس خمسة")</span></pre>
+      <div class="feedback" id="err1-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintErr1()">تلميح</button>
+        <button class="btn" onclick="revealErr1()">إظهار الحل والشرح</button>
+      </div>
+    </div>
+
+    <!-- Activity 7.2 : نسيان النقطتين -->
+    <div class="activity" id="act-7-2">
+      <h3 class="activity-title">نشاط ٧.٢ — خطأ شائع: النقطتان <span class="badge">تصحيح</span></h3>
+      <p>في بايثون، بعد <code>if</code> والشرط <strong>يجب</strong> وضع <code>:</code>. اضغط على السطر الذي ينقصه النقطتان.</p>
+      <pre class="code-block" id="err2-code"><span class="err-line" onclick="pickErrLine(2,1)">grade = 80</span>
+<span class="err-line" onclick="pickErrLine(2,2)">if grade >= 50</span>
+<span class="err-line" onclick="pickErrLine(2,3)">    print("ناجح")</span>
+<span class="err-line" onclick="pickErrLine(2,4)">else:</span>
+<span class="err-line" onclick="pickErrLine(2,5)">    print("راسب")</span></pre>
+      <div class="feedback" id="err2-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintErr2()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 7.3 : خطأ في الإزاحة -->
+    <div class="activity" id="act-7-3">
+      <h3 class="activity-title">نشاط ٧.٣ — خطأ في الإزاحة <span class="badge">تصحيح</span></h3>
+      <p>الشيفرة التالية فيها خطأ في الإزاحة. أين يوجد؟</p>
+      <pre class="code-block" id="err3-code"><span class="err-line" onclick="pickErrLine(3,1)">temp = 20</span>
+<span class="err-line" onclick="pickErrLine(3,2)">if temp > 30:</span>
+<span class="err-line" onclick="pickErrLine(3,3)">print("حار")</span>
+<span class="err-line" onclick="pickErrLine(3,4)">else:</span>
+<span class="err-line" onclick="pickErrLine(3,5)">    print("معتدل")</span></pre>
+      <div class="feedback" id="err3-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintErr3()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 7.4 : ترتيب elif -->
+    <div class="activity" id="act-7-4">
+      <h3 class="activity-title">نشاط ٧.٤ — ترتيب elif خاطئ <span class="badge">تصحيح</span></h3>
+      <p class="instructions">الشيفرة التالية منطقية لكنها لا تعطي النتائج المتوقعة لدرجة 95. ما المشكلة؟</p>
+      <pre class="code-block">score = 95
+if score >= 50:
+    print("ناجح")
+elif score >= 90:
+    print("ممتاز")</pre>
+      <div class="input-row">
+        <select id="err4-q">
+          <option value="">— اختر التفسير —</option>
+          <option value="1">الشرط الأول يلتقط كل القيم ≥ 50 فلا يُفحص الثاني أبدًا</option>
+          <option value="2">يجب استخدام else بدل elif</option>
+          <option value="3">يجب إزالة النقطتين</option>
+          <option value="4">بايثون لا يدعم elif</option>
+        </select>
+        <button class="btn btn-primary" onclick="checkErr4()">تحقق</button>
+      </div>
+      <div class="feedback" id="err4-fb"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hintErr4()">تلميح</button>
+        <button class="btn" onclick="revealErr4()">إظهار الحل</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 8. المحاكي البرمجي ========== -->
+<section id="unit8" class="unit">
+  <div class="card">
+    <h2>٨. المحاكي البرمجي</h2>
+    <p class="instructions">هذا محاكٍ تعليمي مصغّر. غيّر قيم المتغيرات واضغط «تشغيل» لمشاهدة تسلسل التنفيذ خطوة بخطوة. <strong>ملاحظة:</strong> هذا المحاكي ينفذ سيناريوهات مُعدّة مسبقًا، وليس بيئة بايثون حقيقية — يُستخدم للفهم فقط.</p>
+
+    <!-- Sim 8.1 : العلامة -->
+    <div class="activity" id="act-8-1">
+      <h3 class="activity-title">محاكي ٨.١ — تحديد النجاح <span class="badge">محاكاة</span></h3>
+      <pre class="code-block">grade = <span id="s1-g-view">75</span>
+if grade >= 50:
+    print("ناجح")
+else:
+    print("راسب")</pre>
+      <div class="input-row">
+        <label style="flex-basis:100%">العلامة:</label>
+        <input type="number" id="s1-g" value="75" min="0" max="100">
+        <button class="btn btn-primary" onclick="runSim1()">تشغيل</button>
+      </div>
+      <div class="trace-box" id="s1-trace" style="display:none"></div>
+    </div>
+
+    <!-- Sim 8.2 : الطقس -->
+    <div class="activity" id="act-8-2">
+      <h3 class="activity-title">محاكي ٨.٢ — حالة الطقس <span class="badge">محاكاة</span></h3>
+      <pre class="code-block">temp = <span id="s2-t-view">30</span>
+if temp > 35:
+    print("حار جدًا")
+elif temp > 25:
+    print("دافئ")
+elif temp > 15:
+    print("معتدل")
+else:
+    print("بارد")</pre>
+      <div class="input-row">
+        <label style="flex-basis:100%">درجة الحرارة:</label>
+        <input type="number" id="s2-t" value="30" min="-10" max="60">
+        <button class="btn btn-primary" onclick="runSim2()">تشغيل</button>
+      </div>
+      <div class="trace-box" id="s2-trace" style="display:none"></div>
+    </div>
+
+    <!-- Sim 8.3 : موجب/سالب/صفر -->
+    <div class="activity" id="act-8-3">
+      <h3 class="activity-title">محاكي ٨.٣ — إشارة العدد <span class="badge">محاكاة</span></h3>
+      <pre class="code-block">n = <span id="s3-n-view">-5</span>
+if n > 0:
+    print("موجب")
+elif n < 0:
+    print("سالب")
+else:
+    print("صفر")</pre>
+      <div class="input-row">
+        <label style="flex-basis:100%">العدد:</label>
+        <input type="number" id="s3-n" value="-5">
+        <button class="btn btn-primary" onclick="runSim3()">تشغيل</button>
+      </div>
+      <div class="trace-box" id="s3-trace" style="display:none"></div>
+    </div>
+
+    <!-- Sim 8.4 : الخصم -->
+    <div class="activity" id="act-8-4">
+      <h3 class="activity-title">محاكي ٨.٤ — الخصم على المشتريات <span class="badge">محاكاة</span></h3>
+      <pre class="code-block">total = <span id="s4-v-view">150</span>
+if total >= 200:
+    discount = 20
+elif total >= 100:
+    discount = 10
+else:
+    discount = 0
+final = total - (total * discount / 100)
+print("الخصم:", discount, "%")
+print("المبلغ النهائي:", final)</pre>
+      <div class="input-row">
+        <label style="flex-basis:100%">قيمة المشتريات:</label>
+        <input type="number" id="s4-v" value="150" min="0">
+        <button class="btn btn-primary" onclick="runSim4()">تشغيل</button>
+      </div>
+      <div class="trace-box" id="s4-trace" style="display:none"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 9. المواقف الحياتية ========== -->
+<section id="unit9" class="unit">
+  <div class="card">
+    <h2>٩. الربط بين الحياة والبرمجة</h2>
+    <p class="instructions">في كل موقف، اختر الشيفرة الصحيحة التي تُعبّر عنه.</p>
+
+    <!-- Activity 9.1 -->
+    <div class="activity" id="act-9-1">
+      <h3 class="activity-title">نشاط ٩.١ — خصم المتجر <span class="badge">ربط</span></h3>
+      <p>الموقف: إذا تجاوزت قيمة المشتريات ٢٠٠ ريال، يحصل المشتري على خصم ١٠٪. ما الشيفرة الصحيحة؟</p>
+      <div class="input-row" style="flex-direction:column;align-items:stretch">
+        <label><input type="radio" name="r91" value="a"> <code style="direction:ltr">if total > 200:</code></label>
+        <label><input type="radio" name="r91" value="b"> <code style="direction:ltr">if total &gt;= 200:</code></label>
+        <label><input type="radio" name="r91" value="c"> <code style="direction:ltr">if total = 200:</code></label>
+        <label><input type="radio" name="r91" value="d"> <code style="direction:ltr">if total != 200:</code></label>
+      </div>
+      <button class="btn btn-primary" onclick="check91()">تحقق</button>
+      <div class="feedback" id="f91"></div>
+    </div>
+
+    <!-- Activity 9.2 -->
+    <div class="activity" id="act-9-2">
+      <h3 class="activity-title">نشاط ٩.٢ — العدد الزوجي <span class="badge">ربط</span></h3>
+      <p>الموقف: نريد تحديد ما إذا كان العدد زوجيًا (يقبل القسمة على ٢ دون باقٍ). ما الشرط الصحيح؟</p>
+      <div class="input-row">
+        <select id="q92">
+          <option value="">— اختر —</option>
+          <option value="n / 2 == 0">n / 2 == 0</option>
+          <option value="n % 2 == 0">n % 2 == 0</option>
+          <option value="n % 2 == 1">n % 2 == 1</option>
+          <option value="n * 2 == 0">n * 2 == 0</option>
+        </select>
+        <button class="btn btn-primary" onclick="check92()">تحقق</button>
+      </div>
+      <div class="feedback" id="f92"></div>
+      <div class="actions">
+        <button class="btn btn-hint" onclick="hint92()">تلميح</button>
+      </div>
+    </div>
+
+    <!-- Activity 9.3 -->
+    <div class="activity" id="act-9-3">
+      <h3 class="activity-title">نشاط ٩.٣ — فئة عمرية <span class="badge">ربط</span></h3>
+      <p>الموقف: إذا كان العمر أقل من ١٣ فهو «طفل»، وإذا كان بين ١٣ و١٧ فهو «مراهق»، وإلا فهو «بالغ». أي الشيفرات صحيحة؟</p>
+      <div class="input-row" style="flex-direction:column;align-items:stretch">
+        <label><input type="radio" name="r93" value="a"> <code style="direction:ltr">if age < 13: ... elif age < 18: ... else: ...</code></label>
+        <label><input type="radio" name="r93" value="b"> <code style="direction:ltr">if age > 13: ... elif age > 18: ... else: ...</code></label>
+        <label><input type="radio" name="r93" value="c"> <code style="direction:ltr">if age == 13: ... elif age == 17: ... else: ...</code></label>
+      </div>
+      <button class="btn btn-primary" onclick="check93()">تحقق</button>
+      <div class="feedback" id="f93"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 10. تحدي إبداعي ========== -->
+<section id="unit10" class="unit">
+  <div class="card">
+    <h2>١٠. التحدي الإبداعي</h2>
+    <p class="instructions">الآن دورك! ابتكر برنامجًا صغيرًا يستخدم الجمل الشرطية لحل مشكلة من اختيارك. اكتب فكرتك هنا.</p>
+
+    <h3>أفكار إرشادية</h3>
+    <ul>
+      <li>برنامج يقيّم علامة الطالب ويعطي تقديرًا.</li>
+      <li>برنامج يحدد سعر تذكرة بناءً على العمر.</li>
+      <li>برنامج يحدد نوع اليوم (دراسة / عطلة).</li>
+      <li>برنامج يحدد ما إذا كان العدد موجبًا أو سالبًا أو صفرًا.</li>
+      <li>برنامج يحدد أهلية التصويت بناءً على العمر.</li>
+    </ul>
+
+    <h3>اكتب فكرتك وشيفرتك</h3>
+    <textarea id="creative-input" rows="10" style="direction:ltr;text-align:left;font-family:'Courier New',monospace;font-size:14px" placeholder="# اكتب شيفرة بايثون هنا..."></textarea>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="checkCreative()">مراجعة بسيطة</button>
+      <button class="btn btn-hint" onclick="hintCreative()">تلميحات للمراجعة</button>
+    </div>
+    <div class="feedback" id="creative-fb"></div>
+    <div class="hint-area" id="creative-hint" style="display:none"></div>
+  </div>
+</section>
+
+<!-- ========== الخلاصة ========== -->
+<section id="summary" class="unit">
+  <div class="card">
+    <h2>الخلاصة وماذا بعد؟</h2>
+    <p>لقد تدرّبت على:</p>
+    <ul>
+      <li>معنى اتخاذ القرار في البرمجة.</li>
+      <li>الجملة <code>if</code> البسيطة.</li>
+      <li>الجملة <code>if … else</code>.</li>
+      <li>سلسلة <code>elif</code> وترتيب الشروط.</li>
+      <li>معاملات المقارنة والفرق بين <code>=</code> و<code>==</code>.</li>
+      <li>القيم المنطقية والشروط المركبة.</li>
+      <li>اكتشاف الأخطاء وتصحيحها.</li>
+      <li>محاكاة تنفيذ برامج شرطية.</li>
+      <li>الربط بين مواقف الحياة والبرمجة.</li>
+    </ul>
+
+    <h3>تقدمك</h3>
+    <div id="finalProgress" style="line-height:2.2"></div>
+
+    <h3>اقتراحات لمزيد من التدريب</h3>
+    <ul>
+      <li>جرّب كتابة برنامج يحسب الضريبة بناءً على قيمة الشراء.</li>
+      <li>جرّب برنامجًا يحوّل الدرجة الرقمية إلى تقدير (A، B، C...).</li>
+      <li>جرّب برنامجًا يقارن بين رقمين ويطبع الأكبر.</li>
+      <li>جرّب برنامجًا يحدد ما إذا كانت السنة كبيسة أم لا (تحتاج <code>%</code>).</li>
+      <li>جرّب بناء لعبة تخمين رقم بسيطة مع تلميحات «أعلى/أدنى».</li>
+    </ul>
+
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn btn-primary" onclick="showUnit('map')">العودة إلى خريطة الأنشطة</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>صفحة تعليمية تفاعلية — الصف الأول الثانوي</div>
+  <div class="signature">تصميم الأستاذ عواد دحبور</div>
+</footer>
+
+<script>
+/* ============================================================
+   التنقل بين الوحدات
+   ============================================================ */
+const PROGRESS_KEY = 'python_if_progress_v2';
+let progress = { started: [], completed: [], lastUnit: 'intro' };
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (raw) progress = JSON.parse(raw);
+  } catch(e) { /* ignore */ }
+  updateProgressUI();
+}
+function saveProgress() {
+  try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)); } catch(e) {}
+  updateProgressUI();
+}
+function markStarted(id) {
+  if (!progress.started.includes(id)) { progress.started.push(id); saveProgress(); }
+}
+function markCompleted(id) {
+  markStarted(id);
+  if (!progress.completed.includes(id)) { progress.completed.push(id); saveProgress(); }
+}
+function updateProgressUI() {
+  const total = 20;
+  const done = progress.completed.length;
+  const pct = Math.min(100, Math.round(done / total * 100));
+  const bar = document.getElementById('progressBar');
+  const sum = document.getElementById('progressSummary');
+  const fin = document.getElementById('finalProgress');
+  if (bar) bar.style.width = pct + '%';
+  if (sum) {
+    if (done === 0) sum.textContent = 'لم تبدأ أي نشاط بعد.';
+    else sum.textContent = `أكملت ${done} من ${total} نشاطًا تقريبًا. أحسنت، واصل!`;
+  }
+  if (fin) {
+    const chips = progress.completed.length
+      ? progress.completed.map(id => `<span class="chip done">${id}</span>`).join('')
+      : '<span class="chip">لم تُكمل نشاطًا بعد</span>';
+    fin.innerHTML = `<p style="margin:0 0 8px">الأنشطة المكتملة:</p>${chips}`;
+  }
+}
+function resetProgress() {
+  if (!confirm('هل تريد مسح كل بيانات التقدم من هذا الجهاز؟')) return;
+  progress = { started: [], completed: [], lastUnit: 'intro' };
+  saveProgress();
+  alert('تمت إعادة ضبط التقدم.');
+}
+
+function showUnit(id) {
+  document.querySelectorAll('.unit').forEach(u => u.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('#mainNav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.target === id);
+  });
+  progress.lastUnit = id;
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('#mainNav button').forEach(btn => {
+  btn.addEventListener('click', () => showUnit(btn.dataset.target));
+});
+
+/* ============================================================
+   أدوات مساعدة
+   ============================================================ */
+function fb(id, text, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'feedback ' + (type || 'info');
+  el.style.display = 'block';
+}
+function hint(showId, text) {
+  const el = document.getElementById(showId);
+  if (!el) return;
+  el.textContent = text;
+  el.style.display = 'block';
+}
+function normalizeArabic(s) {
+  return (s || '')
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/* ============================================================
+   1.1  المكيف
+   ============================================================ */
+function runAC() {
+  const t = parseFloat(document.getElementById('ac-temp').value);
+  document.getElementById('ac-temp-view').textContent = t;
+  const cond = t > 28;
+  const result = cond ? 'تشغيل التبريد' : 'الجو معتدل';
+  fb('ac-fb',
+    `قيمة المتغير temp = ${t}\nالشرط: temp > 28 → ${cond ? 'True ✅' : 'False ❌'}\n` +
+    `لذلك ينفذ البرنامج: print("${result}")`,
+    cond ? 'correct' : 'info');
+  markCompleted('1.1');
+}
+function hintAC() {
+  fb('ac-fb', 'فكّر: هل درجة الحرارة التي أدخلتها أكبر من 28؟ إذا كانت كذلك، يتحقق الشرط ويُنفذ السطر الأول.', 'warn');
+}
+
+/* ============================================================
+   1.2  مقارنة مثالين
+   ============================================================ */
+function checkCmp1() {
+  const v = document.getElementById('cmp-1').value;
+  if (!v) return fb('cmp-fb', 'اختر إجابة أولًا.', 'warn');
+  if (v === 'b') {
+    fb('cmp-fb', '✅ صحيح. في المثال (أ) age=15 والشرط 15>=18 خاطئ فلا يُطبع شيء. في المثال (ب) age=20 والشرط 20>=18 صحيح فيُطبع «مسموح».', 'correct');
+    markCompleted('1.2');
+  } else {
+    fb('cmp-fb', '❌ ليست الإجابة الصحيحة. احسب قيمة الشرط في كل مثال بنفسك: 15>=18؟ و20>=18؟', 'wrong');
+  }
+}
+function hintCmp1() { fb('cmp-fb', 'تلميح: 15 ليست أكبر من 18 ولا تساويها، أما 20 فأكبر من 18.', 'warn'); }
+function revealCmp1() {
+  fb('cmp-fb', 'الشرح: المثال (أ) لا يُطبع فيه شيء لأن 15>=18 = False. المثال (ب) يُطبع فيه «مسموح» لأن 20>=18 = True. الإجابة: (ب) فقط.', 'info');
+}
+
+/* ============================================================
+   2.1  توقع الناتج
+   ============================================================ */
+function checkP1() {
+  const v = normalizeArabic(document.getElementById('p1-input').value);
+  if (!v) return fb('p1-fb', 'اكتب توقعك أولًا.', 'warn');
+  const ok = v.includes('حار');
+  if (ok) {
+    fb('p1-fb', '✅ أحسنت! temp=35، والشرط 35>30 صحيح، فيُطبع: الجو حار.', 'correct');
+    markCompleted('2.1');
+  } else {
+    fb('p1-fb', '❌ ليس صحيحًا. فكّر: قيمة temp هي 35. هل 35>30 صحيحة أم خاطئة؟ إذا كانت صحيحة سيُطبع السطر التابع لـ if.', 'wrong');
+  }
+}
+function hintP1() { hint('p1-hint', 'تلميح: temp=35، والشرط 35>30 → True. ماذا يعني ذلك للسطر المُزاح؟'); }
+function revealP1() { fb('p1-fb', 'الناتج الصحيح: «الجو حار». لأن 35>30 صحيحة (True)، فيُنفذ print("الجو حار").', 'info'); }
+function resetP1() {
+  document.getElementById('p1-input').value = '';
+  document.getElementById('p1-fb').style.display = 'none';
+  document.getElementById('p1-hint').style.display = 'none';
+}
+
+/* ============================================================
+   2.2  إكمال الشرط
+   ============================================================ */
+function checkC2() {
+  const v = document.getElementById('c2-condition').value;
+  if (!v) return fb('c2-fb', 'اختر شرطًا أولًا.', 'warn');
+  if (v === 'age >= 18') {
+    fb('c2-fb', '✅ صحيح. age=18 والشرط 18>=18 → True، فيُطبع «مسموح بالدخول». لو استخدمنا > فقط، فلن يتحقق الشرط عند 18.', 'correct');
+    markCompleted('2.2');
+  } else if (v === 'age = 18') {
+    fb('c2-fb', '❌ علامة = للإسناد وليست للمقارنة. داخل الشرط يجب استخدام == للتحقق من التساوي، أو >= إذا أردنا «أكبر من أو يساوي».', 'wrong');
+  } else if (v === 'age > 18') {
+    fb('c2-fb', '❌ لو استخدمنا > فقط، فإن age=18 لا يحقق الشرط (لأن 18 ليست أكبر من 18)، فلن يُطبع شيء. المطلوب «١٨ فأكثر» أي >=.', 'wrong');
+  } else if (v === 'age == 18') {
+    fb('c2-fb', '❌ == تتحقق فقط من التساوي التام. المطلوب ١٨ فأكثر، أي age >= 18.', 'wrong');
+  }
+}
+function hintC2() { fb('c2-fb', 'تلميح: الفرق بين > و >= أن الأخيرة تشمل المساواة. المطلوب «١٨ أو أكثر».', 'warn'); }
+
+/* ============================================================
+   2.3  الإزاحة
+   ============================================================ */
+function checkInd() {
+  const v = document.getElementById('ind-q').value;
+  if (!v) return fb('ind-fb', 'اختر نتيجة أولًا.', 'warn');
+  if (v === 'error') {
+    fb('ind-fb', '✅ صحيح. بايثون ترفض غياب الإزاحة بعد if وتُظهر IndentationError.', 'correct');
+    markCompleted('2.3');
+  } else {
+    fb('ind-fb', '❌ راجع: بايثون تعتمد على الإزاحة لتحديد الكتلة التابعة للشرط، وغيابها خطأ.', 'wrong');
+  }
+}
+function hintInd() { fb('ind-fb', 'تلميح: بايثون لا تستخدم الأقواس {} لتحديد الكتل، بل الإزاحة. ماذا يحدث لو غابت؟', 'warn'); }
+
+/* ============================================================
+   3.1  توقع الناتج
+   ============================================================ */
+function checkP2() {
+  const v = normalizeArabic(document.getElementById('p2-input').value);
+  if (!v) return fb('p2-fb', 'اكتب توقعك أولًا.', 'warn');
+  if (v.includes('راسب')) {
+    fb('p2-fb', '✅ صحيح. 45>=50 خاطئ، فينتقل البرنامج إلى else ويطبع «راسب».', 'correct');
+    markCompleted('3.1');
+  } else if (v.includes('ناجح')) {
+    fb('p2-fb', '❌ انتبه: 45 ليست أكبر من 50 ولا تساويها، فالشرط False، وينتقل إلى else.', 'wrong');
+  } else {
+    fb('p2-fb', '❌ الناتج غير واضح. أعد التفكير: هل 45>=50 صحيحة أم خاطئة؟', 'wrong');
+  }
+}
+function hintP2() { fb('p2-fb', 'تلميح: الشرط grade>=50 وقيمة grade=45. ما النتيجة؟', 'warn'); }
+function revealP2() { fb('p2-fb', 'الشرح: grade=45، والشرط 45>=50 → False، فيُنفذ فرع else ويُطبع: راسب.', 'info'); }
+
+/* ============================================================
+   3.2  إكمال else
+   ============================================================ */
+function checkC3() {
+  const v = document.getElementById('c3-else').value;
+  if (!v) return fb('c3-fb', 'اختر إجابة أولًا.', 'warn');
+  if (v === 'else:') {
+    fb('c3-fb', '✅ صحيح. else: هي الصيغة الصحيحة، وتنتهي دائمًا بنقطتين رأسيتين.', 'correct');
+    markCompleted('3.2');
+  } else {
+    fb('c3-fb', '❌ تذكّر: else لا تحتاج شرطًا، وتنتهي بنقطتين (:).', 'wrong');
+  }
+}
+function hintC3() { fb('c3-fb', 'تلميح: الصيغة الصحيحة هي else: بالنقطتين، وبدون قوسين أو شرط.', 'warn'); }
+
+/* ============================================================
+   3.3  مطابقة
+   ============================================================ */
+const matchState = {};
+function selectMatch(group, el) {
+  if (el.classList.contains('matched')) return;
+  const key = el.dataset.key;
+  if (!matchState[group]) matchState[group] = { selected: null, side: null };
+  const st = matchState[group];
+
+  if (!st.selected) {
+    st.selected = key;
+    st.side = el.parentElement.id;
+    el.classList.add('selected');
+  } else {
+    if (el.parentElement.id === st.side) {
+      // نفس العمود: تغيير التحديد
+      document.querySelectorAll(`#${st.side} .match-item.selected`).forEach(x => x.classList.remove('selected'));
+      st.selected = key;
+      st.side = el.parentElement.id;
+      el.classList.add('selected');
+      return;
+    }
+    // عمود آخر: تحقق من التطابق
+    if (key === st.selected) {
+      const sel = document.querySelector(`#${st.side} .match-item.selected`);
+      sel.classList.remove('selected');
+      sel.classList.add('matched');
+      el.classList.add('matched');
+      fb(`m${group.slice(1)}-fb`, '✅ تطابق صحيح!', 'correct');
+    } else {
+      el.classList.add('wrong-flash');
+      setTimeout(() => el.classList.remove('wrong-flash'), 500);
+      fb(`m${group.slice(1)}-fb`, '❌ ليس التطابق الصحيح. جرّب مرة أخرى.', 'wrong');
+    }
+    st.selected = null; st.side = null;
+
+    // إذا اكتمل التطابق
+    const all = document.querySelectorAll(`#${group}-grid .match-item`);
+    const matchedAll = document.querySelectorAll(`#${group}-grid .match-item.matched`);
+    if (all.length === matchedAll.length) {
+      fb(`m${group.slice(1)}-fb`, '🎉 أكملت جميع المطابقات بنجاح!', 'correct');
+      markCompleted(group === 'm3' ? '3.3' : '5.1');
+    }
+  }
+}
+function hintM3() { fb('m3-fb', 'تلميح: 75 و60 وكلاهما أكبر من أو يساوي 60 → «نجاح». 30 أقل من 60 → «رسوب».', 'warn'); }
+
+/* ============================================================
+   4.1  elif
+   ============================================================ */
+function checkP3() {
+  const v = document.getElementById('p3-input').value;
+  if (!v) return fb('p3-fb', 'اختر ناتجًا أولًا.', 'warn');
+  if (v === 'جيد') {
+    fb('p3-fb', '✅ صحيح. 78 ليست ≥ 90 ولا ≥ 80، لكنها ≥ 70، فيُطبع «جيد».', 'correct');
+    markCompleted('4.1');
+  } else if (v === 'جيد جدًا') {
+    fb('p3-fb', '❌ انتبه: 78 ليست ≥ 80. جرّب الشرط التالي.', 'wrong');
+  } else if (v === 'ممتاز') {
+    fb('p3-fb', '❌ 78 ليست ≥ 90. الشرط الأول لا يتحقق.', 'wrong');
+  } else {
+    fb('p3-fb', '❌ تذكّر: else يُنفذ فقط إذا فشلت كل الشروط السابقة. هنا الشرط الثالث يتحقق.', 'wrong');
+  }
+}
+function hintP3() { fb('p3-fb', 'تلميح: افحص الشروط بالترتيب: هل 78 ≥ 90؟ لا. هل 78 ≥ 80؟ لا. هل 78 ≥ 70؟ نعم.', 'warn'); }
+function revealP3() {
+  fb('p3-fb', 'خطوات التنفيذ: 90 → False، 80 → False، 70 → True → يُطبع «جيد».', 'info');
+}
+
+/* ============================================================
+   4.2  ترتيب الشروط
+   ============================================================ */
+function checkP4() {
+  const v = document.getElementById('p4-input').value;
+  if (!v) return fb('p4-fb', 'اختر إجابة أولًا.', 'warn');
+  if (v === 'جيد') {
+    fb('p4-fb', '✅ صحيح. الشرط الأول 95≥70 صحيح، فينفّذ كتلته ويتجاهل elif التالية، فيُطبع «جيد».', 'correct');
+    markCompleted('4.2');
+  } else {
+    fb('p4-fb', '❌ الشرط الأول هو أول ما يُفحص، وإذا تحقق يتوقف التنفيذ. هل 95 ≥ 70؟', 'wrong');
+  }
+}
+function hintP4() { fb('p4-fb', 'تلميح: الشروط تُفحص بالترتيب، وأول شرط يتحقق يُنفَّذ فقط.', 'warn'); }
+function revealP4() {
+  fb('p4-fb', 'الدرس المهم: يجب ترتيب الشروط من الأكثر تحديدًا إلى الأقل، وإلا سيبتلع الشرط الفضفاض بقية الحالات.', 'info');
+}
+
+/* ============================================================
+   4.3  أكمل elif
+   ============================================================ */
+function checkC4() {
+  const v = document.getElementById('c4-cond').value;
+  if (!v) return fb('c4-fb', 'اختر شرطًا أولًا.', 'warn');
+  if (v === 'n < 0') {
+    fb('c4-fb', '✅ صحيح. بعد أن فشل الشرط n>0 (لأن n=-3)، نفحص n<0 الذي يتحقق، فيُطبع «سالب».', 'correct');
+    markCompleted('4.3');
+  } else if (v === 'n > 0') {
+    fb('c4-fb', '❌ هذا تكرار للشرط الأول. نحتاج شرطًا مختلفًا يمسك الحالة المتبقية.', 'wrong');
+  } else if (v === 'n == 0') {
+    fb('c4-fb', '❌ هذا الشرط يمسك الصفر، لكن لدينا else بعد elif يعالج الصفر. المطلوب هو الحالة السالبة.', 'wrong');
+  } else {
+    fb('c4-fb', '❌ n != 0 يشمل الموجب والسالب، لكن الموجب عولج في الفرع الأول. المطلوب شرط يمسك السالب فقط.', 'wrong');
+  }
+}
+function hintC4() { fb('c4-fb', 'تلميح: المتبقي بعد الموجب والصفر هو السالب. ما الشرط الذي يمسكه؟', 'warn'); }
+
+/* ============================================================
+   5.2  اختر المعامل
+   ============================================================ */
+function checkC5() {
+  const v = document.getElementById('c5-op').value;
+  if (!v) return fb('c5-fb', 'اختر معاملًا أولًا.', 'warn');
+  if (v === '>=') {
+    fb('c5-fb', '✅ صحيح. grade >= 50 يحقق المطلوب (٥٠ فأكثر).', 'correct');
+    markCompleted('5.2');
+  } else if (v === '>') {
+    fb('c5-fb', '❌ > لا تشمل 50 نفسها، والمطلوب «٥٠ فأكثر» أي مع التساوي.', 'wrong');
+  } else if (v === '==') {
+    fb('c5-fb', '❌ == تتحقق فقط عند التساوي التام، لا لكل القيم ≥ 50.', 'wrong');
+  } else {
+    fb('c5-fb', '❌ راجع الهدف: هل تريد أكبر من؟ أصغر من؟ مع التساوي أم لا؟', 'wrong');
+  }
+}
+function hintC5() { fb('c5-fb', 'تلميح: «٥٠ فأكثر» تعني 50 وما هو أكبر منها، أي مع التساوي.', 'warn'); }
+
+/* ============================================================
+   5.3  = أم ==
+   ============================================================ */
+function checkT3() {
+  const a = document.getElementById('t1').value;
+  const b = document.getElementById('t2').value;
+  const c = document.getElementById('t3').value;
+  const ok = a === '=' && b === '==' && c === '=';
+  if (ok) {
+    fb('t3-fb', '✅ أحسنت. = للإسناد، == للمقارنة داخل الشروط.', 'correct');
+    markCompleted('5.3');
+  } else {
+    fb('t3-fb', '❌ تذكّر: = تُعطي قيمة، == تقارن بين قيمتين. راجع كل جملة بحسب هدفها.', 'wrong');
+  }
+}
+function hintT3() { fb('t3-fb', 'تلميح: الجملة التي «تُعطي» قيمة تستخدم =، والجملة التي «تسأل هل هما متساويان» تستخدم ==.', 'warn'); }
+
+/* ============================================================
+   6.1  تقييم منطقي
+   ============================================================ */
+function checkB() {
+  const expect = { b1: 'True', b2: 'False', b3: 'False', b4: 'True', b5: 'False' };
+  let allOk = true, wrong = [];
+  for (const id in expect) {
+    const v = document.getElementById(id).value;
+    if (v !== expect[id]) { allOk = false; wrong.push(id); }
+  }
+  if (allOk) {
+    fb('b-fb', '✅ ممتاز! جميع التقييمات صحيحة.', 'correct');
+    markCompleted('6.1');
+  } else {
+    fb('b-fb', '❌ بعض الإجابات غير صحيحة. تذكّر: and تحتاج صحة الاثنين، or تكفيها صحة واحدة، not تعكس.', 'wrong');
+  }
+}
+function hintB() { fb('b-fb', 'تلميح: قيّم كل جزء من التعبير وحده، ثم طبّق قاعدة and/or.', 'warn'); }
+function revealB() {
+  fb('b-fb', 'النتائج: 10>5 = True، 3==4 = False، (5>2) and (3<1) = True and False = False، (5>2) or (3<1) = True، not(2==2) = not True = False.', 'info');
+}
+
+/* ============================================================
+   6.2  شرط مركب
+   ============================================================ */
+function checkC6() {
+  const v = document.getElementById('c6-cond').value;
+  if (!v) return fb('c6-fb', 'اختر شرطًا أولًا.', 'warn');
+  if (v === 'age >= 18 and has_passport') {
+    fb('c6-fb', '✅ صحيح. نريد تحقق الشرطين معًا، لذا نستخدم and.', 'correct');
+    markCompleted('6.2');
+  } else if (v.includes('or')) {
+    fb('c6-fb', '❌ or تكفيها صحة أحد الشرطين، لكن المطلوب تحقق الاثنين.', 'wrong');
+  } else if (v.includes('not has_passport')) {
+    fb('c6-fb', '❌ not تعكس القيمة، وهذا يمنع المسموح له فعليًا.', 'wrong');
+  } else {
+    fb('c6-fb', '❌ الشرط الحالي لا يتحقق من وجود جواز السفر.', 'wrong');
+  }
+}
+function hintC6() { fb('c6-fb', 'تلميح: المطلوب «عمر ١٨+» و«يملك جوازًا» معًا → استخدم and.', 'warn'); }
+
+/* ============================================================
+   7.1  خطأ = بدل ==
+   ============================================================ */
+function pickErrLine(group, line) {
+  const fbi = 'err' + group + '-fb';
+  if (group === 1 && line === 2) {
+    fb(fbi, '✅ صحيح. في الشرط يجب استخدام == للمقارنة، لا = للإسناد. الصواب: if x == 5:', 'correct');
+    markCompleted('7.1');
+  } else if (group === 2 && line === 2) {
+    fb(fbi, '✅ صحيح. السطر ينقصه النقطتان. الصواب: if grade >= 50:', 'correct');
+    markCompleted('7.2');
+  } else if (group === 3 && line === 3) {
+    fb(fbi, '✅ صحيح. سطر print("حار") غير مُزاح. الصواب: ٤ مسافات قبل print داخل كتلة if.', 'correct');
+    markCompleted('7.3');
+  } else {
+    fb(fbi, '❌ ليس هذا السطر. أعد قراءة الشيفرة باحثًا عن الخطأ النموذجي.', 'wrong');
+  }
+}
+function hintErr1() { fb('err1-fb', 'تلميح: في السطر if، هل تستخدم = أم ==؟', 'warn'); }
+function revealErr1() {
+  fb('err1-fb', 'الخطأ في السطر الثاني: if x = 5: — الصواب if x == 5: لأن = تُسند و== تقارن.', 'info');
+}
+function hintErr2() { fb('err2-fb', 'تلميح: بعد كل شرط في بايثون يجب أن تنتهي الجملة بـ :', 'warn'); }
+function hintErr3() { fb('err3-fb', 'تلميح: كل سطر داخل كتلة if أو else يجب أن يكون مُزاحًا.', 'warn'); }
+
+/* ============================================================
+   7.4  ترتيب elif خاطئ
+   ============================================================ */
+function checkErr4() {
+  const v = document.getElementById('err4-q').value;
+  if (!v) return fb('err4-fb', 'اختر تفسيرًا أولًا.', 'warn');
+  if (v === '1') {
+    fb('err4-fb', '✅ صحيح. الشرط الأول يلتقط كل قيمة ≥ 50، فلا يصل التنفيذ إلى elif أبدًا.', 'correct');
+    markCompleted('7.4');
+  } else {
+    fb('err4-fb', '❌ راجع: الشروط تُفحص بالترتيب، وأول تحقق ينهي السلسلة.', 'wrong');
+  }
+}
+function hintErr4() { fb('err4-fb', 'تلميح: ماذا يحدث لدرجة 95 أمام الشرط score >= 50؟', 'warn'); }
+function revealErr4() {
+  fb('err4-fb', 'الحل: ابدأ بالشرط الأكثر تحديدًا: if score >= 90 ثم elif score >= 50. هكذا تُعطي 95 الناتج الصحيح.', 'info');
+}
+
+/* ============================================================
+   8.1  محاكي العلامة
+   ============================================================ */
+function runSim1() {
+  const g = parseFloat(document.getElementById('s1-g').value);
+  document.getElementById('s1-g-view').textContent = g;
+  const cond = g >= 50;
+  const result = cond ? 'ناجح' : 'راسب';
+  const tr = document.getElementById('s1-trace');
+  tr.style.display = 'block';
+  tr.innerHTML = `
+    <div class="trace-row"><span class="tr-label">قيمة المتغير:</span><span class="tr-val">grade = ${g}</span></div>
+    <div class="trace-row ${cond ? 'ok' : 'fail'}"><span class="tr-label">الشرط:</span><span class="tr-val">grade >= 50 → ${cond ? 'True ✅' : 'False ❌'}</span></div>
+    <div class="trace-row"><span class="tr-label">الفرع المنفذ:</span><span class="tr-val">${cond ? 'if' : 'else'}</span></div>
+    <div class="trace-row ok"><span class="tr-label">الناتج:</span><span class="tr-val">${result}</span></div>`;
+  markCompleted('8.1');
+}
+
+/* ============================================================
+   8.2  محاكي الطقس
+   ============================================================ */
+function runSim2() {
+  const t = parseFloat(document.getElementById('s2-t').value);
+  document.getElementById('s2-t-view').textContent = t;
+  let branch, result;
+  if (t > 35) { branch = 'if (t > 35)'; result = 'حار جدًا'; }
+  else if (t > 25) { branch = 'elif (t > 25)'; result = 'دافئ'; }
+  else if (t > 15) { branch = 'elif (t > 15)'; result = 'معتدل'; }
+  else { branch = 'else'; result = 'بارد'; }
+  const tr = document.getElementById('s2-trace');
+  tr.style.display = 'block';
+  tr.innerHTML = `
+    <div class="trace-row"><span class="tr-label">temp:</span><span class="tr-val">${t}</span></div>
+    <div class="trace-row"><span class="tr-label">فحص 1:</span><span class="tr-val">t > 35 → ${t > 35 ? 'True' : 'False'}</span></div>
+    <div class="trace-row"><span class="tr-label">فحص 2:</span><span class="tr-val">t > 25 → ${t > 25 ? 'True' : 'False'}</span></div>
+    <div class="trace-row"><span class="tr-label">فحص 3:</span><span class="tr-val">t > 15 → ${t > 15 ? 'True' : 'False'}</span></div>
+    <div class="trace-row ok"><span class="tr-label">الفرع:</span><span class="tr-val">${branch}</span></div>
+    <div class="trace-row ok"><span class="tr-label">الناتج:</span><span class="tr-val">${result}</span></div>`;
+  markCompleted('8.2');
+}
+
+/* ============================================================
+   8.3  محاكي إشارة العدد
+   ============================================================ */
+function runSim3() {
+  const n = parseFloat(document.getElementById('s3-n').value);
+  document.getElementById('s3-n-view').textContent = n;
+  let branch, result;
+  if (n > 0) { branch = 'if (n > 0)'; result = 'موجب'; }
+  else if (n < 0) { branch = 'elif (n < 0)'; result = 'سالب'; }
+  else { branch = 'else'; result = 'صفر'; }
+  const tr = document.getElementById('s3-trace');
+  tr.style.display = 'block';
+  tr.innerHTML = `
+    <div class="trace-row"><span class="tr-label">n:</span><span class="tr-val">${n}</span></div>
+    <div class="trace-row"><span class="tr-label">فحص 1:</span><span class="tr-val">n > 0 → ${n > 0 ? 'True' : 'False'}</span></div>
+    <div class="trace-row"><span class="tr-label">فحص 2:</span><span class="tr-val">n < 0 → ${n < 0 ? 'True' : 'False'}</span></div>
+    <div class="trace-row ok"><span class="tr-label">الفرع:</span><span class="tr-val">${branch}</span></div>
+    <div class="trace-row ok"><span class="tr-label">الناتج:</span><span class="tr-val">${result}</span></div>`;
+  markCompleted('8.3');
+}
+
+/* ============================================================
+   8.4  محاكي الخصم
+   ============================================================ */
+function runSim4() {
+  const total = parseFloat(document.getElementById('s4-v').value);
+  document.getElementById('s4-v-view').textContent = total;
+  let discount, branch;
+  if (total >= 200) { discount = 20; branch = 'if (total >= 200)'; }
+  else if (total >= 100) { discount = 10; branch = 'elif (total >= 100)'; }
+  else { discount = 0; branch = 'else'; }
+  const final = total - (total * discount / 100);
+  const tr = document.getElementById('s4-trace');
+  tr.style.display = 'block';
+  tr.innerHTML = `
+    <div class="trace-row"><span class="tr-label">total:</span><span class="tr-val">${total}</span></div>
+    <div class="trace-row"><span class="tr-label">الفرع:</span><span class="tr-val">${branch}</span></div>
+    <div class="trace-row"><span class="tr-label">discount:</span><span class="tr-val">${discount}%</span></div>
+    <div class="trace-row ok"><span class="tr-label">final:</span><span class="tr-val">${final.toFixed(2)}</span></div>`;
+  markCompleted('8.4');
+}
+
+/* ============================================================
+   9.1  خصم المتجر
+   ============================================================ */
+function check91() {
+  const v = document.querySelector('input[name="r91"]:checked');
+  if (!v) return fb('f91', 'اختر إجابة أولًا.', 'warn');
+  if (v.value === 'b') {
+    fb('f91', '✅ صحيح. «تجاوزت ٢٠٠» تعني ٢٠٠ فأكثر، فنستخدم >=.', 'correct');
+    markCompleted('9.1');
+  } else {
+    fb('f91', '❌ انتبه: هل تريد أن يحصل من قيمة مشترياته ٢٠٠ بالضبط على الخصم؟ إن كانت الإجابة نعم، فاستخدم >=.', 'wrong');
+  }
+}
+
+/* ============================================================
+   9.2  العدد الزوجي
+   ============================================================ */
+function check92() {
+  const v = document.getElementById('q92').value;
+  if (!v) return fb('f92', 'اختر شرطًا أولًا.', 'warn');
+  if (v === 'n % 2 == 0') {
+    fb('f92', '✅ صحيح. % تعطي باقي القسمة، والزوجي باقيه صفر.', 'correct');
+    markCompleted('9.2');
+  } else {
+    fb('f92', '❌ راجع: العدد الزوجي يقبل القسمة على 2 دون باقٍ. ما العملية التي تعطينا الباقي؟', 'wrong');
+  }
+}
+function hint92() { fb('f92', 'تلميح: في بايثون، % هي عملية «باقي القسمة».', 'warn'); }
+
+/* ============================================================
+   9.3  فئة عمرية
+   ============================================================ */
+function check93() {
+  const v = document.querySelector('input[name="r93"]:checked');
+  if (!v) return fb('f93', 'اختر إجابة أولًا.', 'warn');
+  if (v.value === 'a') {
+    fb('f93', '✅ صحيح. هذا الترتيب المتدرج يغطي الفئات الثلاث.', 'correct');
+    markCompleted('9.3');
+  } else if (v.value === 'b') {
+    fb('f93', '❌ الترتيب معكوس: طفل عمره 5 أمام age > 13 سيكون False فينتقل إلى else ويعتبره بالغًا.', 'wrong');
+  } else {
+    fb('f93', '❌ استخدام == يمسك قيمتين محددتين فقط. المطلوب نطاقات متصلة.', 'wrong');
+  }
+}
+
+/* ============================================================
+   10  التحدي الإبداعي
+   ============================================================ */
+function checkCreative() {
+  const code = document.getElementById('creative-input').value;
+  if (!code.trim()) return fb('creative-fb', 'اكتب شيفرتك أولًا، ولو بسيطة.', 'warn');
+  const hasIf = /\bif\b/.test(code);
+  const hasColon = /if[^\n]*:/.test(code);
+  const hasIndent = /(if[^\n]*:\n[ \t]+\S)/.test(code);
+  const hasPrint = /print\s*\(/.test(code);
+  let msg = '🔎 مراجعة سريعة لشيفرتك:\n';
+  if (!hasIf) msg += '⚠️ لم أجد جملة if.\n';
+  if (hasIf && !hasColon) msg += '⚠️ تأكد من وضع النقطتين (:) بعد الشرط.\n';
+  if (hasIf && hasColon && !hasIndent) msg += '⚠️ تأكد من إزاحة الكتلة التابعة للشرط.\n';
+  if (!hasPrint) msg += 'ℹ️ لا تحتوي على print، هذا مقبول لكن التأكد من الناتج مفيد.\n';
+  if (hasIf && hasColon && hasIndent) {
+    msg += '✅ تبدو شيفرتك جيدة من حيث الصيغة الأساسية. جرّبها في بيئة بايثون حقيقية للتأكد من النتائج.';
+    markCompleted('10');
+    fb('creative-fb', msg, 'correct');
+  } else {
+    fb('creative-fb', msg, 'info');
+  }
+}
+function hintCreative() {
+  hint('creative-hint',
+    'تلميحات للمراجعة: ① تأكد أن كل if و elif و else تنتهي بـ : ② الكتلة التابعة لها يجب أن تكون مُزاحة ٤ مسافات. ③ استخدم == للمقارنة و= للإسناد. ④ جرّب قيمًا مختلفة للتحقق.');
+}
+
+/* ============================================================
+   التهيئة
+   ============================================================ */
+loadProgress();
+// فتح الوحدة الأخيرة إن وُجدت
+if (progress.lastUnit) {
+  showUnit(progress.lastUnit);
+}
+</script>
+</body>
+</html>
