@@ -1,0 +1,1875 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>رحلة الأبطال في جدول الضرب — تصميم الأستاذ عواد دحبور</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{max-width:100%;overflow-x:hidden}
+body{
+  font-family:'Tajawal','Cairo','Segoe UI',Tahoma,Arial,sans-serif;
+  background:linear-gradient(165deg,#4DA9FF 0%,#8ECBFF 35%,#F2F8FF 100%);
+  min-height:100vh;color:#2455A4;padding-bottom:70px;
+  transition:background .5s ease;-webkit-font-smoothing:antialiased;
+}
+body.theme-1{background:linear-gradient(165deg,#7BE0B0 0%,#C9F2DC 45%,#FFF9E0 100%)}
+body.theme-2{background:linear-gradient(165deg,#4DA9FF 0%,#B9DDFF 45%,#FFE9D6 100%)}
+body.theme-3{background:linear-gradient(165deg,#9B7BFF 0%,#D3C6FF 45%,#E3EDFF 100%)}
+body.theme-4{background:linear-gradient(165deg,#12224E 0%,#2C2A6B 50%,#4A2B72 100%);color:#E9EEFF}
+body.theme-4 .card,body.theme-4 .qcard{color:#2455A4}
+h1,h2,h3{line-height:1.35}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:10px 14px 24px}
+.screen{display:none}
+.screen.active{display:block;animation:fadeUp .38s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+#topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 14px;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);
+  border-bottom:3px solid rgba(77,169,255,.25);position:sticky;top:0;z-index:60;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:8px}
+.logo{font-size:26px;animation:floaty 3s ease-in-out infinite}
+.brand-title{font-weight:800;font-size:15px;color:#2455A4;line-height:1.15}
+.brand-sub{font-size:11px;color:#6B8CC4;font-weight:700}
+.topstats{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.chip{background:#FFD447;color:#7A5A00;border-radius:999px;padding:5px 12px;
+  font-weight:800;font-size:13px;display:flex;align-items:center;gap:5px;box-shadow:0 3px 0 #E5B92E;}
+.chip.blue{background:#4DA9FF;color:#fff;box-shadow:0 3px 0 #2E7FCB}
+.icon-btn{width:38px;height:38px;border-radius:12px;background:#fff;font-size:17px;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 #C9DCF5;transition:transform .15s;}
+.icon-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #C9DCF5}
+
+.hero{text-align:center;padding:14px 4px 6px}
+.hero h1{font-size:clamp(22px,5.6vw,38px);color:#2455A4;font-weight:900;
+  text-shadow:0 3px 0 #fff,0 6px 14px rgba(36,85,164,.16);margin-bottom:6px;}
+.tagline{display:inline-block;background:#FFD447;color:#7A5A00;font-weight:800;
+  border-radius:999px;padding:6px 18px;font-size:clamp(12px,3.2vw,15px);box-shadow:0 4px 0 #E5B92E;margin-bottom:10px;}
+.greet{font-size:clamp(13px,3.4vw,16px);color:#33578F;font-weight:700;max-width:640px;margin:0 auto 14px;line-height:1.7}
+.doors{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}
+@media(max-width:600px){.doors{grid-template-columns:1fr}}
+.door{position:relative;border-radius:24px;padding:16px 16px 14px;color:#fff;
+  box-shadow:0 8px 0 rgba(0,0,0,.13),0 14px 26px rgba(0,0,0,.12);overflow:hidden;text-align:right;
+  transition:transform .18s,box-shadow .18s;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;}
+.door:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(0,0,0,.13)}
+.door::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 88% 12%,rgba(255,255,255,.35),transparent 42%);pointer-events:none;}
+.door .d-emoji{font-size:44px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.door h3{font-size:clamp(16px,4vw,21px);font-weight:900;margin:4px 0 2px}
+.door .d-grade{font-size:12px;font-weight:800;opacity:.95}
+.door .d-desc{font-size:12.5px;font-weight:600;opacity:.96;line-height:1.6;margin-top:6px}
+.door .d-cta{margin-top:10px;background:rgba(255,255,255,.94);color:#2455A4;font-weight:900;border-radius:999px;padding:8px 0;text-align:center;font-size:13.5px;}
+.door.locked{filter:grayscale(.72);opacity:.72;cursor:not-allowed}
+.door.locked .d-cta{background:rgba(0,0,0,.22);color:#fff}
+.door.locked::before{content:'🔒';position:absolute;top:12px;left:14px;font-size:22px;z-index:2;}
+.door.d1{background:linear-gradient(135deg,#48C78E,#A7E86B 55%,#FFD447)}
+.door.d2{background:linear-gradient(135deg,#4DA9FF,#6FC3FF 50%,#FF914D)}
+.door.d3{background:linear-gradient(135deg,#9B7BFF,#7C6BFF 45%,#2455A4)}
+.door.d4{background:linear-gradient(135deg,#2455A4,#4A3FA8 45%,#9B7BFF 100%)}
+.home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 16px;}
+@media(max-width:560px){.home-stats{grid-template-columns:repeat(2,1fr)}}
+.hstat{background:#fff;border-radius:18px;padding:12px 8px;text-align:center;box-shadow:0 5px 0 #D8E7FA;}
+.hstat b{display:block;font-size:clamp(18px,5vw,24px);color:#2455A4}
+.hstat span{font-size:11.5px;color:#6B8CC4;font-weight:800}
+.home-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:560px){.home-actions{grid-template-columns:1fr}}
+
+.btn{border-radius:16px;padding:14px 18px;font-weight:900;font-size:15px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .15s,box-shadow .15s;text-align:center;line-height:1.3;}
+.btn:active{transform:translateY(3px)}
+.btn.primary{background:#FF914D;color:#fff;box-shadow:0 5px 0 #D9712E}
+.btn.primary:active{box-shadow:0 2px 0 #D9712E}
+.btn.green{background:#48C78E;color:#fff;box-shadow:0 5px 0 #349C6B}
+.btn.green:active{box-shadow:0 2px 0 #349C6B}
+.btn.purple{background:#9B7BFF;color:#fff;box-shadow:0 5px 0 #7A5BE0}
+.btn.purple:active{box-shadow:0 2px 0 #7A5BE0}
+.btn.ghost{background:#fff;color:#2455A4;box-shadow:0 5px 0 #D8E7FA}
+.btn.ghost:active{box-shadow:0 2px 0 #D8E7FA}
+.btn.danger{background:#FF626D;color:#fff;box-shadow:0 5px 0 #D84450}
+.btn.small{padding:10px 14px;font-size:13px;border-radius:13px}
+.btn[disabled]{opacity:.5;pointer-events:none}
+
+.card{background:#fff;border-radius:22px;padding:16px;box-shadow:0 7px 0 #DCE9F9,0 14px 30px rgba(36,85,164,.09);}
+.card + .card{margin-top:12px}
+.card h2{font-size:clamp(16px,4.2vw,20px);margin-bottom:10px;color:#2455A4}
+
+.hud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.hud .chip{font-size:12.5px;padding:5px 11px}
+.hud .chip.green{background:#48C78E;color:#fff;box-shadow:0 3px 0 #349C6B}
+.hud .chip.red{background:#FF626D;color:#fff;box-shadow:0 3px 0 #D84450}
+.hud .chip.blue{background:#4DA9FF;color:#fff;box-shadow:0 3px 0 #2E7FCB}
+.hud .chip.purple{background:#9B7BFF;color:#fff;box-shadow:0 3px 0 #7A5BE0}
+
+.timebar{height:16px;border-radius:999px;background:rgba(255,255,255,.75);overflow:hidden;
+  margin-bottom:12px;box-shadow:inset 0 2px 5px rgba(36,85,164,.16);}
+.timebar-fill{height:100%;width:100%;border-radius:999px;
+  background:linear-gradient(90deg,#48C78E,#FFD447,#FF914D);transition:width 1s linear;}
+.timebar-fill.low{background:linear-gradient(90deg,#FF914D,#FF626D)}
+
+.qcard{background:#fff;border-radius:24px;padding:18px 16px;
+  box-shadow:0 8px 0 #DCE9F9,0 18px 40px rgba(36,85,164,.12);animation:pop .3s ease;}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.qnum{background:#F2F8FF;color:#2455A4;font-weight:900;font-size:12.5px;
+  border-radius:999px;padding:5px 14px;border:2px solid #DCE9F9;}
+.qlevel{font-weight:800;font-size:12.5px;color:#7C6BFF}
+.qtext{font-size:clamp(17px,4.6vw,24px);font-weight:900;line-height:1.75;color:#2455A4;margin-bottom:14px;text-align:center;}
+.qvisual{margin-bottom:14px}
+.groups{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.grp{display:flex;flex-wrap:wrap;gap:3px;padding:9px;border:3px dashed #4DA9FF;
+  border-radius:16px;background:#F2F8FF;max-width:150px;justify-content:center;animation:pop .35s ease;}
+.grp span{font-size:clamp(17px,4.6vw,23px);line-height:1}
+
+.options{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:6px}
+@media(max-width:430px){.options{grid-template-columns:1fr}}
+.option{background:#F2F8FF;border:3px solid #DCE9F9;border-radius:18px;
+  padding:15px 10px;font-size:clamp(16px,4.4vw,21px);font-weight:900;color:#2455A4;
+  transition:transform .13s,background .18s,border-color .18s;position:relative;box-shadow:0 4px 0 #DCE9F9;}
+.option:active{transform:translateY(3px);box-shadow:0 1px 0 #DCE9F9}
+.option.correct{background:#48C78E;border-color:#349C6B;color:#fff;box-shadow:0 4px 0 #349C6B;animation:pop .3s}
+.option.wrong{background:#FF626D;border-color:#D84450;color:#fff;box-shadow:0 4px 0 #D84450;animation:shake .35s}
+.option.dead{pointer-events:none;opacity:.85}
+.option.dead:not(.wrong){opacity:.45}
+
+.feedback{margin-top:14px;border-radius:16px;padding:0;font-size:14px;font-weight:700;line-height:1.85;overflow:hidden;transition:all .25s;}
+.feedback.show{padding:13px 15px}
+.feedback.ok{background:#E6F9F0;color:#1F7A55;border:2px solid #48C78E}
+.feedback.hint{background:#FFF7E0;color:#8A6100;border:2px solid #FFD447}
+.feedback.err{background:#FFECEE;color:#B02430;border:2px solid #FF626D}
+.feedback b{font-weight:900}
+.qactions{margin-top:14px;text-align:center}
+.qactions .btn{min-width:200px}
+.game-actions{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+
+.result-card{background:#fff;border-radius:26px;padding:22px 18px;text-align:center;
+  box-shadow:0 9px 0 #DCE9F9,0 20px 44px rgba(36,85,164,.14);animation:pop .4s ease;}
+.result-emoji{font-size:64px;line-height:1;margin-bottom:6px;animation:floaty 2.6s ease-in-out infinite}
+.result-card h2{font-size:clamp(19px,5vw,26px);margin-bottom:6px}
+.result-card .sub{font-weight:700;color:#5C7EB0;font-size:14px;margin-bottom:16px;line-height:1.7}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:480px){.res-grid{grid-template-columns:repeat(2,1fr)}}
+.res-item{background:#F2F8FF;border-radius:16px;padding:12px 6px}
+.res-item b{display:block;font-size:20px;color:#2455A4}
+.res-item span{font-size:11.5px;color:#6B8CC4;font-weight:800}
+.res-skills{text-align:right;margin-bottom:16px}
+.res-skills .skill-row{display:flex;justify-content:space-between;gap:8px;background:#F2F8FF;
+  border-radius:12px;padding:9px 13px;margin-bottom:7px;font-size:13px;font-weight:700;}
+.res-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.res-actions{grid-template-columns:1fr}}
+
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:11px}
+.badge{background:#F2F8FF;border-radius:18px;padding:13px 8px;text-align:center;border:3px solid #DCE9F9;transition:.2s;}
+.badge.got{background:linear-gradient(160deg,#FFF6D6,#FFE8A8);border-color:#FFD447;box-shadow:0 4px 0 #E5B92E}
+.badge .b-ico{font-size:30px;display:block;margin-bottom:5px;filter:grayscale(1);opacity:.4}
+.badge.got .b-ico{filter:none;opacity:1;animation:floaty 3s ease-in-out infinite}
+.badge .b-name{font-size:12px;font-weight:900;color:#2455A4;line-height:1.4}
+.badge .b-desc{font-size:10.5px;color:#7C93B8;font-weight:700;margin-top:3px;line-height:1.5}
+
+.table-wrap{overflow-x:auto;border-radius:16px;border:2px solid #DCE9F9}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:560px;background:#fff}
+th,td{padding:9px 10px;text-align:right;border-bottom:1px solid #EAF2FB;font-weight:700}
+th{background:#F2F8FF;color:#2455A4;font-weight:900;font-size:12px;position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+.empty-note{background:#FFF7E0;border:2px dashed #FFD447;border-radius:16px;
+  padding:18px;text-align:center;font-weight:800;color:#8A6100;font-size:13.5px;line-height:1.8;}
+
+.modal-back{position:fixed;inset:0;background:rgba(20,40,80,.55);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px);}
+.modal-back.show{display:flex;animation:fadeUp .25s ease}
+.modal{background:#fff;border-radius:24px;padding:24px 20px;max-width:420px;width:100%;
+  text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3);animation:pop .3s ease;}
+.modal h3{font-size:19px;margin-bottom:10px;color:#2455A4}
+.modal p{font-size:14px;font-weight:700;line-height:1.85;color:#5C7EB0;margin-bottom:18px}
+.modal .btn{width:100%}
+
+footer{text-align:center;padding:16px 14px 22px;font-size:12px;font-weight:800;color:#5C7EB0;line-height:1.9;}
+body.theme-4 footer{color:#C9D8FF}
+footer .sig{display:inline-block;background:rgba(255,255,255,.8);border-radius:999px;
+  padding:7px 20px;color:#2455A4;box-shadow:0 3px 0 rgba(36,85,164,.14);margin-bottom:4px;}
+
+#testProgress{display:flex;gap:6px;justify-content:center;margin-bottom:14px}
+#testProgress i{width:30px;height:7px;border-radius:999px;background:#DCE9F9;display:block;}
+#testProgress i.done{background:#48C78E}
+#testProgress i.bad{background:#FF626D}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="brand">
+    <span class="logo">🚀</span>
+    <div>
+      <div class="brand-title">رحلة الأبطال</div>
+      <div class="brand-sub">في جدول الضرب</div>
+    </div>
+  </div>
+  <div class="topstats">
+    <div class="chip"><span>⭐</span><b id="topStars">0</b></div>
+    <div class="chip blue"><span>🏅</span><b id="topPoints">0</b></div>
+    <button class="icon-btn" id="btnSound" title="الصوت">🔊</button>
+    <button class="icon-btn" id="btnHomeTop" title="الرئيسية">🏠</button>
+  </div>
+</div>
+
+<section class="screen active" id="screen-home">
+  <div class="wrap">
+    <div class="hero">
+      <h1>رحلة الأبطال في جدول الضرب</h1>
+      <div class="tagline">تعلّم، العب، اجمع النقاط، واصنع انتصارك! 🏆</div>
+      <p class="greet">أهلًا ببطل الرياضيات! هل أنت مستعد لجمع النجوم وفتح عوالم جديدة؟</p>
+    </div>
+    <div class="doors" id="doors"></div>
+    <div class="home-stats" id="homeStats"></div>
+    <div class="home-actions">
+      <button class="btn primary" id="btnContinue">▶ متابعة مغامرتي</button>
+      <button class="btn green" id="btnNew">✨ ابدأ مغامرة جديدة</button>
+      <button class="btn ghost" id="btnAchieve">🏅 إنجازاتي</button>
+      <button class="btn ghost" id="btnTeacher">🧑‍🏫 لوحة المعلم</button>
+    </div>
+  </div>
+  <footer>
+    <div class="sig">تصميم الأستاذ عواد دحبور</div><br>
+    «رحلة ممتعة نحو إتقان جدول الضرب»
+  </footer>
+</section>
+
+<section class="screen" id="screen-test">
+  <div class="wrap">
+    <div class="card">
+      <h2>🔍 اختبار سريع قبل الانطلاق</h2>
+      <p style="font-size:13.5px;font-weight:700;color:#5C7EB0;line-height:1.85;margin-bottom:12px">
+        خمسة أسئلة قصيرة لنساعدك على البدء من المكان المناسب. لا يخصم نقاطًا ولا يمنحها،
+        وإنما يحدد نقطة بدايتك بحسب المهارات التي تُظهرها.
+      </p>
+      <div id="testProgress"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="qcard" style="box-shadow:none;padding:0;background:transparent">
+        <div class="qtext" id="testQText"></div>
+        <div class="qvisual" id="testVisual"></div>
+        <div class="options" id="testOptions"></div>
+        <div class="feedback" id="testFeedback"></div>
+        <div class="qactions">
+          <button class="btn primary" id="testNext" style="display:none">التالي ➡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="sig">تصميم الأستاذ عواد دحبور</div></footer>
+</section>
+
+<section class="screen" id="screen-game">
+  <div class="wrap">
+    <div class="hud" id="hud"></div>
+    <div class="timebar"><div class="timebar-fill" id="timeFill"></div></div>
+    <div class="qcard">
+      <div class="qhead">
+        <span class="qnum" id="qNum">السؤال 1</span>
+        <span class="qlevel" id="qLevelName"></span>
+      </div>
+      <div class="qtext" id="qText"></div>
+      <div class="qvisual" id="qVisual"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="qactions">
+        <button class="btn primary" id="btnNext" style="display:none">السؤال التالي ➡</button>
+      </div>
+    </div>
+    <div class="game-actions">
+      <button class="btn ghost small" id="btnRetryLevel">🔁 إعادة المستوى</button>
+      <button class="btn ghost small" id="btnExitLevel">🏠 العودة للرئيسية</button>
+    </div>
+  </div>
+  <footer><div class="sig">تصميم الأستاذ عواد دحبور</div></footer>
+</section>
+
+<section class="screen" id="screen-results">
+  <div class="wrap">
+    <div class="result-card">
+      <div class="result-emoji" id="resEmoji">🏆</div>
+      <h2 id="resTitle"></h2>
+      <p class="sub" id="resSub"></p>
+      <div class="res-grid" id="resGrid"></div>
+      <div class="res-skills" id="resSkills"></div>
+      <div class="res-actions" id="resActions"></div>
+    </div>
+  </div>
+  <footer><div class="sig">تصميم الأستاذ عواد دحبور</div></footer>
+</section>
+
+<section class="screen" id="screen-achievements">
+  <div class="wrap">
+    <div class="card">
+      <h2>🏅 ملف إنجاز البطل</h2>
+      <div id="achieveName" style="font-weight:900;font-size:16px;margin-bottom:10px"></div>
+      <div class="res-grid" id="achieveStats"></div>
+    </div>
+    <div class="card">
+      <h2>⭐ الشارات</h2>
+      <div class="badge-grid" id="badgeGrid"></div>
+    </div>
+    <div class="card">
+      <h2>📋 أفضل نتيجة في كل مستوى</h2>
+      <div id="bestLevels"></div>
+    </div>
+    <div class="card">
+      <h2>🕘 آخر المحاولات</h2>
+      <div id="recentAttempts"></div>
+    </div>
+    <div class="card">
+      <h2>🧠 مهارات تحتاج مزيدًا من التدريب</h2>
+      <div id="needWorkBox"></div>
+    </div>
+    <div class="home-actions" style="margin-top:14px">
+      <button class="btn ghost" id="btnAchBack">🏠 العودة إلى الرئيسية</button>
+      <button class="btn danger" id="btnResetAll">🗑️ مسح تقدمي بالكامل</button>
+    </div>
+  </div>
+  <footer><div class="sig">تصميم الأستاذ عواد دحبور</div></footer>
+</section>
+
+<section class="screen" id="screen-teacher">
+  <div class="wrap">
+    <div class="card">
+      <h2>🧑‍🏫 لوحة المعلم — الإحصاءات المحلية</h2>
+      <p style="font-size:12.5px;font-weight:700;color:#7C93B8;line-height:1.8;margin-bottom:12px">
+        ملاحظة: هذه البيانات محفوظة على هذا المتصفح وهذا الجهاز فقط (localStorage)،
+        ولا تُرسل إلى الإنترنت ولا تظهر على أجهزة أخرى. القفل تنظيمي محلي وليس نظام مصادقة آمنًا.
+      </p>
+      <div class="res-grid" id="teacherStats"></div>
+    </div>
+    <div class="card">
+      <h2>📄 سجل المحاولات</h2>
+      <div id="teacherTable"></div>
+    </div>
+    <div class="home-actions" style="margin-top:14px">
+      <button class="btn green" id="btnExportCSV">⬇️ تصدير CSV</button>
+      <button class="btn purple" id="btnExportJSON">⬇️ تصدير JSON</button>
+      <button class="btn ghost" id="btnTeacherBack">🏠 العودة إلى الرئيسية</button>
+    </div>
+  </div>
+  <footer><div class="sig">تصميم الأستاذ عواد دحبور</div></footer>
+</section>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <p id="modalText"></p>
+    <button class="btn primary" id="modalBtn">حسنًا</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* =========================================================================
+   أدوات مساعدة
+   ========================================================================= */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const ri = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const uniq = a => Array.from(new Set(a));
+
+function nOpts(ans, n = 4) {
+  const out = [ans];
+  const step = ans > 60 ? Math.max(4, Math.round(ans * 0.05)) : (ans > 20 ? 2 : 1);
+  const deltas = shuffle([1,2,3,4,5,6,7,8,9,10,11,12].map(d => d * step).flatMap(d => [d, -d]));
+  for (const d of deltas) {
+    if (out.length >= n) break;
+    const v = ans + d;
+    if (v >= 0 && !out.includes(v)) out.push(v);
+  }
+  let x = ans + 1;
+  while (out.length < n) { if (!out.includes(x)) out.push(x); x++; }
+  return shuffle(out);
+}
+
+function mOpts(a, b, n = 4) {
+  const ans = a * b;
+  const out = [ans];
+  const cands = uniq([
+    a * (b + 1), a * Math.max(1, b - 1), (a + 1) * b, Math.max(1, a - 1) * b,
+    ans + 1, ans - 1, ans + 2, ans - 2, ans + 10, a + b, ans + a
+  ].filter(x => x > 0 && x !== ans));
+  for (const c of shuffle(cands)) {
+    if (out.length >= n) break;
+    if (!out.includes(c)) out.push(c);
+  }
+  let x = ans + 3;
+  while (out.length < n) { if (!out.includes(x)) out.push(x); x++; }
+  return shuffle(out);
+}
+
+/* محسّنة: ضمان 4 خيارات نصية مختلفة دائمًا */
+function sOpts(correct, pool, n = 4) {
+  const out = [String(correct)];
+  const cands = shuffle(uniq(pool.map(String)));
+  for (const p of cands) {
+    if (out.length >= n) break;
+    if (!out.includes(p)) out.push(p);
+  }
+  const pads = ['لا أعرف', 'إجابة أخرى', 'ليست هذه', 'لم أتعلمها بعد', 'جرّب مجددًا', 'لا يمكن الحكم'];
+  let pi = 0;
+  while (out.length < n && pi < pads.length) {
+    if (!out.includes(pads[pi])) out.push(pads[pi]);
+    pi++;
+  }
+  return shuffle(out).slice(0, n);
+}
+
+function exprPoolFor(p, a, b) {
+  const pairs = [
+    [a + 1, b], [a, b + 1], [Math.max(2, a - 1), b], [a, Math.max(2, b - 1)],
+    [a + 1, b + 1], [a + 2, b], [a, b + 2], [3, 4], [5, 5], [2, 7]
+  ];
+  const pool = [];
+  for (const [x, y] of pairs) {
+    if (x * y !== p) pool.push(`${x} × ${y}`);
+  }
+  return uniq(pool);
+}
+
+/* =========================================================================
+   الأصوات
+   ========================================================================= */
+let actx = null;
+function ac() {
+  if (!actx) {
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; }
+  }
+  return actx;
+}
+function tone(freq, dur, type = 'sine', vol = 0.07, delay = 0) {
+  if (state.muted) return;
+  const c = ac(); if (!c) return;
+  try {
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.value = freq;
+    o.connect(g); g.connect(c.destination);
+    const t = c.currentTime + delay;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.start(t); o.stop(t + dur + 0.03);
+  } catch (e) {}
+}
+const soundOK   = () => { tone(660,0.12,'sine',0.09,0); tone(880,0.15,'sine',0.09,0.1); tone(1180,0.2,'sine',0.075,0.22); };
+const soundErr  = () => { tone(220,0.16,'sawtooth',0.05,0); tone(160,0.2,'sawtooth',0.05,0.14); };
+const soundTap  = () => tone(540,0.05,'square',0.035,0);
+const soundWin  = () => [523,659,784,1047].forEach((f,i)=>tone(f,0.26,'sine',0.085,i*0.13));
+
+/* =========================================================================
+   الحالة والتخزين المحلي
+   ========================================================================= */
+const STORAGE_KEY = 'heroJourneyV1';
+const SESSION_KEY = 'heroJourneyV1_session';
+
+const defaultState = () => ({
+  name: '', points: 0, stars: 0, badges: [],
+  unlocked: 1, completed: [], attempts: [], best: {}, needWork: {},
+  testDone: false, testStart: 1, lastLevel: 1, muted: false
+});
+
+let state = defaultState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState();
+    const obj = JSON.parse(raw);
+    if (!obj || typeof obj !== 'object') return defaultState();
+    const base = defaultState();
+    for (const k in base) {
+      if (obj[k] === undefined || obj[k] === null) obj[k] = base[k];
+    }
+    if (!Array.isArray(obj.attempts)) obj.attempts = [];
+    if (!Array.isArray(obj.completed)) obj.completed = [];
+    if (!Array.isArray(obj.badges)) obj.badges = [];
+    if (typeof obj.best !== 'object' || Array.isArray(obj.best)) obj.best = {};
+    if (typeof obj.needWork !== 'object' || Array.isArray(obj.needWork)) obj.needWork = {};
+    return obj;
+  } catch (e) { return defaultState(); }
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+state = loadState();
+
+/* =========================================================================
+   تعريف المستويات
+   ========================================================================= */
+const LEVELS = {
+  1: { name: 'مملكة التجميع', grade: 'الصف الثاني الأساسي', emoji: '🐰',
+       hero: 'الأرنب بطل التجميع',
+       desc: 'اجمع الكرات والثمار في مجموعات، واكتشف معنى الضرب بالصور.',
+       cta: 'ادخل المملكة', cls: 'd1' },
+  2: { name: 'مدينة الجداول', grade: 'الصف الثالث الأساسي', emoji: '🤖',
+       hero: 'الروبوت الرياضي',
+       desc: 'اكتشف جداول الضرب من ١ إلى ١٠ وأضئ نوافذ المدينة.',
+       cta: 'ادخل المدينة', cls: 'd2' },
+  3: { name: 'قلعة التحديات', grade: 'الصف الرابع الأساسي', emoji: '🛡️',
+       hero: 'الفارس الشجاع',
+       desc: 'حل المسائل، افتح بوابات القلعة، واجمع الجواهر.',
+       cta: 'ادخل القلعة', cls: 'd3' },
+  4: { name: 'كوكب الأبطال', grade: 'الصفان الخامس والسادس', emoji: '🚀',
+       hero: 'رائد الفضاء الصغير',
+       desc: 'تحديات متقدمة ومسائل حياتية لفتح بوابات الفضاء.',
+       cta: 'انطلق إلى الكوكب', cls: 'd4' }
+};
+
+/* =========================================================================
+   بنك الأسئلة
+   ========================================================================= */
+let QID = 0;
+function Q(o) {
+  QID++;
+  return Object.assign({
+    id: 'q' + QID, level: 1, type: 'mc', skill: 'عام',
+    question: '', visual: null, answer: null, options: [],
+    hint: '', explanation: '', difficulty: 1, points: 10
+  }, o);
+}
+
+const EMOJI_POOL = ['🍎','⭐','🔵','🧊','🎈','🍊','🐣','🌻','🍇','⚽','🧸','🍭','🐟','🌸','🥕','🍓'];
+
+function buildLevel1() {
+  const qs = [];
+  for (let a = 2; a <= 7; a++) {
+    for (let b = 2; b <= 6; b++) {
+      const em = EMOJI_POOL[(a * 5 + b * 3) % EMOJI_POOL.length];
+      const total = a * b;
+      const grpTxt = `${a} مجموعات، في كل مجموعة ${b} عنصرًا`;
+      const visual = { kind: 'groups', groups: a, per: b, emoji: em };
+      const addStr = Array(a).fill(b).join(' + ');
+
+      qs.push(Q({ level: 1, type: 'count', skill: 'العدّ والتجميع',
+        question: `${grpTxt}. كم عدد العناصر في المجموع؟`,
+        visual, answer: total, options: nOpts(total),
+        hint: `عُدّ عناصر كل مجموعة ثم اجمعها: ${addStr}.`,
+        explanation: `${a} مجموعات، في كل واحدة ${b}. إذن ${addStr} = ${total}. وأيضًا ${a} × ${b} = ${total}.`,
+        difficulty: 1 }));
+
+      qs.push(Q({ level: 1, type: 'choose-op', skill: 'ربط المجموعات بالضرب',
+        question: `${grpTxt}. أي عملية ضرب تمثل هذه المجموعات؟`,
+        visual, answer: `${a} × ${b}`,
+        options: sOpts(`${a} × ${b}`, [
+          `${a} + ${b}`, `${a + 1} × ${b}`, `${a} × ${b + 1}`,
+          `${a + 2} × ${b}`, `${a} + ${b} + ${b}`, `${a + b} × ${b}`
+        ]),
+        hint: 'عدد المجموعات × عدد العناصر في كل مجموعة.',
+        explanation: `لدينا ${a} مجموعات، في كل مجموعة ${b}، فالعملية هي ${a} × ${b}.`,
+        difficulty: 1 }));
+
+      qs.push(Q({ level: 1, type: 'repeated-add', skill: 'الجمع المتكرر',
+        question: `${grpTxt}. ما ناتج الجمع المتكرر: ${addStr} ؟`,
+        visual, answer: total, options: nOpts(total),
+        hint: 'اجمع الأعداد واحدًا واحدًا.',
+        explanation: `${addStr} = ${total}، وهذا يساوي ${a} × ${b}.`,
+        difficulty: 1 }));
+
+      qs.push(Q({ level: 1, type: 'fill-mult', skill: 'الجمع المتكرر',
+        question: `أكمل: ${a} × ${b} = ؟`,
+        visual, answer: total, options: nOpts(total),
+        hint: `${a} مجموعات، في كل منها ${b}.`,
+        explanation: `${a} × ${b} = ${total}.`,
+        difficulty: 2 }));
+
+      qs.push(Q({ level: 1, type: 'per-group', skill: 'التوزيع المتساوي',
+        question: `لدينا ${total} عنصرًا موزعة في ${a} مجموعات متساوية. كم عنصرًا في كل مجموعة؟`,
+        answer: b, options: nOpts(b),
+        hint: `وزّع ${total} على ${a} مجموعات بالتساوي.`,
+        explanation: `${total} ÷ ${a} = ${b}، لأن ${a} × ${b} = ${total}.`,
+        difficulty: 3 }));
+    }
+  }
+  return qs;
+}
+
+function buildLevel2() {
+  const qs = [];
+  for (let a = 2; a <= 10; a++) {
+    for (let b = 2; b <= 10; b++) {
+      const p = a * b;
+      qs.push(Q({ level: 2, type: 'direct', skill: 'جداول الضرب',
+        question: `${a} × ${b} = ؟`,
+        answer: p, options: mOpts(a, b),
+        hint: `تذكّر: ${a} × ${b} تعني ${a} مجموعات، في كل منها ${b}.`,
+        explanation: `${a} × ${b} = ${p}.`,
+        difficulty: (a > 7 || b > 7) ? 3 : 2 }));
+
+      qs.push(Q({ level: 2, type: 'missing', skill: 'العدد الناقص',
+        question: `أكمل: ${a} × ؟ = ${p}`,
+        answer: b, options: nOpts(b),
+        hint: `ما العدد الذي إذا ضربناه في ${a} أعطانا ${p}؟ جرّب القسمة: ${p} ÷ ${a}.`,
+        explanation: `${a} × ${b} = ${p}، إذن العدد الناقص هو ${b}.`,
+        difficulty: 3 }));
+
+      qs.push(Q({ level: 2, type: 'commute', skill: 'خاصية التبديل',
+        question: `إذا كان ${a} × ${b} = ${p}، فما ناتج ${b} × ${a} ؟`,
+        answer: p, options: mOpts(b, a),
+        hint: 'ترتيب العددين في الضرب لا يغيّر الناتج.',
+        explanation: `${b} × ${a} = ${p} أيضًا، لأن الضرب عملية تبديلية.`,
+        difficulty: 2 }));
+
+      qs.push(Q({ level: 2, type: 'pick-expr', skill: 'الربط بين الجداول',
+        question: `أي عملية ضرب ناتجها ${p} ؟`,
+        answer: `${a} × ${b}`,
+        options: sOpts(`${a} × ${b}`, exprPoolFor(p, a, b)),
+        hint: `ابحث عن العددين اللذين حاصل ضربهما ${p}.`,
+        explanation: `${a} × ${b} = ${p}.`,
+        difficulty: 3 }));
+    }
+  }
+  return qs;
+}
+
+function buildLevel3() {
+  const qs = [];
+  const contexts = [
+    { who: 'المعلم', pack: 'صندوق', unit: 'قلمًا' },
+    { who: 'البستاني', pack: 'سلة', unit: 'تفاحة' },
+    { who: 'مدير المدرسة', pack: 'صف', unit: 'كرسيًا' },
+    { who: 'أمين المكتبة', pack: 'رف', unit: 'كتابًا' },
+    { who: 'البائع', pack: 'علبة', unit: 'حلوى' },
+    { who: 'البستاني', pack: 'باقة', unit: 'زهرة' },
+    { who: 'المدرب', pack: 'شبكة', unit: 'كرة' },
+    { who: 'جامع الطوابع', pack: 'ورقة', unit: 'طابعًا' }
+  ];
+  for (let a = 2; a <= 10; a++) {
+    for (let b = 2; b <= 10; b++) {
+      const p = a * b;
+      const c = contexts[(a * 3 + b) % contexts.length];
+
+      qs.push(Q({ level: 3, type: 'word', skill: 'مسائل لفظية',
+        question: `لدى ${c.who} ${a} ${c.pack}، في كل ${c.pack} ${b} ${c.unit}. كم ${c.unit} لديه؟`,
+        answer: p, options: mOpts(a, b),
+        hint: `اضرب عدد الـ${c.pack} في عدد الـ${c.unit} في كل واحد منها.`,
+        explanation: `${a} × ${b} = ${p}.`,
+        difficulty: 3 }));
+
+      qs.push(Q({ level: 3, type: 'missing', skill: 'العدد الناقص',
+        question: `أكمل: ${a} × ؟ = ${p}`,
+        answer: b, options: nOpts(b),
+        hint: `اقسم ${p} على ${a}.`,
+        explanation: `${a} × ${b} = ${p}، إذن العدد الناقص ${b}.`,
+        difficulty: 3 }));
+
+      let wrong = p + ri(-9, 9);
+      if (wrong === p || wrong < 1) wrong = p + 3;
+      let alt1 = p + 1;
+      let alt2 = p - 1 > 0 ? p - 1 : p + 2;
+      let wrongShown = wrong;
+      if (wrongShown + 2 === p || wrongShown + 2 === alt1 || wrongShown + 2 === alt2) wrongShown += 4;
+
+      qs.push(Q({ level: 3, type: 'error', skill: 'اكتشاف الأخطاء',
+        question: `كتب طالب أن ${a} × ${b} = ${wrongShown}. هل إجابته صحيحة؟`,
+        answer: `خطأ، والناتج الصحيح ${p}`,
+        options: sOpts(`خطأ، والناتج الصحيح ${p}`, [
+          'إجابته صحيحة',
+          `خطأ، والناتج الصحيح ${alt1}`,
+          `خطأ، والناتج الصحيح ${alt2}`,
+          `خطأ، والناتج الصحيح ${wrongShown + 2}`
+        ]),
+        hint: `احسب ${a} × ${b} بنفسك ثم قارن.`,
+        explanation: `${a} × ${b} = ${p}، وليس ${wrongShown}.`,
+        difficulty: 4 }));
+
+      qs.push(Q({ level: 3, type: 'commute', skill: 'خاصية التبديل',
+        question: `إذا كان ${a} × ${b} = ${p}، فما ناتج ${b} × ${a} ؟`,
+        answer: p, options: mOpts(b, a),
+        hint: 'الضرب تبديلي: الترتيب لا يغيّر الناتج.',
+        explanation: `${b} × ${a} = ${p} أيضًا.`,
+        difficulty: 3 }));
+    }
+  }
+  return qs;
+}
+
+function buildLevel4() {
+  const qs = [];
+  const bigCtx = [
+    { a: 'مكتبة', b: 'رفًا', c: 'كتابًا' },
+    { a: 'مدرسة', b: 'صندوقًا', c: 'قلمًا' },
+    { a: 'مصنع', b: 'صندوقًا', c: 'قطعة' },
+    { a: 'مزرعة', b: 'حقلًا', c: 'شجرة' },
+    { a: 'مستودع', b: 'كيسًا', c: 'كيلوغرام' }
+  ];
+
+  for (let a = 11; a <= 25; a++) {
+    for (let b = 3; b <= 9; b++) {
+      const p = a * b;
+
+      qs.push(Q({ level: 4, type: 'direct', skill: 'الضرب المتقدم',
+        question: `${a} × ${b} = ؟`,
+        answer: p, options: mOpts(a, b),
+        hint: `حلّل ${a} إلى ${Math.floor(a / 10) * 10} + ${a % 10}، ثم اضرب كل جزء في ${b} واجمع.`,
+        explanation: `${a} × ${b} = ${p}.`,
+        difficulty: 4 }));
+
+      const c = bigCtx[(a + b) % bigCtx.length];
+      qs.push(Q({ level: 4, type: 'word', skill: 'مسائل حياتية',
+        question: `في ${c.a} ${a} ${c.b}، على كل واحد ${b} ${c.c}. كم ${c.c} في المجموع؟`,
+        answer: p, options: mOpts(a, b),
+        hint: 'اضرب عدد الوحدات الكبيرة في عدد العناصر داخل كل واحدة.',
+        explanation: `${a} × ${b} = ${p}.`,
+        difficulty: 4 }));
+
+      const a2 = a + 2;
+      const b2 = Math.max(3, b - 1);
+      const p2 = a2 * b2;
+      if (p2 !== p) {
+        const bigger = p > p2 ? `${a} × ${b}` : `${a2} × ${b2}`;
+        const smaller = p > p2 ? `${a2} × ${b2}` : `${a} × ${b}`;
+        qs.push(Q({ level: 4, type: 'compare', skill: 'المقارنة والتفكير',
+          question: `أيهما أكبر: ${a} × ${b} أم ${a2} × ${b2} ؟`,
+          answer: bigger,
+          options: sOpts(bigger, [smaller, 'متساويان', 'لا يمكن المقارنة']),
+          hint: 'احسب كل عملية على حدة ثم قارن الناتجين.',
+          explanation: `${a} × ${b} = ${p}، و${a2} × ${b2} = ${p2}، إذن ${bigger} أكبر.`,
+          difficulty: 5 }));
+      }
+    }
+  }
+  return qs;
+}
+
+/* dedup by question text only (لا نُكرِّر نص السؤال) */
+function sanitizeBank(bank) {
+  const out = {};
+  for (const k in bank) {
+    const seen = new Set();
+    out[k] = bank[k].filter(q => {
+      if (!q.options || q.options.length !== 4) return false;
+      const opts = q.options.map(String);
+      if (new Set(opts).size !== 4) return false;
+      if (!opts.includes(String(q.answer))) return false;
+      if (!q.question || String(q.question).trim() === '') return false;
+      if (seen.has(q.question)) return false;
+      seen.add(q.question);
+      return true;
+    });
+  }
+  return out;
+}
+
+const BANK = sanitizeBank({
+  1: buildLevel1(),
+  2: buildLevel2(),
+  3: buildLevel3(),
+  4: buildLevel4()
+});
+
+/* =========================================================================
+   الشارات
+   ========================================================================= */
+const BADGES = [
+  { id: 'star_collector', name: 'جامع النجوم', icon: '⭐', desc: 'اجمع ٥٠ نجمة', check: s => s.stars >= 50 },
+  { id: 'gather_hero',    name: 'بطل التجميع',  icon: '🐰', desc: 'أكمل المستوى الأول', check: s => s.completed.includes(1) },
+  { id: 'tables_friend',  name: 'صديق الجداول', icon: '🤖', desc: 'أكمل المستوى الثاني', check: s => s.completed.includes(2) },
+  { id: 'mult_knight',    name: 'فارس الضرب',   icon: '🛡️', desc: 'أكمل المستوى الثالث', check: s => s.completed.includes(3) },
+  { id: 'space_explorer', name: 'مستكشف الكواكب', icon: '🚀', desc: 'أكمل المستوى الرابع', check: s => s.completed.includes(4) },
+  { id: 'persistent',     name: 'المثابر',       icon: '💪', desc: 'أعد محاولة مستوى', check: s => s.attempts.some(a => a.retry) },
+  { id: 'accuracy',       name: 'بطل الدقة',     icon: '🎯', desc: 'دقة ٩٠٪ في مستوى (٨ أسئلة فأكثر)', check: s => s.attempts.some(a => a.rate >= 0.9 && a.answered >= 8) },
+  { id: 'master',         name: 'بطل جدول الضرب', icon: '👑', desc: 'أكمل المستويات الأربعة', check: s => s.completed.length >= 4 }
+];
+
+function checkBadges() {
+  const newly = [];
+  BADGES.forEach(b => {
+    if (!state.badges.includes(b.id) && b.check(state)) {
+      state.badges.push(b.id);
+      newly.push(b);
+    }
+  });
+  if (newly.length) saveState();
+  return newly;
+}
+
+/* =========================================================================
+   النافذة المنبثقة (مع إيقاف/استئناف المؤقت تلقائيًا)
+   ========================================================================= */
+let modalCb = null;
+function showModal(title, text, btnLabel, cb) {
+  /* إيقاف المؤقت أثناء عرض النافذة */
+  if (game && game.timerId && !game.paused) {
+    game.paused = true;
+    game.pausedByModal = true;
+  }
+  $('#modalTitle').textContent = title;
+  $('#modalText').textContent = text;
+  $('#modalBtn').textContent = btnLabel || 'حسنًا';
+  $('#modalBack').classList.add('show');
+  modalCb = () => {
+    if (game && game.pausedByModal) {
+      game.pausedByModal = false;
+      if (!game.pausedByHidden) game.paused = false;
+    }
+    if (cb) cb();
+  };
+}
+$('#modalBtn').addEventListener('click', () => {
+  $('#modalBack').classList.remove('show');
+  const cb = modalCb; modalCb = null;
+  if (cb) cb();
+});
+
+/* =========================================================================
+   التنقل بين الشاشات
+   ========================================================================= */
+function showScreen(name) {
+  $$('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + name);
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  if (name !== 'game' && name !== 'test') document.body.className = '';
+  if (name === 'home') renderHome();
+  if (name === 'achievements') renderAchievements();
+  if (name === 'teacher') renderTeacher();
+}
+
+/* =========================================================================
+   الصفحة الرئيسية
+   ========================================================================= */
+function renderHome() {
+  $('#topStars').textContent = state.stars;
+  $('#topPoints').textContent = state.points;
+
+  const doors = $('#doors');
+  doors.innerHTML = '';
+  Object.keys(LEVELS).forEach(key => {
+    const id = Number(key);
+    const L = LEVELS[id];
+    const locked = id > state.unlocked;
+    const done = state.completed.includes(id);
+    const d = document.createElement('div');
+    d.className = 'door ' + L.cls + (locked ? ' locked' : '');
+    d.innerHTML = `
+      <div>
+        <div class="d-emoji">${L.emoji}</div>
+        <h3>${L.name} ${done ? '✅' : ''}</h3>
+        <div class="d-grade">${L.grade}</div>
+        <div class="d-desc">${L.desc}</div>
+      </div>
+      <div class="d-cta">${locked ? 'مغلق — أكمل المستويات السابقة' : L.cta}</div>
+    `;
+    if (!locked) d.addEventListener('click', () => { soundTap(); startLevel(id, false); });
+    else d.addEventListener('click', () => {
+      soundErr();
+      showModal('🔒 هذا العالم ما زال مغلقًا',
+        'أكمل المستويات السابقة أولًا لفتح هذا العالم. الأبطال يتقدمون خطوة بخطوة!', 'فهمت');
+    });
+    doors.appendChild(d);
+  });
+
+  const hs = $('#homeStats');
+  hs.innerHTML = `
+    <div class="hstat"><b>${state.stars}</b><span>⭐ النجوم</span></div>
+    <div class="hstat"><b>${state.points}</b><span>🏅 النقاط</span></div>
+    <div class="hstat"><b>${state.unlocked}</b><span>🔓 أعلى مستوى</span></div>
+    <div class="hstat"><b>${state.completed.length} / 4</b><span>✅ مستويات مكتملة</span></div>
+  `;
+
+  const hasSession = !!getSession();
+  const hasProgress = state.points > 0 || state.completed.length > 0 || state.testDone;
+  const cont = $('#btnContinue');
+  if (hasSession) {
+    const s = getSession();
+    cont.textContent = `▶ متابعة مغامرتي (${LEVELS[s.levelId].name})`;
+  } else if (hasProgress) {
+    cont.textContent = `▶ متابعة مغامرتي (المستوى ${state.unlocked})`;
+  } else {
+    cont.textContent = '▶ ابدأ الاختبار التمهيدي';
+  }
+}
+
+/* =========================================================================
+   الجلسة (استئناف محاولة غير مكتملة)
+   ========================================================================= */
+function getSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (!s || !s.levelId || !LEVELS[s.levelId]) return null;
+    return s;
+  } catch (e) { return null; }
+}
+function saveSession() {
+  if (!game) return;
+  try {
+    /* إذا كانت السؤال الحالي مجابة ولم ننتقل بعد، نحفظ السؤال التالي */
+    const remaining = game.queue.slice(game.idx);
+    let resumeCurrent, resumeRemaining, resumeQNum;
+    if (game.locked && remaining.length > 0) {
+      resumeCurrent = remaining[0];
+      resumeRemaining = remaining.slice(1);
+      resumeQNum = game.questionNumber + 1;
+    } else if (game.current) {
+      resumeCurrent = game.current;
+      resumeRemaining = remaining;
+      resumeQNum = game.questionNumber;
+    } else {
+      return;
+    }
+    if (!resumeCurrent) return;
+
+    const session = {
+      levelId: game.levelId,
+      points: game.points,
+      correct: game.correct,
+      wrong: game.wrong,
+      answered: game.answered,
+      questionNumber: resumeQNum,
+      firstTryCorrect: game.firstTryCorrect,
+      timeLeft: game.timeLeft,
+      checkpoint: game.checkpoint.slice(),
+      checkpointDone: game.checkpointDone,
+      pendingRollback: game.pendingRollback,
+      rightSkills: Object.assign({}, game.rightSkills),
+      wrongSkills: Object.assign({}, game.wrongSkills),
+      remediationCount: game.remediationCount,
+      isRetry: game.isRetry,
+      currentId: resumeCurrent.id,
+      remainingIds: resumeRemaining.map(q => q.id),
+      savedAt: Date.now()
+    };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } catch (e) {}
+}
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+}
+
+/* =========================================================================
+   الاختبار التمهيدي
+   ========================================================================= */
+let testState = null;
+
+function buildTestQuestions() {
+  return shuffle([
+    Q({ level: 1, type: 'count', skill: 'العدّ والتجميع',
+      question: '٣ مجموعات، في كل مجموعة كرتان. كم عدد الكرات؟',
+      visual: { kind: 'groups', groups: 3, per: 2, emoji: '🔵' },
+      answer: 6, options: nOpts(6), hint: '٢ + ٢ + ٢ = ٦، وأيضًا ٣ × ٢ = ٦.',
+      explanation: '٢ + ٢ + ٢ = ٦، وهي نفسها ٣ × ٢ = ٦.' }),
+    Q({ level: 2, type: 'direct', skill: 'جداول الضرب',
+      question: '٣ × ٤ = ؟', answer: 12, options: nOpts(12),
+      hint: '٣ مجموعات، في كل واحدة ٤ عناصر.', explanation: '٣ × ٤ = ١٢.' }),
+    Q({ level: 2, type: 'direct', skill: 'جداول الضرب',
+      question: '٦ × ٧ = ؟', answer: 42, options: mOpts(6, 7),
+      hint: '٦ × ٧ تعني ٦ مجموعات في كل منها ٧.', explanation: '٦ × ٧ = ٤٢.' }),
+    Q({ level: 3, type: 'word', skill: 'مسائل لفظية',
+      question: 'لدى المعلم ٥ صناديق، في كل صندوق ٨ أقلام. كم قلمًا لديه؟',
+      answer: 40, options: mOpts(5, 8),
+      hint: 'اضرب عدد الصناديق في عدد الأقلام داخل كل صندوق.', explanation: '٥ × ٨ = ٤٠ قلمًا.' }),
+    Q({ level: 3, type: 'missing', skill: 'العدد الناقص',
+      question: 'أكمل: ٩ × ؟ = ٦٣', answer: 7, options: nOpts(7),
+      hint: '٦٣ ÷ ٩ = ؟', explanation: '٩ × ٧ = ٦٣، إذن العدد الناقص ٧.' })
+  ]).slice(0, 5);
+}
+
+function startTest() {
+  testState = { qs: buildTestQuestions(), idx: 0, correct: 0, locked: false, results: [] };
+  document.body.className = '';
+  showScreen('test');
+  renderTestQuestion();
+}
+
+function renderTestQuestion() {
+  const t = testState;
+  if (!t) return;
+  if (t.idx >= t.qs.length) { finishTest(); return; }
+  const q = t.qs[t.idx];
+  t.locked = false;
+
+  const bars = $$('#testProgress i');
+  bars.forEach((b, i) => {
+    b.className = '';
+    if (i < t.idx) b.className = t.results[i] ? 'done' : 'bad';
+  });
+
+  $('#testQText').textContent = q.question;
+  $('#testVisual').innerHTML = renderVisual(q.visual);
+  const fb = $('#testFeedback');
+  fb.className = 'feedback'; fb.innerHTML = '';
+  $('#testNext').style.display = 'none';
+
+  const box = $('#testOptions');
+  box.innerHTML = '';
+  q.options.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'option';
+    b.textContent = opt;
+    b.dataset.val = String(opt);
+    b.addEventListener('click', () => chooseTest(b, opt));
+    box.appendChild(b);
+  });
+}
+
+function chooseTest(btn, val) {
+  const t = testState;
+  if (!t || t.locked) return;
+  t.locked = true;
+  const q = t.qs[t.idx];
+  const ok = String(val) === String(q.answer);
+  t.results[t.idx] = ok;
+
+  if (ok) {
+    t.correct++;
+    btn.classList.add('correct');
+    soundOK();
+    $('#testFeedback').className = 'feedback show ok';
+    $('#testFeedback').innerHTML = '<b>رائع!</b> ' + q.explanation;
+  } else {
+    btn.classList.add('wrong');
+    $$('#testOptions .option').forEach(b => {
+      if (b.dataset.val === String(q.answer)) b.classList.add('correct');
+      b.classList.add('dead');
+    });
+    soundErr();
+    $('#testFeedback').className = 'feedback show hint';
+    $('#testFeedback').innerHTML = '<b>تلميح:</b> ' + q.hint + '<br><b>الإجابة الصحيحة:</b> ' + q.answer;
+  }
+
+  $$('#testOptions .option').forEach(b => b.classList.add('dead'));
+  const bars = $$('#testProgress i');
+  if (bars[t.idx]) bars[t.idx].className = ok ? 'done' : 'bad';
+
+  const nx = $('#testNext');
+  nx.style.display = 'inline-block';
+  nx.textContent = (t.idx === t.qs.length - 1) ? 'إنهاء الاختبار ✅' : 'التالي ➡';
+}
+
+$('#testNext').addEventListener('click', () => {
+  soundTap();
+  testState.idx++;
+  if (testState.idx >= testState.qs.length) finishTest();
+  else renderTestQuestion();
+});
+
+function finishTest() {
+  const t = testState;
+  const r = t.results;
+
+  /* تحليل المهارات */
+  const groupingOK = !!r[0];           /* Q1 تجميع */
+  const basicBothOK = !!r[1] && !!r[2]; /* Q2+Q3 حقائق أساسية */
+  const basicBothBad = !r[1] && !r[2];
+  const wordOK = !!r[3];               /* Q4 مسألة لفظية */
+  const missingOK = !!r[4];            /* Q5 عدد ناقص */
+
+  let startLevelNum;
+  if (!groupingOK) startLevelNum = 1;
+  else if (basicBothBad) startLevelNum = 1;
+  else if (!r[1] || !r[2]) startLevelNum = 2;
+  else if (!wordOK || !missingOK) startLevelNum = 2;
+  else startLevelNum = 3;
+
+  state.testDone = true;
+  state.testStart = startLevelNum;
+  if (state.unlocked < startLevelNum) state.unlocked = startLevelNum;
+  state.lastLevel = startLevelNum;
+  saveState();
+
+  let msg;
+  if (startLevelNum === 1) {
+    msg = 'سنجمع البداية من عالم التجميع البصري، فهو الأساس الذي يُبنى عليه كل شيء. أنت في المكان الصحيح!';
+  } else if (startLevelNum === 2) {
+    msg = 'لديك أساس جيد في التجميع والحقائق! لنبدأ من مدينة الجداول ونبني عليها بقية المغامرة.';
+  } else {
+    msg = 'ممتاز! مهاراتك قوية في التجميع والحقائق والمسائل. لنبدأ من قلعة التحديات.';
+  }
+
+  showModal('🎯 حددنا نقطة انطلاقك',
+    `أجبت إجابة صحيحة عن ${t.correct} من ٥ أسئلة. ${msg}`,
+    `ابدأ من «${LEVELS[startLevelNum].name}»`,
+    () => { testState = null; startLevel(startLevelNum, false); });
+}
+
+/* =========================================================================
+   الأشكال البصرية
+   ========================================================================= */
+function renderVisual(v) {
+  if (!v) return '';
+  if (v.kind === 'groups') {
+    let h = '<div class="groups">';
+    for (let g = 0; g < v.groups; g++) {
+      h += '<div class="grp">';
+      for (let k = 0; k < v.per; k++) h += `<span>${v.emoji}</span>`;
+      h += '</div>';
+    }
+    return h + '</div>';
+  }
+  return '';
+}
+
+/* =========================================================================
+   محرك اللعب
+   ========================================================================= */
+const LEVEL_SECONDS = 600; /* ١٠ دقائق */
+let game = null;
+
+function startLevel(levelId, isRetry) {
+  const pool = BANK[levelId];
+  if (!pool || pool.length === 0) {
+    showModal('تعذر بدء المستوى', 'لا توجد أسئلة متاحة لهذا المستوى حاليًا.', 'حسنًا');
+    return;
+  }
+  clearSession();
+
+  game = {
+    levelId,
+    queue: shuffle(pool),
+    idx: 0,
+    current: null,
+    locked: false,
+    tryCount: 0,
+    correct: 0,
+    wrong: 0,
+    answered: 0,
+    points: 0,
+    timeLeft: LEVEL_SECONDS,
+    maxTime: LEVEL_SECONDS,
+    paused: false,
+    pausedByModal: false,
+    pausedByHidden: false,
+    timerId: null,
+    checkpoint: [],
+    checkpointDone: false,
+    pendingRollback: false,
+    rightSkills: {},
+    wrongSkills: {},
+    isRetry: !!isRetry,
+    questionNumber: 0,
+    remediationCount: 0,
+    firstTryCorrect: 0,
+    startedAt: Date.now()
+  };
+
+  state.lastLevel = levelId;
+  saveState();
+
+  document.body.className = 'theme-' + levelId;
+  showScreen('game');
+  renderHud();
+  updateTimeBar();
+  startTimer();
+  nextQuestion();
+}
+
+function nextQuestion() {
+  if (!game) return;
+  if (game.idx >= game.queue.length) {
+    game.queue = shuffle(BANK[game.levelId]);
+    game.idx = 0;
+  }
+  game.current = game.queue[game.idx++];
+  game.locked = false;
+  game.tryCount = 0;
+  game.pendingRollback = false;
+  game.questionNumber++;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = game.current;
+  const L = LEVELS[game.levelId];
+
+  $('#qNum').textContent = `السؤال ${game.questionNumber}`;
+  $('#qLevelName').textContent = `${L.emoji} ${L.name}`;
+  $('#qText').textContent = q.question;
+  $('#qVisual').innerHTML = renderVisual(q.visual);
+
+  const fb = $('#feedback');
+  fb.className = 'feedback'; fb.innerHTML = '';
+  $('#btnNext').style.display = 'none';
+
+  const box = $('#options');
+  box.innerHTML = '';
+  q.options.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'option';
+    b.textContent = opt;
+    b.dataset.val = String(opt);
+    b.addEventListener('click', () => chooseOption(b, opt));
+    box.appendChild(b);
+  });
+
+  renderHud();
+}
+
+function renderHud() {
+  if (!game) return;
+  $('#hud').innerHTML = `
+    <div class="chip blue">🏅 ${game.points} نقطة</div>
+    <div class="chip green">✅ ${game.correct}</div>
+    <div class="chip red">❌ ${game.wrong}</div>
+    <div class="chip">📊 ${game.answered} سؤالًا</div>
+    <div class="chip">⏱️ ${formatTime(game.timeLeft)}</div>
+  `;
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function updateTimeBar() {
+  if (!game) return;
+  const pct = Math.max(0, (game.timeLeft / game.maxTime) * 100);
+  const fill = $('#timeFill');
+  fill.style.width = pct + '%';
+  fill.classList.toggle('low', pct < 25);
+}
+
+function startTimer() {
+  if (!game) return;
+  if (game.timerId) clearInterval(game.timerId);
+  game.timerId = setInterval(() => {
+    if (!game || game.paused) return;
+    if (document.hidden) return;
+    if (game.timeLeft <= 0) return;
+    game.timeLeft = Math.max(0, game.timeLeft - 1);
+    updateTimeBar();
+    renderHud();
+    if (game.timeLeft <= 0) endLevel('time');
+  }, 1000);
+}
+
+function stopTimer() {
+  if (game && game.timerId) {
+    clearInterval(game.timerId);
+    game.timerId = null;
+  }
+}
+
+function chooseOption(btn, val) {
+  if (!game || game.locked) return;
+  if (btn.classList.contains('dead')) return;
+
+  const q = game.current;
+  const ok = String(val) === String(q.answer);
+  const fb = $('#feedback');
+
+  if (ok) {
+    game.locked = true;
+    const firstTry = game.tryCount === 0;
+    const pts = firstTry ? 15 : 10;
+    if (firstTry) game.firstTryCorrect++;
+    game.points += pts;
+    game.correct++;
+    game.answered++;
+
+    btn.classList.add('correct');
+    $$('#options .option').forEach(b => b.classList.add('dead'));
+
+    game.rightSkills[q.skill] = (game.rightSkills[q.skill] || 0) + 1;
+    recordCheckpoint(true);
+
+    fb.className = 'feedback show ok';
+    fb.innerHTML = `<b>${firstTry ? 'رائع! إجابة صحيحة من المحاولة الأولى.' : 'أحسنت! إجابة صحيحة.'}</b>
+      لقد جمعت <b>${pts}</b> نقطة جديدة.<br>${q.explanation}`;
+
+    soundOK();
+    $('#btnNext').style.display = 'inline-block';
+    renderHud();
+    checkCheckpoint();
+    saveSession();
+  } else {
+    if (game.tryCount === 0) {
+      game.tryCount = 1;
+      btn.classList.add('wrong', 'dead');
+      soundErr();
+      fb.className = 'feedback show hint';
+      fb.innerHTML = `<b>محاولة جيدة! لنفكر معًا.</b><br>${q.hint}<br>لديك محاولة أخرى — خذ وقتك.`;
+    } else {
+      game.locked = true;
+      game.wrong++;
+      game.answered++;
+      btn.classList.add('wrong');
+      $$('#options .option').forEach(b => {
+        b.classList.add('dead');
+        if (b.dataset.val === String(q.answer)) b.classList.add('correct');
+      });
+
+      game.wrongSkills[q.skill] = (game.wrongSkills[q.skill] || 0) + 1;
+      recordCheckpoint(false);
+
+      fb.className = 'feedback show err';
+      fb.innerHTML = `<b>لا بأس! الأبطال يتعلمون من المحاولة.</b><br>
+        ${q.hint}<br><b>الإجابة الصحيحة:</b> ${q.answer}<br>${q.explanation}`;
+
+      soundErr();
+      $('#btnNext').style.display = 'inline-block';
+      renderHud();
+      checkCheckpoint();
+      saveSession();
+    }
+  }
+}
+
+function recordCheckpoint(isCorrect) {
+  if (!game) return;
+  if (game.checkpoint.length >= 4) return;
+  game.checkpoint.push(isCorrect);
+}
+
+/* قاعدة أول أربعة أسئلة: أي خطأ نهائي = رجوع */
+function checkCheckpoint() {
+  if (!game || game.checkpointDone) return;
+  if (game.checkpoint.length < 4) return;
+  game.checkpointDone = true;
+
+  const fails = game.checkpoint.filter(r => r === false).length;
+  if (fails >= 1) {
+    game.pendingRollback = true;
+    const nb = $('#btnNext');
+    nb.style.display = 'inline-block';
+    nb.textContent = 'تابع ➡';
+  }
+}
+
+function handleRollback() {
+  if (!game) return;
+  const lvl = game.levelId;
+
+  if (lvl === 1) {
+    if (game.remediationCount >= 1) {
+      /* تدريب علاجي مرة واحدة فقط ثم نكمل */
+      game.pendingRollback = false;
+      game.paused = false;
+      $('#btnNext').textContent = 'السؤال التالي ➡';
+      nextQuestion();
+      return;
+    }
+    game.paused = true;
+    showModal('💪 لا بأس يا بطل!',
+      'الأبطال يتعلمون من المحاولة. لنراجع معًا العدّ والتجميع بالصور، ثم نعود أقوى.',
+      'ابدأ التدريب العلاجي',
+      () => {
+        const easy = shuffle(BANK[1].filter(q => q.type === 'count' || q.type === 'repeated-add')).slice(0, 6);
+        game.queue = easy.concat(game.queue.slice(game.idx));
+        game.idx = 0;
+        game.checkpoint = [];
+        game.checkpointDone = false;
+        game.remediationCount++;
+        game.pendingRollback = false;
+        game.paused = false;
+        $('#btnNext').textContent = 'السؤال التالي ➡';
+        nextQuestion();
+      });
+  } else {
+    game.paused = true;
+    const prev = lvl - 1;
+    showModal('🔙 لنراجع قليلًا',
+      `الأبطال يتعلمون من المحاولة. لنعد إلى «${LEVELS[prev].name}» للتدريب ثم نعود أقوى.`,
+      'الانتقال إلى المستوى السابق',
+      () => {
+        finalizeAttempt('rollback', false, 0, false);
+        stopTimer();
+        game = null;
+        startLevel(prev, true);
+      });
+  }
+}
+
+$('#btnNext').addEventListener('click', () => {
+  if (!game) return;
+  soundTap();
+  if (game.pendingRollback) { handleRollback(); return; }
+  nextQuestion();
+});
+
+/* =========================================================================
+   حفظ المحاولة والنتائج
+   ========================================================================= */
+function finalizeAttempt(reason, passed, bonus, willContinue) {
+  if (!game) return 0;
+  const answered = game.correct + game.wrong;
+  const rate = answered > 0 ? game.correct / answered : 0;
+  const totalPoints = game.points + (bonus || 0);
+
+  /* إضافة النقاط إلى الحالة العامة قبل تصفير المحاولة */
+  state.points += totalPoints;
+  state.stars += game.correct;
+
+  if (passed) {
+    if (!state.completed.includes(game.levelId)) state.completed.push(game.levelId);
+    const next = game.levelId + 1;
+    if (next <= 4 && state.unlocked < next) state.unlocked = next;
+  }
+
+  const needWork = Object.keys(game.wrongSkills)
+    .sort((a, b) => game.wrongSkills[b] - game.wrongSkills[a]).slice(0, 4);
+
+  const rec = {
+    date: Date.now(),
+    levelId: game.levelId,
+    levelName: LEVELS[game.levelId].name,
+    answered,
+    correct: game.correct,
+    wrong: game.wrong,
+    points: totalPoints,
+    rate: Math.round(rate * 1000) / 1000,
+    status: reason,
+    passed: !!passed,
+    retry: !!game.isRetry,
+    needWork,
+    skills: Object.assign({}, game.wrongSkills)
+  };
+  state.attempts.unshift(rec);
+  if (state.attempts.length > 50) state.attempts = state.attempts.slice(0, 50);
+
+  needWork.forEach(s => { state.needWork[s] = (state.needWork[s] || 0) + 1; });
+
+  const cur = state.best[game.levelId];
+  if (!cur || rec.points > cur.points) {
+    state.best[game.levelId] = {
+      points: rec.points, correct: rec.correct, wrong: rec.wrong,
+      rate: rec.rate, date: rec.date
+    };
+  }
+
+  saveState();
+  return totalPoints;
+}
+
+function endLevel(reason) {
+  if (!game) return;
+  stopTimer();
+  game.paused = true;
+  clearSession();
+
+  const answered = game.correct + game.wrong;
+  const rate = answered > 0 ? game.correct / answered : 0;
+  const passed = answered >= 5 && rate >= 0.7;
+  const bonus = passed ? 50 : 0;
+
+  finalizeAttempt(reason, passed, bonus, false);
+  const newBadges = checkBadges();
+  saveState();
+
+  renderResults(passed, game.points + bonus, bonus, rate, newBadges, answered);
+  soundWin();
+  showScreen('results');
+}
+
+function renderResults(passed, totalPoints, bonus, rate, newBadges, answered) {
+  const L = LEVELS[game.levelId];
+  const pct = Math.round(rate * 100);
+
+  $('#resEmoji').textContent = passed ? L.emoji : '💪';
+  $('#resTitle').textContent = passed
+    ? `أحسنت يا بطل! أتممت «${L.name}»`
+    : `محاولة جيدة في «${L.name}» — لنكمل التدريب`;
+  $('#resSub').textContent = passed
+    ? 'لقد أثبتت جدارتك، وفتحت طريقًا جديدًا في مغامرتك. استمر!'
+    : 'لا يوجد فشل، بل تدريب إضافي. راجع المهارات أدناه ثم عد أقوى — نحن نؤمن بك.';
+
+  $('#resGrid').innerHTML = `
+    <div class="res-item"><b>${totalPoints}</b><span>🏅 نقاط هذا المستوى</span></div>
+    <div class="res-item"><b>${game.correct}</b><span>✅ إجابات صحيحة</span></div>
+    <div class="res-item"><b>${game.wrong}</b><span>❌ إجابات خاطئة</span></div>
+    <div class="res-item"><b>${answered}</b><span>📋 أسئلة أجبت عنها</span></div>
+    <div class="res-item"><b>${pct}%</b><span>🎯 نسبة الصحة</span></div>
+    <div class="res-item"><b>${bonus}</b><span>🎁 مكافأة الإتمام</span></div>
+  `;
+
+  const rightSkills = Object.keys(game.rightSkills).sort((a, b) => game.rightSkills[b] - game.rightSkills[a]).slice(0, 4);
+  const wrongSkills = Object.keys(game.wrongSkills).sort((a, b) => game.wrongSkills[b] - game.wrongSkills[a]).slice(0, 4);
+
+  let skillsHtml = '';
+  if (rightSkills.length) {
+    skillsHtml += `<div class="skill-row"><span>✅ أتقنت:</span><span>${rightSkills.join(' • ')}</span></div>`;
+  }
+  if (wrongSkills.length) {
+    skillsHtml += `<div class="skill-row"><span>🔁 تحتاج مراجعة:</span><span>${wrongSkills.join(' • ')}</span></div>`;
+  } else if (answered > 0) {
+    skillsHtml += `<div class="skill-row"><span>🌟 رائع!</span><span>لا توجد مهارات تحتاج مراجعة في هذه المحاولة</span></div>`;
+  }
+  if (newBadges.length) {
+    skillsHtml += `<div class="skill-row"><span>🏅 شارات جديدة:</span><span>${newBadges.map(b => b.icon + ' ' + b.name).join(' • ')}</span></div>`;
+  }
+  skillsHtml += `<div class="skill-row"><span>💡 توصية:</span><span>${
+    passed
+      ? 'جرّب المستوى التالي، وراجع جدول الضرب الذي واجهت فيه صعوبة سريعًا قبل البدء.'
+      : 'أعد المستوى بعد مراجعة المهارات المذكورة أعلاه، وخذ وقتك في قراءة التلميحات.'
+  }</span></div>`;
+
+  $('#resSkills').innerHTML = skillsHtml;
+
+  const actions = [];
+  actions.push({ label: '🔁 إعادة المستوى', cls: 'ghost', fn: () => startLevel(game.levelId, true) });
+  if (passed && game.levelId < 4) {
+    actions.push({ label: '➡ المستوى التالي', cls: 'primary', fn: () => startLevel(game.levelId + 1, false) });
+  } else if (passed && game.levelId === 4) {
+    actions.push({ label: '👑 أكملت الرحلة!', cls: 'purple', fn: () => showScreen('home') });
+  } else {
+    actions.push({ label: '💪 العودة إلى التدريب', cls: 'primary', fn: () => startLevel(game.levelId, true) });
+  }
+  actions.push({ label: '🏠 الصفحة الرئيسية', cls: 'ghost', fn: () => showScreen('home') });
+
+  const box = $('#resActions');
+  box.innerHTML = '';
+  actions.forEach(a => {
+    const b = document.createElement('button');
+    b.className = 'btn ' + a.cls;
+    b.textContent = a.label;
+    b.addEventListener('click', () => { soundTap(); a.fn(); });
+    box.appendChild(b);
+  });
+}
+
+/* أزرار داخل شاشة اللعب */
+$('#btnRetryLevel').addEventListener('click', () => {
+  if (!game) return;
+  showModal('🔁 إعادة المستوى',
+    'هل تريد إعادة هذا المستوى من البداية؟ نقاطك المحفوظة لن تُفقد.',
+    'نعم، أعد المستوى',
+    () => { stopTimer(); startLevel(game.levelId, true); });
+});
+$('#btnExitLevel').addEventListener('click', () => {
+  if (!game) { showScreen('home'); return; }
+  showModal('🏠 العودة إلى الرئيسية',
+    'سيتم حفظ تقدمك وإيقاف العدّاد. يمكنك المتابعة لاحقًا من زر «متابعة مغامرتي».',
+    'نعم، خروج',
+    () => {
+      saveSession();
+      stopTimer();
+      game = null;
+      document.body.className = '';
+      showScreen('home');
+    });
+});
+
+/* =========================================================================
+   صفحة الإنجازات
+   ========================================================================= */
+function renderAchievements() {
+  $('#achieveName').textContent = state.name ? `البطل: ${state.name}` : 'البطل الصغير';
+
+  $('#achieveStats').innerHTML = `
+    <div class="res-item"><b>${state.points}</b><span>🏅 مجموع النقاط</span></div>
+    <div class="res-item"><b>${state.stars}</b><span>⭐ النجوم</span></div>
+    <div class="res-item"><b>${state.unlocked}</b><span>🔓 أعلى مستوى</span></div>
+    <div class="res-item"><b>${state.completed.length} / 4</b><span>✅ مكتملة</span></div>
+    <div class="res-item"><b>${state.attempts.length}</b><span>🕘 المحاولات</span></div>
+    <div class="res-item"><b>${state.badges.length} / ${BADGES.length}</b><span>🏅 الشارات</span></div>
+  `;
+
+  const grid = $('#badgeGrid');
+  grid.innerHTML = '';
+  BADGES.forEach(b => {
+    const got = state.badges.includes(b.id);
+    const d = document.createElement('div');
+    d.className = 'badge' + (got ? ' got' : '');
+    d.innerHTML = `
+      <span class="b-ico">${b.icon}</span>
+      <div class="b-name">${b.name}</div>
+      <div class="b-desc">${b.desc}</div>
+    `;
+    grid.appendChild(d);
+  });
+
+  let bestHtml = '';
+  for (let i = 1; i <= 4; i++) {
+    const b = state.best[i];
+    if (!b) {
+      bestHtml += `<div class="skill-row"><span>${LEVELS[i].emoji} ${LEVELS[i].name}</span><span>لم تُلعب بعد</span></div>`;
+    } else {
+      bestHtml += `<div class="skill-row"><span>${LEVELS[i].emoji} ${LEVELS[i].name}</span>
+        <span>${b.points} نقطة • ${Math.round(b.rate * 100)}% دقة</span></div>`;
+    }
+  }
+  $('#bestLevels').innerHTML = bestHtml;
+
+  if (state.attempts.length === 0) {
+    $('#recentAttempts').innerHTML = '<div class="empty-note">لا توجد محاولات محفوظة بعد. ابدأ مغامرتك الآن! 🚀</div>';
+  } else {
+    let html = '<div class="table-wrap"><table><thead><tr><th>المستوى</th><th>التاريخ</th><th>الأسئلة</th><th>صحيحة</th><th>خاطئة</th><th>النقاط</th><th>الدقة</th></tr></thead><tbody>';
+    state.attempts.slice(0, 10).forEach(a => {
+      html += `<tr>
+        <td>${a.levelName}</td>
+        <td>${new Date(a.date).toLocaleDateString('ar-EG')}</td>
+        <td>${a.answered}</td>
+        <td>${a.correct}</td>
+        <td>${a.wrong}</td>
+        <td>${a.points}</td>
+        <td>${Math.round(a.rate * 100)}%</td>
+      </tr>`;
+    });
+    html += '</tbody></table></div>';
+    $('#recentAttempts').innerHTML = html;
+  }
+
+  const need = Object.keys(state.needWork).sort((a, b) => state.needWork[b] - state.needWork[a]).slice(0, 6);
+  if (need.length === 0) {
+    $('#needWorkBox').innerHTML = '<div class="empty-note">لا توجد مهارات تحتاج تدريبًا حاليًا. استمر في التقدم! 🌟</div>';
+  } else {
+    $('#needWorkBox').innerHTML = need.map(s =>
+      `<div class="skill-row"><span>🔁 ${s}</span><span>ظهرت في ${state.needWork[s]} محاولة</span></div>`
+    ).join('');
+  }
+}
+
+$('#btnAchBack').addEventListener('click', () => { soundTap(); showScreen('home'); });
+
+$('#btnResetAll').addEventListener('click', () => {
+  showModal('🗑️ مسح التقدم',
+    'سيتم حذف جميع النقاط والنجوم والشارات والمحاولات من هذا الجهاز نهائيًا. هل أنت متأكد؟',
+    'نعم، امسح كل شيء',
+    () => {
+      try { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {}
+      state = defaultState();
+      saveState();
+      showModal('تم المسح', 'بدأت صفحة جديدة. يمكنك الآن بناء مغامرتك من جديد! 🚀', 'حسنًا', () => showScreen('home'));
+    });
+});
+
+/* =========================================================================
+   لوحة المعلم
+   ========================================================================= */
+function renderTeacher() {
+  const totalAttempts = state.attempts.length;
+  const totalCorrect = state.attempts.reduce((s, a) => s + a.correct, 0);
+  const totalWrong = state.attempts.reduce((s, a) => s + a.wrong, 0);
+  const avgRate = totalAttempts > 0
+    ? Math.round(state.attempts.reduce((s, a) => s + a.rate, 0) / totalAttempts * 100)
+    : 0;
+
+  $('#teacherStats').innerHTML = `
+    <div class="res-item"><b>${state.name || '—'}</b><span>👤 اسم الطالب</span></div>
+    <div class="res-item"><b>${state.unlocked}</b><span>🔓 المستوى الحالي</span></div>
+    <div class="res-item"><b>${totalAttempts}</b><span>📋 عدد المحاولات</span></div>
+    <div class="res-item"><b>${totalCorrect}</b><span>✅ إجابات صحيحة</span></div>
+    <div class="res-item"><b>${totalWrong}</b><span>❌ إجابات خاطئة</span></div>
+    <div class="res-item"><b>${avgRate}%</b><span>🎯 متوسط الدقة</span></div>
+  `;
+
+  if (totalAttempts === 0) {
+    $('#teacherTable').innerHTML = '<div class="empty-note">لا توجد سجلات محفوظة على هذا الجهاز بعد. عند لعب الطالب ستظهر المحاولات هنا تلقائيًا.</div>';
+    return;
+  }
+
+  let html = '<div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>المستوى</th><th>الأسئلة</th><th>صحيحة</th><th>خاطئة</th><th>النقاط</th><th>الدقة</th><th>مهارات للمراجعة</th></tr></thead><tbody>';
+  state.attempts.forEach(a => {
+    html += `<tr>
+      <td>${new Date(a.date).toLocaleString('ar-EG')}</td>
+      <td>${a.levelName}</td>
+      <td>${a.answered}</td>
+      <td>${a.correct}</td>
+      <td>${a.wrong}</td>
+      <td>${a.points}</td>
+      <td>${Math.round(a.rate * 100)}%</td>
+      <td>${(a.needWork || []).join(' / ') || '—'}</td>
+    </tr>`;
+  });
+  html += '</tbody></table></div>';
+  $('#teacherTable').innerHTML = html;
+}
+
+function downloadFile(content, filename, mime) {
+  try {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  } catch (e) {
+    showModal('تعذر التصدير', 'لم يتمكن المتصفح من تنزيل الملف. جرّب متصفحًا آخر.', 'حسنًا');
+  }
+}
+
+$('#btnExportCSV').addEventListener('click', () => {
+  if (state.attempts.length === 0) {
+    showModal('لا توجد بيانات', 'لا توجد سجلات محفوظة بعد لتصديرها.', 'حسنًا');
+    return;
+  }
+  const rows = [['الاسم','المستوى','التاريخ','الأسئلة','صحيحة','خاطئة','النقاط','النسبة','حالة','مهارات للمراجعة']];
+  state.attempts.forEach(a => {
+    rows.push([
+      state.name || '—',
+      a.levelName,
+      new Date(a.date).toLocaleString('ar-EG'),
+      a.answered, a.correct, a.wrong, a.points,
+      Math.round(a.rate * 100) + '%',
+      a.passed ? 'ناجح' : (a.status === 'rollback' ? 'إعادة' : 'غير مكتمل'),
+      (a.needWork || []).join(' / ')
+    ]);
+  });
+  const csv = '\uFEFF' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  downloadFile(csv, 'سجل_الأبطال.csv', 'text/csv;charset=utf-8');
+  soundOK();
+});
+
+$('#btnExportJSON').addEventListener('click', () => {
+  if (state.attempts.length === 0) {
+    showModal('لا توجد بيانات', 'لا توجد سجلات محفوظة بعد لتصديرها.', 'حسنًا');
+    return;
+  }
+  const payload = {
+    student: state.name || null,
+    exportedAt: new Date().toISOString(),
+    points: state.points, stars: state.stars, unlocked: state.unlocked,
+    completed: state.completed, badges: state.badges,
+    best: state.best, needWork: state.needWork, attempts: state.attempts
+  };
+  downloadFile(JSON.stringify(payload, null, 2), 'سجل_الأبطال.json', 'application/json;charset=utf-8');
+  soundOK();
+});
+
+$('#btnTeacherBack').addEventListener('click', () => { soundTap(); showScreen('home'); });
+
+/* =========================================================================
+   أزرار عامة
+   ========================================================================= */
+$('#btnSound').addEventListener('click', () => {
+  state.muted = !state.muted;
+  saveState();
+  $('#btnSound').textContent = state.muted ? '🔇' : '🔊';
+  if (!state.muted) soundTap();
+});
+
+$('#btnHomeTop').addEventListener('click', () => {
+  if (game) {
+    showModal('🏠 العودة إلى الرئيسية',
+      'سيتم حفظ تقدمك وإيقاف العدّاد. هل تريد الخروج الآن؟',
+      'نعم، خروج',
+      () => {
+        saveSession();
+        stopTimer();
+        game = null;
+        document.body.className = '';
+        showScreen('home');
+      });
+  } else {
+    document.body.className = '';
+    showScreen('home');
+  }
+});
+
+/* زر المتابعة: يستأنف جلسة إن وجدت، وإلا يبدأ المستوى المناسب */
+$('#btnContinue').addEventListener('click', () => {
+  soundTap();
+  if (!state.testDone) { startTest(); return; }
+  if (resumeSession()) return;
+  startLevel(state.lastLevel || state.unlocked, false);
+});
+
+function resumeSession() {
+  const s = getSession();
+  if (!s) return false;
+
+  const bank = BANK[s.levelId];
+  if (!bank) { clearSession(); return false; }
+
+  const currentQ = bank.find(q => q.id === s.currentId);
+  const remainingQs = (s.remainingIds || []).map(id => bank.find(q => q.id === id)).filter(Boolean);
+
+  if (!currentQ) { clearSession(); return false; }
+
+  game = {
+    levelId: s.levelId,
+    queue: remainingQs,
+    idx: 0,
+    current: currentQ,
+    locked: false,
+    tryCount: 0,
+    correct: s.correct || 0,
+    wrong: s.wrong || 0,
+    answered: s.answered || 0,
+    points: s.points || 0,
+    timeLeft: Math.max(1, s.timeLeft || LEVEL_SECONDS),
+    maxTime: LEVEL_SECONDS,
+    paused: false,
+    pausedByModal: false,
+    pausedByHidden: false,
+    timerId: null,
+    checkpoint: Array.isArray(s.checkpoint) ? s.checkpoint.slice(0, 4) : [],
+    checkpointDone: !!s.checkpointDone,
+    pendingRollback: false,
+    rightSkills: s.rightSkills || {},
+    wrongSkills: s.wrongSkills || {},
+    isRetry: !!s.isRetry,
+    questionNumber: s.questionNumber || 1,
+    remediationCount: s.remediationCount || 0,
+    firstTryCorrect: s.firstTryCorrect || 0,
+    startedAt: Date.now()
+  };
+
+  document.body.className = 'theme-' + s.levelId;
+  showScreen('game');
+  renderHud();
+  updateTimeBar();
+  startTimer();
+  renderQuestion();
+  clearSession();
+  return true;
+}
+
+$('#btnNew').addEventListener('click', () => {
+  soundTap();
+  showModal('✨ مغامرة جديدة',
+    'هل تريد كتابة اسمك ليظهر في ملف إنجازك؟ (اختياري — يمكنك تركه فارغًا والبدء مباشرة)',
+    'ابدأ المغامرة',
+    () => {
+      const nm = (window.prompt('اكتب اسمك يا بطل (اختياري):') || '').trim();
+      if (nm) { state.name = nm.slice(0, 24); saveState(); }
+      clearSession();
+      if (!state.testDone) startTest();
+      else startLevel(state.testStart || 1, false);
+    });
+});
+
+$('#btnAchieve').addEventListener('click', () => { soundTap(); showScreen('achievements'); });
+$('#btnTeacher').addEventListener('click', () => { soundTap(); showScreen('teacher'); });
+
+/* =========================================================================
+   إيقاف/استئناف المؤقت عند تغيير التبويب
+   ========================================================================= */
+document.addEventListener('visibilitychange', () => {
+  if (!game || !game.timerId) return;
+  if (document.hidden) {
+    if (!game.paused) {
+      game.paused = true;
+      game.pausedByHidden = true;
+    }
+  } else {
+    if (game.pausedByHidden) {
+      game.pausedByHidden = false;
+      if (!game.pausedByModal) game.paused = false;
+    }
+  }
+});
+
+/* =========================================================================
+   التشغيل الأولي
+   ========================================================================= */
+(function init() {
+  $('#btnSound').textContent = state.muted ? '🔇' : '🔊';
+  document.body.className = '';
+  renderHome();
+
+  if (window.console && console.info) {
+    const summary = {};
+    for (const k in BANK) summary['المستوى ' + k] = BANK[k].length + ' سؤالًا فريدًا';
+    console.info('بنك الأسئلة جاهز:', summary);
+  }
+})();
+</script>
+</body>
+</html>
