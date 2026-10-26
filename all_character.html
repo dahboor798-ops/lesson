@@ -1,0 +1,2168 @@
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ff8a65">
+<meta name="description" content="رحلتي الممتعة مع الحروف العربية - منصة تعليمية تفاعلية للأطفال">
+<title>رحلتي الممتعة مع الحروف العربية</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;font-family:'Amiri','Traditional Arabic','Noto Naskh Arabic',serif;}
+  html,body{margin:0;padding:0;overflow-x:hidden;}
+  body{
+    background:linear-gradient(160deg,#fff8e7 0%,#e8f7ff 45%,#f6ecff 100%);
+    min-height:100vh;color:#26344d;font-size:20px;line-height:1.9;
+    -webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;
+  }
+  h1,h2,h3,h4{margin:0 0 10px;font-weight:700;line-height:1.6;}
+  button{font-family:'Amiri','Traditional Arabic',serif;cursor:pointer;border:none;}
+  img,canvas{max-width:100%;}
+
+  .screen{display:none;padding:14px;max-width:1100px;margin:0 auto;}
+  .screen.active{display:block;animation:fadeIn .35s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  #nameScreen{text-align:center;padding-top:30px;}
+  .name-box{background:#fff;border-radius:32px;padding:30px 20px;max-width:640px;margin:0 auto;
+    box-shadow:0 14px 40px rgba(90,120,200,.18);border:5px dashed #ffd166;}
+  .name-title{font-size:2.1rem;color:#ff7043;margin-bottom:6px;}
+  .name-sub{font-size:1.2rem;color:#4a5b7a;margin-bottom:22px;}
+  .name-input{width:100%;max-width:420px;font-size:1.6rem;font-family:'Amiri',serif;text-align:center;
+    padding:14px 18px;border-radius:22px;border:4px solid #8fd3ff;outline:none;background:#f5fbff;color:#26344d;}
+  .name-input:focus{border-color:#3fb6f5;background:#fff;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 24px;border-radius:22px;font-size:1.25rem;font-weight:700;
+    background:#4fc3f7;color:#fff;box-shadow:0 6px 0 #1f9bd0;transition:.12s;
+    margin:6px 4px;min-height:54px;line-height:1.4;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #1f9bd0;}
+  .btn:disabled{opacity:.7;cursor:default;}
+  .btn-main{background:#ff8a65;box-shadow:0 6px 0 #e05a34;font-size:1.5rem;padding:16px 40px;}
+  .btn-main:active{box-shadow:0 2px 0 #e05a34;}
+  .btn-green{background:#66bb6a;box-shadow:0 6px 0 #3d8b40;}
+  .btn-green:active{box-shadow:0 2px 0 #3d8b40;}
+  .btn-purple{background:#ab7df6;box-shadow:0 6px 0 #7c4fd6;}
+  .btn-purple:active{box-shadow:0 2px 0 #7c4fd6;}
+  .btn-yellow{background:#ffca28;color:#6d4c00;box-shadow:0 6px 0 #c79100;}
+  .btn-yellow:active{box-shadow:0 2px 0 #c79100;}
+  .btn-audio{background:#4dd0e1;box-shadow:0 5px 0 #1598ab;font-size:1.1rem;padding:10px 18px;min-height:48px;}
+  .btn-audio:active{box-shadow:0 2px 0 #1598ab;}
+  .btn-small{font-size:1rem;padding:8px 16px;min-height:42px;border-radius:16px;}
+  .err-msg{color:#e53935;font-size:1.2rem;min-height:34px;margin-top:10px;font-weight:700;}
+
+  .home-header{text-align:center;margin-bottom:14px;}
+  .home-title{font-size:2.2rem;color:#ef6c00;text-shadow:2px 2px 0 #ffe0b2;}
+  .home-sub{font-size:1.3rem;color:#4a5b7a;}
+  .teacher-tag{display:inline-block;background:#fff3e0;color:#b35c00;border-radius:14px;padding:4px 14px;font-size:1rem;font-weight:700;margin-top:6px;}
+  .home-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;
+    background:#fff;border-radius:24px;padding:10px 14px;margin:14px auto 12px;max-width:900px;
+    box-shadow:0 8px 22px rgba(90,120,200,.14);}
+  .home-bar .who{font-size:1.15rem;color:#37474f;font-weight:700;}
+  .stat-pill{background:#fff3e0;border-radius:18px;padding:6px 14px;font-size:1.05rem;font-weight:700;color:#ef6c00;}
+
+  .journey-bar{background:#fff;border-radius:24px;padding:14px 16px;margin:12px auto 18px;max-width:900px;
+    box-shadow:0 8px 22px rgba(90,120,200,.14);}
+  .journey-title{font-size:1.2rem;color:#00897b;font-weight:700;margin-bottom:8px;text-align:center;}
+  .journey-track{position:relative;height:38px;background:linear-gradient(90deg,#e0f7fa,#fff9c4,#ffe0b2);border-radius:20px;overflow:hidden;}
+  .journey-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#ffca28,#ff8a65);border-radius:20px;transition:width .6s;position:relative;}
+  .journey-emoji{position:absolute;top:50%;transform:translateY(-50%);font-size:1.6rem;transition:right .6s;}
+  .journey-text{text-align:center;font-size:1.05rem;color:#546e7a;margin-top:6px;font-weight:700;}
+
+  .smart-review-bar{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-radius:24px;padding:14px;
+    margin:12px auto;max-width:900px;box-shadow:0 8px 22px rgba(255,140,60,.18);text-align:center;display:none;}
+  .smart-review-bar.show{display:block;}
+  .smart-review-bar h3{color:#e65100;margin:0 0 6px;}
+
+  .letters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;}
+  .letter-card{background:#fff;border-radius:26px;padding:12px 8px 14px;text-align:center;
+    box-shadow:0 8px 20px rgba(90,120,200,.15);cursor:pointer;position:relative;transition:.15s;border:4px solid transparent;}
+  .letter-card:hover{transform:translateY(-5px);border-color:#ffd166;}
+  .letter-big{font-size:3.4rem;font-weight:700;color:#2f6fed;line-height:1.2;}
+  .letter-name{font-size:1.1rem;color:#455a64;margin-bottom:6px;}
+  .card-star{position:absolute;top:6px;left:8px;font-size:1.4rem;}
+  .progress-bar{background:#e6eefc;border-radius:14px;height:16px;overflow:hidden;width:100%;}
+  .progress-bar.small{height:12px;margin:6px 0 2px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#9ccc65);border-radius:14px;transition:width .4s;}
+  .card-progress-text{font-size:.92rem;color:#78909c;}
+  .btn-start{margin-top:6px;font-size:1rem;padding:8px 20px;min-height:42px;border-radius:16px;background:#4fc3f7;box-shadow:0 4px 0 #1f9bd0;}
+
+  .letter-header{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;
+    background:#fff;border-radius:22px;padding:10px 14px;box-shadow:0 6px 18px rgba(90,120,200,.14);margin-bottom:12px;}
+  .nav-btn{background:#e3f2fd;color:#1565c0;border-radius:16px;padding:10px 14px;font-size:1rem;font-weight:700;min-height:48px;}
+  .nav-btn:active{background:#bbdefb;}
+  .letter-title{text-align:center;font-size:1.9rem;color:#ef6c00;margin:10px 0;}
+  .tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+  .tab{background:#fff;color:#546e7a;border-radius:20px;padding:11px 20px;font-size:1.1rem;font-weight:700;
+    box-shadow:0 5px 14px rgba(90,120,200,.12);min-height:50px;}
+  .tab.active{background:#ff8a65;color:#fff;box-shadow:0 5px 0 #e05a34;}
+
+  .letter-hero{background:linear-gradient(135deg,#fff,#e8f4ff);border-radius:30px;padding:18px;text-align:center;
+    box-shadow:0 10px 26px rgba(90,120,200,.16);margin-bottom:18px;}
+  .hero-letter{font-size:6.2rem;font-weight:700;color:#2f6fed;line-height:1.1;}
+  .hero-name{font-size:1.6rem;color:#455a64;margin-bottom:8px;}
+  .hero-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+  .sec-title{font-size:1.45rem;color:#00897b;margin:20px 0 10px;text-align:center;}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;}
+  .tile{background:#fff;border-radius:22px;padding:12px 6px;text-align:center;cursor:pointer;
+    box-shadow:0 7px 18px rgba(90,120,200,.14);transition:.15s;border:3px solid transparent;}
+  .tile:hover{border-color:#8fd3ff;transform:translateY(-3px);}
+  .tile-big{font-size:2.3rem;color:#6a1b9a;line-height:1.3;}
+  .tile-sm{font-size:.95rem;color:#607d8b;}
+  .words-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+  .word-card{background:#fff;border-radius:22px;padding:10px 6px;text-align:center;
+    box-shadow:0 7px 18px rgba(90,120,200,.14);position:relative;}
+  .word-emoji{font-size:2.2rem;line-height:1.3;}
+  .word-text{font-size:1.3rem;color:#37474f;margin:4px 0;}
+  .icon-btn{background:#e1f5fe;border-radius:14px;padding:5px 12px;font-size:1rem;min-height:38px;margin:2px;}
+
+  .act-top{background:#fff;border-radius:22px;padding:10px 14px;box-shadow:0 6px 18px rgba(90,120,200,.14);margin-bottom:12px;}
+  .act-counter{text-align:center;font-size:1.05rem;color:#546e7a;font-weight:700;margin-top:6px;}
+  .q-card{background:#fff;border-radius:28px;padding:18px 14px;box-shadow:0 10px 26px rgba(90,120,200,.16);text-align:center;}
+  .q-big{margin-bottom:8px;}
+  .q-emoji{font-size:4.4rem;line-height:1.2;}
+  .q-big-text{font-size:2.9rem;color:#2f6fed;font-weight:700;line-height:1.5;}
+  .q-prompt{font-size:1.4rem;color:#37474f;font-weight:700;margin:8px 0 14px;}
+  .q-audio{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+  .options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:10px;margin-top:6px;}
+  .options-grid.grid-6{grid-template-columns:repeat(3,1fr);}
+  .opt-btn{background:#f1f8ff;border:4px solid #cfe6ff;border-radius:22px;padding:12px 6px;
+    font-size:1.6rem;font-weight:700;color:#26344d;min-height:72px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:.12s;}
+  .opt-btn:hover{background:#e3f2fd;border-color:#8fd3ff;}
+  .opt-btn:disabled{cursor:default;opacity:.95;}
+  .opt-emoji{font-size:2.1rem;line-height:1.2;}
+  .opt-text{font-size:1.3rem;}
+  .opt-btn.correct{background:#d7f5d9;border-color:#66bb6a;}
+  .opt-btn.wrong{background:#ffe0e0;border-color:#ef5350;}
+  .order-build{min-height:70px;background:#f6faff;border:4px dashed #b3d9ff;border-radius:22px;
+    display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap;padding:8px;margin-bottom:12px;
+    font-size:2rem;color:#2f6fed;font-weight:700;}
+  .feedback{font-size:1.35rem;font-weight:700;min-height:42px;margin-top:14px;}
+  .feedback.good{color:#2e7d32;}
+  .feedback.bad{color:#c62828;}
+  .next-wrap{margin-top:6px;}
+
+  .act-nav-bar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px;padding-top:12px;border-top:3px dashed #e0e8f5;}
+  .act-nav-btn{background:#e3f2fd;color:#1565c0;border-radius:16px;padding:9px 14px;font-size:1rem;font-weight:700;min-height:46px;}
+  .act-nav-btn:active{background:#bbdefb;}
+  .act-nav-btn.finish{background:#ffe0b2;color:#b35c00;}
+  .act-nav-btn.home{background:#f3e5f5;color:#6a1b9a;}
+  .act-nav-btn:disabled{opacity:.5;}
+
+  .write-wrap{background:#fff;border-radius:26px;padding:14px;box-shadow:0 10px 26px rgba(90,120,200,.16);text-align:center;}
+  .canvas-box{position:relative;background:#fffdf5;border:4px dashed #b3d9ff;border-radius:22px;overflow:hidden;touch-action:none;margin:8px auto;max-width:640px;}
+  #writeCanvas{display:block;width:100%;height:auto;cursor:crosshair;touch-action:none;background:#fffdf5;}
+  .write-tools{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+  .color-dot{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.2);cursor:pointer;}
+  .color-dot.sel{outline:4px solid #ffd166;}
+  .write-hint{font-size:1.05rem;color:#78909c;margin-top:6px;}
+  .level-btn{background:#e3f2fd;color:#1565c0;box-shadow:0 5px 0 #90caf9;font-size:.95rem;padding:8px 14px;min-height:44px;}
+  .level-btn.active{background:#ff8a65;color:#fff;box-shadow:0 5px 0 #e05a34;}
+
+  .result-card{background:#fff;border-radius:30px;padding:22px 16px;text-align:center;
+    box-shadow:0 12px 30px rgba(90,120,200,.18);}
+  .result-emoji{font-size:4.2rem;}
+  .result-score{font-size:1.9rem;color:#ef6c00;font-weight:700;}
+
+  .report-card{background:#fff;border-radius:26px;padding:20px;box-shadow:0 10px 26px rgba(90,120,200,.16);margin-bottom:14px;}
+  .report-row{display:flex;justify-content:space-between;gap:10px;padding:8px 4px;border-bottom:2px dashed #eee;font-size:1.15rem;}
+  .report-row:last-child{border-bottom:none;}
+  .report-row b{color:#00897b;}
+  .report-letters{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px;}
+  .report-letter-chip{background:#f1f8ff;border-radius:16px;padding:8px 10px;text-align:center;font-size:1rem;border:3px solid #cfe6ff;}
+  .report-letter-chip .rl{font-size:1.6rem;font-weight:700;color:#2f6fed;}
+  .report-letter-chip .rp{font-size:.9rem;color:#607d8b;}
+  .chip-weak{background:#fff3e0;border-color:#ffcc80;}
+  .chip-strong{background:#e8f5e9;border-color:#a5d6a7;}
+
+  .cert{background:#fffdf5;border:10px double #ffb300;border-radius:26px;padding:24px 16px;text-align:center;
+    box-shadow:0 12px 30px rgba(90,120,200,.18);}
+  .cert h2{font-size:2.2rem;color:#ef6c00;}
+  .cert .cert-name{font-size:2.3rem;color:#2f6fed;font-weight:700;margin:8px 0;}
+  .cert-line{font-size:1.25rem;color:#4a5b7a;margin:4px 0;}
+  .cert-stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0;}
+  .cert-stats div{background:#fff3e0;border-radius:16px;padding:6px 16px;font-size:1.1rem;font-weight:700;color:#ef6c00;}
+  .cert-footer{margin-top:18px;font-size:1.35rem;color:#6a1b9a;font-weight:700;}
+  .footer-note{text-align:center;color:#90a4ae;font-size:1rem;margin:22px 0 10px;}
+
+  .skip-box{margin-top:10px;text-align:center;}
+  .skip-box .btn{background:#b0bec5;box-shadow:0 5px 0 #78909c;color:#fff;font-size:1.05rem;padding:10px 18px;min-height:46px;}
+
+  @media (max-width:520px){
+    body{font-size:18px;}
+    .home-title{font-size:1.7rem;}
+    .letter-big{font-size:2.8rem;}
+    .letters-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:9px;}
+    .hero-letter{font-size:5rem;}
+    .q-big-text{font-size:2.2rem;}
+    .opt-btn{font-size:1.45rem;min-height:66px;}
+    .options-grid{grid-template-columns:repeat(2,1fr);}
+    .options-grid.grid-6{grid-template-columns:repeat(3,1fr);}
+    .act-nav-btn{font-size:.95rem;padding:8px 12px;min-height:44px;}
+    .level-btn{font-size:.85rem;padding:6px 10px;}
+  }
+  @media print{
+    body{background:#fff;}
+    body *{visibility:hidden;}
+    #certificateScreen, #certificateScreen *, #reportScreen, #reportScreen *{visibility:visible;}
+    #certificateScreen, #reportScreen{position:absolute;top:0;right:0;left:0;padding:0;}
+    .no-print{display:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== شاشة الاسم (اختيارية) ====== -->
+<div class="screen active" id="nameScreen">
+  <div class="name-box">
+    <div class="name-title">مرحبًا بك في رحلتك الممتعة! 🌟</div>
+    <div class="name-sub" id="nameSub">اكتب اسمك إن أحببت (اختياري)</div>
+    <input class="name-input" id="nameInput" type="text" placeholder="اسمي هو..." maxlength="20" autocomplete="off">
+    <div>
+      <button class="btn btn-main" id="startJourneyBtn">🚀 ابدأ رحلتي</button>
+    </div>
+    <div style="margin-top:14px;font-size:1.05rem;color:#78909c;">
+      أو يمكنك الدخول مباشرة بدون كتابة اسم
+    </div>
+    <button class="btn btn-yellow" id="skipNameBtn" style="margin-top:10px;font-size:1.1rem;min-height:48px;">
+      ⏭️ دخول سريع
+    </button>
+    <div class="footer-note">تصميم الأستاذ عواد دحبور</div>
+  </div>
+</div>
+
+<!-- ====== الشاشة الرئيسية ====== -->
+<div class="screen" id="homeScreen">
+  <div class="home-header">
+    <h1 class="home-title">رحلتي الممتعة مع الحروف العربية</h1>
+    <p class="home-sub">هيا نتعلم الحروف ونقرأ ونستمع ونلعب! 🌟</p>
+    <div class="teacher-tag">تصميم الأستاذ عواد دحبور</div>
+  </div>
+
+  <div class="home-bar">
+    <span class="who" id="whoLabel"></span>
+    <span class="stat-pill" id="pointsPill">⭐ 0</span>
+    <span class="stat-pill" id="starsPill">🌟 0</span>
+    <button class="btn btn-small btn-purple" id="changeNameBtn">تغيير الاسم</button>
+    <button class="btn btn-small btn-yellow" id="soundToggleBtn">🔊 الأصوات</button>
+    <button class="btn btn-small btn-audio" id="reportBtn">📊 التقرير</button>
+    <button class="btn btn-small btn-green" id="finalExamBtn">🏆 الاختبار الشامل</button>
+    <button class="btn btn-small btn-purple" id="certBtn">📜 الشهادة</button>
+  </div>
+
+  <div class="smart-review-bar" id="smartReviewBar">
+    <h3>🔄 هيا نراجع معًا!</h3>
+    <p id="smartReviewText">لاحظنا بعض الأخطاء في حروف سابقة. هل تريد مراجعة سريعة؟</p>
+    <button class="btn btn-main" id="smartReviewBtn">🚀 ابدأ المراجعة الذكية</button>
+  </div>
+
+  <div class="journey-bar">
+    <div class="journey-title">🏔️ رحلتي التعليمية</div>
+    <div class="journey-track">
+      <div class="journey-fill" id="journeyFill" style="width:0%"></div>
+      <span class="journey-emoji" id="journeyEmoji" style="right:0%">🚶</span>
+    </div>
+    <div class="journey-text" id="journeyText">لم تبدأ الرحلة بعد</div>
+  </div>
+
+  <div class="letters-grid" id="lettersGrid"></div>
+  <div class="footer-note">تصميم الأستاذ عواد دحبور</div>
+</div>
+
+<!-- ====== شاشة الحرف ====== -->
+<div class="screen" id="letterScreen">
+  <div class="letter-header no-print" id="letterNav">
+    <button class="nav-btn" id="prevBtn">← الحرف السابق</button>
+    <button class="nav-btn" id="homeBtn">🏠 جميع الحروف</button>
+    <button class="nav-btn" id="nextBtn">الحرف التالي →</button>
+  </div>
+  <h2 class="letter-title" id="letterTitle"></h2>
+  <div class="tabs no-print" id="tabsBar">
+    <button class="tab active" data-tab="learn">🎓 تعلّم</button>
+    <button class="tab" data-tab="write">✍️ اكتب</button>
+    <button class="tab" data-tab="act">🎯 الأنشطة (60)</button>
+    <button class="tab" data-tab="quiz">📝 الاختبار</button>
+  </div>
+  <div id="tabContent"></div>
+  <div class="footer-note no-print">تصميم الأستاذ عواد دحبور</div>
+</div>
+
+<!-- ====== شاشة التقرير ====== -->
+<div class="screen" id="reportScreen">
+  <h2 class="letter-title">📊 تقرير ولي الأمر</h2>
+  <div id="reportContent"></div>
+  <div style="text-align:center;margin-top:14px;" class="no-print">
+    <button class="btn btn-green" id="printReportBtn">🖨️ طباعة التقرير</button>
+    <button class="btn" id="reportHomeBtn">🏠 الرئيسية</button>
+  </div>
+</div>
+
+<!-- ====== شاشة الشهادة ====== -->
+<div class="screen" id="certificateScreen">
+  <div class="cert" id="certBox"></div>
+  <div style="text-align:center;margin-top:14px;" class="no-print">
+    <button class="btn btn-green" id="printCertBtn">🖨️ طباعة الشهادة</button>
+    <button class="btn" id="certHomeBtn">🏠 جميع الحروف</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   حماية شاملة من الأخطاء (لا توقف التنفيذ)
+   ========================================================= */
+window.addEventListener('error', function(ev){
+  try{ console.error('خطأ:', ev.message, 'سطر:', ev.lineno); }catch(e){}
+}, true);
+
+/* =========================================================
+   0) أدوات عامة
+   ========================================================= */
+var stripTashkeel = function(s){ return (s||'').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,''); };
+var norm = function(s){ return stripTashkeel(s).replace(/[أإآٱ]/g,'ا'); };
+var shuffle = function(a){ var x=a.slice(); for(var i=x.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=x[i];x[i]=x[j];x[j]=t;} return x; };
+var pickN = function(a,n){ return shuffle(a).slice(0,n); };
+var randOf = function(a){ return a[Math.floor(Math.random()*a.length)]; };
+
+/* =========================================================
+   1) قاعدة بيانات الحروف
+   ========================================================= */
+var RAW_LETTERS = [
+{ l:'ا', n:'الألف', f:['ا','ا','ـا','ـا'], sim:['ل','د','ر'],
+  start:[['أَسَد','🦁'],['أَرْنَب','🐰'],['أُمّ','👩'],['أَب','👨'],['أَنَانَاس','🍍'],['أَرُزّ','🍚'],['أُذُن','👂'],['إِبِل','🐪'],['أَرْض','🌍'],['أَمِير','🤴'],['أَرِيكَة','🛋️'],['أُسْتَاذ','👨‍🏫']],
+  other:[['بَاب','🚪'],['مَاء','💧'],['دَار','🏠'],['نَار','🔥'],['كِتَاب','📚'],['حِمَار','🐴'],['قَمَر','🌙'],['دُعَاء','🤲']] },
+{ l:'ب', n:'الباء', f:['ب','بـ','ـبـ','ـب'], sim:['ت','ث','ن'],
+  start:[['بَاب','🚪'],['بَقَرَة','🐄'],['بَيْت','🏠'],['بَطَّة','🦆'],['بُرْتُقَال','🍊'],['بَحْر','🌊'],['بَنْدُورَة','🍅'],['بَرْق','⚡'],['بَطِيخ','🍉'],['بَلَح','🌴'],['بَقْل','🥬']],
+  other:[['خُبْز','🍞'],['طَبَق','🍽️'],['عِنَب','🍇'],['دُبّ','🐻'],['ثَعْلَب','🦊'],['حَلِيب','🥛'],['قَلْب','❤️'],['كِتَاب','📚'],['أَرْنَب','🐰'],['سَحَاب','☁️']] },
+{ l:'ت', n:'التاء', f:['ت','تـ','ـتـ','ـت'], sim:['ب','ث','ن'],
+  start:[['تَاج','👑'],['تَمْر','🌴'],['تُفَّاح','🍎'],['تِلْمِيذ','🧑‍🎓'],['تَمْسَاح','🐊'],['تِين','🍈'],['تَنُّورَة','👗'],['تَاجِر','🧑‍💼'],['تَلْفَاز','📺']],
+  other:[['كُتُب','📚'],['بُسْتَان','🌳'],['بَيْت','🏠'],['بِنْت','👧'],['أُخْت','👭'],['نَبْت','🌱'],['وَقْت','⌚'],['صَوْت','🔊']] },
+{ l:'ث', n:'الثاء', f:['ث','ثـ','ـثـ','ـث'], sim:['ب','ت','ن'],
+  start:[['ثَعْلَب','🦊'],['ثَوْب','👕'],['ثَلَاثَة','3️⃣'],['ثَلْج','❄️'],['ثُوم','🧄'],['ثَمَر','🍎'],['ثَمَانِيَة','8️⃣']],
+  other:[['أَثَاث','🪑'],['مُثَلَّث','🔺'],['حَدِيث','📖'],['مَثَل','💡']] },
+{ l:'ج', n:'الجيم', f:['ج','جـ','ـجـ','ـج'], sim:['ح','خ','ع'],
+  start:[['جَمَل','🐪'],['جَزَر','🥕'],['جَرَس','🔔'],['جُبْن','🧀'],['جَوَّال','📱'],['جَبَل','⛰️'],['جُورَب','🧦'],['جَامِع','🕌'],['جَرِيدَة','📰'],['جَنَاح','🪽'],['جَزْمَة','👟']],
+  other:[['نَجْمَة','⭐'],['حَجَر','🪨'],['ثَلْج','❄️'],['بُرْج','🗼'],['دَرَج','🪜'],['مَجَلَّة','📖'],['نَاجِح','🎉']] },
+{ l:'ح', n:'الحاء', f:['ح','حـ','ـحـ','ـح'], sim:['ج','خ','ع'],
+  start:[['حِمَار','🐴'],['حَجَر','🪨'],['حَلِيب','🥛'],['حُوت','🐋'],['حَدِيقَة','🌳'],['حِصَان','🐎'],['حَاسُوب','💻'],['حَلْوَى','🍬'],['حَمَامَة','🕊️'],['حُجْرَة','🛏️'],['حَقِيبَة','🎒']],
+  other:[['نَحْلَة','🐝'],['بَحْر','🌊'],['سَحَاب','☁️'],['لَحْم','🍖'],['مِلْح','🧂'],['صَبَاح','🌅'],['مِفْتَاح','🔑'],['تُفَّاح','🍎'],['أَحْمَر','🔴']] },
+{ l:'خ', n:'الخاء', f:['خ','خـ','ـخـ','ـخ'], sim:['ج','ح','غ'],
+  start:[['خُبْز','🍞'],['خَرُوف','🐑'],['خِيَار','🥒'],['خَيْمَة','⛺'],['خَوْخ','🍑'],['خَشَب','🪵'],['خَيّاط','🧵']],
+  other:[['نَخْلَة','🌴'],['أَخْضَر','💚'],['بَطِيخ','🍉'],['فَرْخ','🐤'],['مِخْبَز','🥖']] },
+{ l:'د', n:'الدال', f:['د','د','ـد','ـد'], sim:['ذ','ر','ز'],
+  start:[['دُبّ','🐻'],['دَجَاجَة','🐔'],['دَرَّاجَة','🚲'],['دِيك','🐓'],['دَلْو','🪣'],['دَفْتَر','📓'],['دُودَة','🐛'],['دَار','🏠'],['دُكَّان','🏪'],['دَمْيَة','🧸']],
+  other:[['مَدْرَسَة','🏫'],['قَدَم','🦶'],['هُدْهُد','🐦'],['وَلَد','👦'],['أَسَد','🦁'],['يَد','✋'],['قِرْد','🐒'],['وَرْد','🌹'],['قَلَم','✏️']] },
+{ l:'ذ', n:'الذال', f:['ذ','ذ','ـذ','ـذ'], sim:['د','ز','ر'],
+  start:[['ذِئْب','🐺'],['ذَهَب','🥇'],['ذُرَة','🌽'],['ذُبَابَة','🪰'],['ذَيْل','🐕'],['ذِرَاع','💪'],['ذَكِيّ','💡']],
+  other:[['أُذُن','👂'],['حَذَاء','👟'],['مُذَكَّرَة','📝'],['لَذِيذ','😋']] },
+{ l:'ر', n:'الراء', f:['ر','ر','ـر','ـر'], sim:['ز','د','و'],
+  start:[['رَأْس','🗣️'],['رَجُل','🧍‍♂️'],['رُمَّان','🍒'],['رِيشَة','🪶'],['رَسْم','🎨'],['رَمْل','🏖️'],['رَادِيو','📻'],['رَبِيع','🌸'],['رِسَالَة','✉️'],['رُكْبَة','🦵'],['رَغِيف','🥖']],
+  other:[['قِرْد','🐒'],['كَرَز','🍒'],['جَرَس','🔔'],['سَرِير','🛏️'],['نَهْر','🏞️'],['بَحْر','🌊'],['جَزَر','🥕'],['طَائِر','🐦'],['سُكَّر','🍬'],['قَمَر','🌙']] },
+{ l:'ز', n:'الزاي', f:['ز','ز','ـز','ـز'], sim:['ر','د','ذ'],
+  start:[['زَهْرَة','🌸'],['زَرَافَة','🦒'],['زَيْتُون','🫒'],['زَيْت','🛢️'],['زُجَاج','🥛'],['زَمِيل','🧑'],['زَمَن','⏳'],['زِينَة','💎']],
+  other:[['جَزَر','🥕'],['مِيزَان','⚖️'],['مَزْرَعَة','🚜'],['وَزَّة','🦢'],['جَهَاز','📱'],['عَزِيز','💙'],['أُزْبُورَة','🌷']] },
+{ l:'س', n:'السين', f:['س','سـ','ـسـ','ـس'], sim:['ش','ص','ن'],
+  start:[['سَمَكَة','🐟'],['سَاعَة','⌚'],['سَيَّارَة','🚗'],['سُكَّر','🍬'],['سَحَاب','☁️'],['سُلَّم','🪜'],['سِنّ','🦷'],['سِرَاج','🪔'],['سَجَّادَة','🧶'],['سَلَحْفَاة','🐢'],['سَنْدَوِيش','🥪'],['سُوق','🏬']],
+  other:[['مَدْرَسَة','🏫'],['بُسْتَان','🌳'],['أَسَد','🦁'],['شَمْس','☀️'],['جَرَس','🔔'],['كَأْس','🥤'],['أَنَانَاس','🍍']] },
+{ l:'ش', n:'الشين', f:['ش','شـ','ـشـ','ـش'], sim:['س','ص','ث'],
+  start:[['شَمْس','☀️'],['شَجَرَة','🌳'],['شَمْعَة','🕯️'],['شُبَّاك','🪟'],['شَاي','🍵'],['شِتَاء','❄️'],['شَرِيط','🎀'],['شَرَاب','🥤'],['شَاطِئ','🏖️'],['شَقَّة','🏢']],
+  other:[['عُشْب','🌿'],['حَشَرَة','🐜'],['عَشَرَة','🔟'],['رِيش','🪶'],['عُشّ','🪹']] },
+{ l:'ص', n:'الصاد', f:['ص','صـ','ـصـ','ـص'], sim:['ض','س','ط'],
+  start:[['صَقْر','🦅'],['صَابُون','🧼'],['صُورَة','🖼️'],['صَيْف','🏖️'],['صَدِيق','🧑‍🤝‍🧑'],['صَحْن','🍽️'],['صَخْر','🪨'],['صَنْدُوق','📦'],['صَفَّارَة','📯']],
+  other:[['عُصْفُور','🐦'],['بَصَل','🧅'],['حِصَان','🐎'],['قَصْر','🏰'],['قَمِيص','👕'],['مِقَصّ','✂️'],['مَصْبَاح','💡']] },
+{ l:'ض', n:'الضاد', f:['ض','ضـ','ـضـ','ـض'], sim:['ص','ط','ظ'],
+  start:[['ضِفْدَع','🐸'],['ضِرْس','🦷'],['ضَوْء','💡'],['ضَيْف','🧑'],['ضَحِك','😄'],['ضَبَاب','🌫️']],
+  other:[['بَيْضَة','🥚'],['أَرْض','🌍'],['حَوْض','🛁'],['مَرِيض','🤒'],['قَاضِي','⚖️']] },
+{ l:'ط', n:'الطاء', f:['ط','طـ','ـطـ','ـط'], sim:['ظ','ص','ض'],
+  start:[['طَائِر','🐦'],['طَمَاطِم','🍅'],['طَبِيب','👨‍⚕️'],['طَاوِلَة','🪑'],['طَبْل','🥁'],['طَرِيق','🛣️'],['طِين','🟤'],['طَائِرَة','✈️'],['طَبَق','🍽️'],['طِفْل','🧒']],
+  other:[['قِطَار','🚂'],['بَطَّة','🦆'],['مَطَر','🌧️'],['بَطَاطِس','🥔'],['قِطّ','🐱'],['بَسَاط','🧶'],['خَطّ','✍️'],['نَشَاط','⚡']] },
+{ l:'ظ', n:'الظاء', f:['ظ','ظـ','ـظـ','ـظ'], sim:['ط','ض','ص'],
+  start:[['ظَبْي','🦌'],['ظِلّ','🌳'],['ظَرْف','✉️'],['ظُفْر','💅'],['ظُهْر','🕛'],['ظَلَام','🌑']],
+  other:[['نَظَّارَة','👓'],['مِظَلَّة','☂️'],['نَظِيف','🧼'],['حَظّ','🍀'],['مَنْظَر','🏞️']] },
+{ l:'ع', n:'العين', f:['ع','عـ','ـعـ','ـع'], sim:['غ','ح','ج'],
+  start:[['عَيْن','👁️'],['عِنَب','🍇'],['عُصْفُور','🐦'],['عَسَل','🍯'],['عَنْكَبُوت','🕷️'],['عَلَم','🚩'],['عَجَلَة','🛞'],['عَصِير','🧃'],['عَقْرَب','🦂'],['عَائِلَة','👨‍👩‍👧']],
+  other:[['لَعِب','🎮'],['نَعْجَة','🐑'],['سَعِيد','😊'],['شَمْعَة','🕯️'],['شَارِع','🛣️'],['جَامِع','🕌'],['رَابِع','4️⃣'],['مَلْعَب','🏟️']] },
+{ l:'غ', n:'الغين', f:['غ','غـ','ـغـ','ـغ'], sim:['ع','خ','ف'],
+  start:[['غُرَاب','🐦‍⬛'],['غَزَال','🦌'],['غَنَم','🐑'],['غَيْم','☁️'],['غُبَار','🌫️'],['غِطَاء','🧢']],
+  other:[['مَغْرِب','🌇'],['لُغَة','💬'],['مِغْرَفَة','🥄'],['دِمَاغ','🧠'],['صَغِير','🐣']] },
+{ l:'ف', n:'الفاء', f:['ف','فـ','ـفـ','ـف'], sim:['ق','غ','ب'],
+  start:[['فِيل','🐘'],['فَرَاشَة','🦋'],['فَرَاوِلَة','🍓'],['فَلْفَل','🫑'],['فِنْجَان','☕'],['فَم','👄'],['فَانُوس','🏮'],['فُطُور','🥐'],['فَرِيق','👥'],['فَلَاح','👨‍🌾']],
+  other:[['تُفَّاحَة','🍎'],['عُصْفُور','🐦'],['دَفْتَر','📓'],['مِفْتَاح','🔑'],['نَافِذَة','🪟'],['خَرُوف','🐑'],['سَيْف','⚔️'],['هَاتِف','📱'],['صَيْف','🏖️']] },
+{ l:'ق', n:'القاف', f:['ق','قـ','ـقـ','ـق'], sim:['ف','ن','و'],
+  start:[['قَمَر','🌙'],['قَلَم','✏️'],['قِطّ','🐱'],['قَلْب','❤️'],['قَمِيص','👕'],['قِطَار','🚂'],['قُنْفُذ','🦔'],['قُبَّعَة','🧢'],['قَوْس','🌈'],['قِصَّة','📖']],
+  other:[['بَقَرَة','🐄'],['عَقْرَب','🦂'],['مِقَصّ','✂️'],['وَقْت','⌚'],['طَبَق','🍽️'],['وَرَق','📄'],['بَرْق','⚡'],['حَقّ','✅']] },
+{ l:'ك', n:'الكاف', f:['ك','كـ','ـكـ','ـك'], sim:['ل','م','ن'],
+  start:[['كِتَاب','📚'],['كَلْب','🐕'],['كَأْس','🥤'],['كُرَة','⚽'],['كَعْكَة','🍰'],['كَرَز','🍒'],['كُوب','🥛'],['كَلِمَة','💬'],['كَبِير','🐘'],['كَهْف','🕳️']],
+  other:[['سُكَّر','🍬'],['دِيك','🐓'],['شُبَّاك','🪟'],['سَمَكَة','🐟'],['مَلِك','🤴'],['بَنْك','🏦'],['ضَحِك','😄'],['مِكْنَسَة','🧹']] },
+{ l:'ل', n:'اللام', f:['ل','لـ','ـلـ','ـل'], sim:['ك','ا','ن'],
+  start:[['لَيْمُون','🍋'],['لُعْبَة','🎮'],['لَبَن','🥛'],['لِسَان','👅'],['لَوْن','🎨'],['لَحْم','🍖'],['لَيْل','🌙'],['لَافِتَة','🪧'],['لَاعِب','⚽']],
+  other:[['قَلَم','✏️'],['سُلَّم','🪜'],['مَلْعَب','🏟️'],['فِيل','🐘'],['نَحْل','🐝'],['جَبَل','⛰️'],['عَسَل','🍯'],['كَلْب','🐕'],['أَوَّل','1️⃣']] },
+{ l:'م', n:'الميم', f:['م','مـ','ـمـ','ـم'], sim:['ن','و','ه'],
+  start:[['مَاء','💧'],['مَوْز','🍌'],['مِفْتَاح','🔑'],['مَدْرَسَة','🏫'],['مُعَلِّم','👨‍🏫'],['مَلِك','🤴'],['مِظَلَّة','☂️'],['مِغْرَفَة','🥄'],['مِيزَان','⚖️'],['مَطْبَخ','🍳'],['مَرْكَب','⛵'],['مُسْتَشْفَى','🏥']],
+  other:[['قَمَر','🌙'],['جَمَل','🐪'],['سَمَكَة','🐟'],['نَمِر','🐯'],['حِمَار','🐴'],['قَلَم','✏️'],['نَجْم','⭐'],['أُمّ','👩'],['فَم','👄'],['لَحْم','🍖']] },
+{ l:'ن', n:'النون', f:['ن','نـ','ـنـ','ـن'], sim:['م','ب','ت'],
+  start:[['نَجْمَة','⭐'],['نَمِر','🐯'],['نَحْلَة','🐝'],['نَار','🔥'],['نَافِذَة','🪟'],['نَهْر','🏞️'],['نَخْلَة','🌴'],['نَعْجَة','🐑'],['نُور','💡'],['نَوْم','😴'],['نَظَافَة','🧼']],
+  other:[['عِنَب','🍇'],['بِنْت','👧'],['أَنَانَاس','🍍'],['مَنَارَة','🗼'],['لَبَن','🥛'],['عَيْن','👁️'],['زَيْتُون','🫒'],['سِنّ','🦷'],['فُنْدُق','🏨']] },
+{ l:'ه', n:'الهاء', f:['ه','هـ','ـهـ','ـه'], sim:['م','ن','و'],
+  start:[['هُدْهُد','🐦'],['هِلَال','🌙'],['هَاتِف','📱'],['هَدِيَّة','🎁'],['هَوَاء','🌬️'],['هَرَم','🗿'],['هَدَف','🥅']],
+  other:[['نَهْر','🏞️'],['زَهْرَة','🌸'],['شَهْر','📅'],['سَهْم','🏹'],['وَجْه','😊'],['فِهْرِس','📖']] },
+{ l:'و', n:'الواو', f:['و','و','ـو','ـو'], sim:['ر','د','ي'],
+  start:[['وَرْدَة','🌹'],['وَلَد','👦'],['وَرَق','📄'],['وَقْت','⌚'],['وَزَّة','🦢'],['وِسَادَة','🛏️'],['وَطَن','🏳️'],['وَالِد','👨'],['وَالِدَة','👩']],
+  other:[['لَوْن','🎨'],['ثَوْب','👕'],['جَوَّال','📱'],['حَوْض','🛁'],['نَوْم','😴'],['يَوْم','📅'],['دَلْو','🪣'],['جِرْو','🐕'],['مَوْز','🍌']] },
+{ l:'ي', n:'الياء', f:['ي','يـ','ـيـ','ـي'], sim:['ب','ت','ن'],
+  start:[['يَد','✋'],['يَاسَمِين','🌼'],['يَمَامَة','🕊️'],['يَقْطِين','🎃'],['يَاقُوت','💎']],
+  other:[['بَيْت','🏠'],['خَيْمَة','⛺'],['عَيْن','👁️'],['بَيْضَة','🥚'],['مِيزَان','⚖️'],['سَيَّارَة','🚗'],['كُرْسِيّ','🪑'],['صَبِيّ','👦'],['دَلِيل','🧭'],['جَمِيل','🌸'],['طَبِيب','👨‍⚕️']] }
+];
+
+/* =========================================================
+   2) بناء بيانات الحروف
+   ========================================================= */
+function posOfWord(word, letter){
+  var w = norm(word), l = norm(letter);
+  var i = w.indexOf(l);
+  if(i === -1) return 'middle';
+  if(i === 0) return 'start';
+  if(i === w.length-1) return 'end';
+  return 'middle';
+}
+function countOfWord(word, letter){
+  var w = norm(word), l = norm(letter);
+  if(!l) return 0;
+  var c = 0, i = 0;
+  while((i = w.indexOf(l, i)) !== -1){ c++; i += l.length; }
+  return c;
+}
+function hasLetter(word, letter){ return norm(word).indexOf(norm(letter)) !== -1; }
+
+var LETTERS = RAW_LETTERS.map(function(raw){
+  var L = Object.assign({}, raw);
+  L.say = raw.n.replace(/^ال/, '');
+  if(raw.l === 'ا'){
+    L.harakat = [{t:'أَ',name:'الفتحة'},{t:'أُ',name:'الضمة'},{t:'إِ',name:'الكسرة'}];
+    L.madd    = [{t:'آ',name:'مد بالألف'},{t:'أُو',name:'مد بالواو'},{t:'إِي',name:'مد بالياء'}];
+  } else {
+    L.harakat = [
+      {t:raw.l+'َ',name:'الفتحة'},
+      {t:raw.l+'ُ',name:'الضمة'},
+      {t:raw.l+'ِ',name:'الكسرة'},
+      {t:raw.l+'ْ',name:'السكون'}
+    ];
+    L.madd = [
+      {t:raw.l+'َا',name:'مد بالألف'},
+      {t:raw.l+'ُو',name:'مد بالواو'},
+      {t:raw.l+'ِي',name:'مد بالياء'}
+    ];
+  }
+  L.startPool = raw.start.map(function(pair){ return {w:pair[0], e:pair[1], pos:'start'}; });
+  L.otherPool = raw.other.map(function(pair){ return {w:pair[0], e:pair[1], pos:posOfWord(pair[0], raw.l)}; });
+  L.allPool   = L.startPool.concat(L.otherPool);
+  return L;
+});
+
+var LETTER_BY_CHAR = {};
+LETTERS.forEach(function(L){ LETTER_BY_CHAR[L.l] = L; });
+function nameOf(ch){ return LETTER_BY_CHAR[ch] ? LETTER_BY_CHAR[ch].n : ch; }
+
+var ALL_WORDS = [];
+LETTERS.forEach(function(L){
+  L.allPool.forEach(function(x){
+    if(!ALL_WORDS.some(function(y){ return y.w === x.w && y.e === x.e; })) ALL_WORDS.push({w:x.w, e:x.e});
+  });
+});
+
+function wordsNotContaining(L, n, exclude){
+  exclude = exclude || [];
+  var pool = ALL_WORDS.filter(function(x){ return !hasLetter(x.w, L.l) && exclude.indexOf(x.w) === -1; });
+  return shuffle(pool).slice(0, n);
+}
+function wordsContaining(L, n, exclude){
+  exclude = exclude || [];
+  var pool = ALL_WORDS.filter(function(x){ return hasLetter(x.w, L.l) && exclude.indexOf(x.w) === -1; });
+  return shuffle(pool).slice(0, n);
+}
+function opt(t, e){ return e ? {t:t, e:e} : t; }
+
+/* =========================================================
+   3) مولّدات الأنشطة
+   ========================================================= */
+function makeCtx(L){
+  var idx = {start:0, other:0, mid:0, end:0, all:0};
+  var midPool = L.otherPool.filter(function(x){ return x.pos === 'middle'; });
+  var endPool = L.otherPool.filter(function(x){ return x.pos === 'end'; });
+  function rot(pool, key){
+    if(!pool.length){ pool = L.allPool; key = 'all'; }
+    var item = pool[idx[key] % pool.length];
+    idx[key]++;
+    return item;
+  }
+  return {
+    start: function(){ return rot(L.startPool, 'start'); },
+    other: function(){ return rot(L.otherPool, 'other'); },
+    mid:   function(){ return rot(midPool, 'mid'); },
+    end:   function(){ return rot(endPool, 'end'); },
+    all:   function(){ return rot(L.allPool, 'all'); }
+  };
+}
+
+var GENERATORS = [
+function(L){ return { type:'choice', prompt:'اختر حرف ' + L.n, speakText:L.say,
+  options: shuffle([L.l].concat(pickN(L.sim,3))), answer:L.l }; },
+function(L){ return { type:'choice', prompt:'ما اسم هذا الحرف؟', big:{text:L.l}, speakText:L.say,
+  options: shuffle([L.n].concat(pickN(L.sim,3).map(nameOf))), answer:L.n }; },
+function(L){ return { type:'choice', prompt:'🔊 استمع إلى الحرف ثم اختره', autoSpeak:L.say,
+  options: shuffle([L.l].concat(pickN(L.sim,3))), answer:L.l }; },
+function(L){ var h = randOf(L.harakat);
+  return { type:'choice', prompt:'ما هذه الحركة؟', big:{text:h.t}, speakText:h.t,
+    options: shuffle(L.harakat.map(function(x){return x.name;})), answer:h.name }; },
+function(L){ var h = randOf(L.harakat);
+  return { type:'choice', prompt:'🔊 استمع ثم اختر الشكل الصحيح', autoSpeak:h.t,
+    options: shuffle(L.harakat.map(function(x){return x.t;})), answer:h.t }; },
+function(L){ var m = randOf(L.madd);
+  return { type:'choice', prompt:'🔊 استمع ثم اختر المقطع الممدود', autoSpeak:m.t,
+    options: shuffle(L.madd.map(function(x){return x.t;})), answer:m.t }; },
+function(L){ var m = randOf(L.madd);
+  return { type:'choice', prompt:'ما نوع المد في هذا المقطع؟', big:{text:m.t}, speakText:m.t,
+    options: shuffle(L.madd.map(function(x){return x.name;})), answer:m.name }; },
+function(L, ctx){ var w = ctx.start();
+  var dis = wordsNotContaining(L, 2, [w.w]);
+  return { type:'choice', prompt:'اختر الكلمة التي تبدأ بحرف ' + L.n,
+    options: shuffle([opt(w.w,w.e)].concat(dis.map(function(d){ return opt(d.w,d.e); }))), answer:w.w }; },
+function(L, ctx){ var w = ctx.all();
+  var dis = wordsNotContaining(L, 2, [w.w]);
+  return { type:'choice', prompt:'اختر الكلمة التي يوجد فيها حرف ' + L.n,
+    options: shuffle([opt(w.w,w.e)].concat(dis.map(function(d){ return opt(d.w,d.e); }))), answer:w.w }; },
+function(L){ var w = wordsNotContaining(L, 1)[0] || ALL_WORDS[0];
+  var ins = wordsContaining(L, 2, [w.w]);
+  return { type:'choice', prompt:'اختر الكلمة التي لا يوجد فيها حرف ' + L.n,
+    options: shuffle([opt(w.w,w.e)].concat(ins.map(function(d){ return opt(d.w,d.e); }))), answer:w.w }; },
+function(L, ctx){ var w = ctx.all();
+  var posName = {start:'في البداية', middle:'في الوسط', end:'في النهاية'}[w.pos];
+  return { type:'choice', prompt:'أين يوجد حرف ' + L.n + ' في كلمة (' + w.w + ')؟',
+    big:{text:w.w, emoji:w.e},
+    options:['في البداية','في الوسط','في النهاية'], answer:posName }; },
+function(L, ctx){ var w = ctx.start();
+  var masked = '؟' + w.w.slice(1);
+  return { type:'choice', prompt:'أكمل الكلمة بالحرف الناقص',
+    big:{text:masked, emoji:w.e},
+    options: shuffle([L.l].concat(pickN(L.sim,2))), answer:L.l }; },
+function(L, ctx){ var isTrue = Math.random() < 0.5;
+  var w = isTrue ? ctx.start() : (wordsNotContaining(L,1)[0] || ALL_WORDS[0]);
+  return { type:'choice', prompt:'كلمة (' + w.w + ') تبدأ بحرف ' + L.n + '. صح أم خطأ؟',
+    big:{text:w.w, emoji:w.e}, options:['صح ✅','خطأ ❌'],
+    answer: isTrue ? 'صح ✅' : 'خطأ ❌' }; },
+function(L, ctx){ var w = ctx.all();
+  var dis = shuffle(ALL_WORDS.filter(function(x){ return x.w !== w.w && x.e !== w.e; })).slice(0,2);
+  return { type:'choice', prompt:'اختر الكلمة المناسبة للصورة',
+    big:{text:'', emoji:w.e},
+    options: shuffle([w.w].concat(dis.map(function(d){ return d.w; }))), answer:w.w }; },
+function(L, ctx){ var w = ctx.all();
+  var dis = shuffle(ALL_WORDS.filter(function(x){ return x.w !== w.w; })).slice(0,2);
+  return { type:'choice', prompt:'🔊 استمع ثم اختر الكلمة', autoSpeak:w.w,
+    options: shuffle([w.w].concat(dis.map(function(d){ return d.w; }))), answer:w.w }; },
+function(L, ctx){ var w = ctx.start();
+  return { type:'choice', prompt:'🔊 استمع ثم اختر الحرف الذي تبدأ به الكلمة', autoSpeak:w.w,
+    options: shuffle([L.l].concat(pickN(L.sim,3))), answer:L.l }; },
+function(L, ctx){ var cands = L.startPool.filter(function(x){
+    var s = stripTashkeel(x.w); return s.length >= 3 && s.length <= 4; });
+  var w = randOf(cands.length ? cands : L.startPool);
+  var target = stripTashkeel(w.w);
+  return { type:'order', prompt:'رتب الحروف لتكوين الكلمة',
+    big:{emoji:w.e}, answer:target, letters: shuffle(target.split('')) }; },
+function(L, ctx){ var a = ctx.start(); var b = ctx.start();
+  if(b.w === a.w) b = ctx.start();
+  var odd = wordsNotContaining(L, 1, [a.w, b.w])[0] || ALL_WORDS[0];
+  return { type:'choice', prompt:'اختر الكلمة التي لا تبدأ بحرف ' + L.n,
+    options: shuffle([opt(a.w,a.e), opt(b.w,b.e), opt(odd.w,odd.e)]), answer:odd.w }; },
+function(L){ return { type:'choice', prompt:'أيهما حرف ' + L.n + '؟',
+  options: shuffle([L.l].concat(pickN(L.sim,2))), answer:L.l }; },
+function(L, ctx){ var cands = L.allPool.filter(function(x){ return countOfWord(x.w, L.l) >= 2; });
+  var w = cands.length ? randOf(cands) : ctx.start();
+  var c = Math.max(1, countOfWord(w.w, L.l));
+  var n = c >= 3 ? 3 : c;
+  var nums = ['١','٢','٣'];
+  return { type:'choice', prompt:'كم مرة يظهر حرف ' + L.n + ' في كلمة (' + w.w + ')؟',
+    big:{text:w.w, emoji:w.e}, options: shuffle(nums.slice()), answer: nums[n-1] }; },
+function(L){ var forms = [
+    {k:'المنفصل', v:L.f[0]}, {k:'في أول الكلمة', v:L.f[1]},
+    {k:'في وسط الكلمة', v:L.f[2]}, {k:'في آخر الكلمة', v:L.f[3]}];
+  var uniq = []; forms.forEach(function(x){ if(!uniq.some(function(u){return u.v === x.v;})) uniq.push(x); });
+  var f = randOf(uniq);
+  return { type:'choice', prompt:'اختر شكل حرف ' + L.n + ' ' + f.k,
+    options: shuffle(uniq.map(function(u){return u.v;})), answer:f.v }; },
+function(L){ var others = shuffle(LETTERS.filter(function(x){ return x.l !== L.l && L.sim.indexOf(x.l) === -1; }))
+                  .slice(0,2).map(function(x){ return x.l; });
+  return { type:'choice', prompt:'اضغط على حرف ' + L.n, grid:true,
+    options: shuffle([L.l].concat(L.sim.slice(0,3)).concat(others)), answer:L.l }; },
+function(L, ctx){ var w = ctx.all();
+  var chars = stripTashkeel(w.w).split('');
+  var first = chars[0];
+  var uniq = Array.from(new Set(chars)).slice(0,3);
+  if(uniq.indexOf(first) === -1) uniq[0] = first;
+  return { type:'choice', prompt:'ما الحرف الأول في كلمة (' + w.w + ')؟',
+    big:{emoji:w.e}, options: shuffle(uniq), answer:first }; },
+function(L, ctx){ var w = ctx.all();
+  var chars = stripTashkeel(w.w).split('');
+  var last = chars[chars.length-1];
+  var uniq = Array.from(new Set(chars)).slice(0,3);
+  if(uniq.indexOf(last) === -1) uniq[0] = last;
+  return { type:'choice', prompt:'ما الحرف الأخير في كلمة (' + w.w + ')؟',
+    big:{emoji:w.e}, options: shuffle(uniq), answer:last }; },
+function(L, ctx){ var w = ctx.all();
+  var dis = shuffle(ALL_WORDS.filter(function(x){ return x.w !== w.w && x.e !== w.e; })).slice(0,2);
+  return { type:'choice', prompt:'اقرأ الكلمة ثم اختر الصورة الصحيحة',
+    big:{text:w.w},
+    options: shuffle([w.e].concat(dis.map(function(d){ return d.e; }))), answer:w.e }; },
+function(L, ctx){ var isTrue = Math.random() < 0.5;
+  var w = isTrue ? ctx.all() : (wordsNotContaining(L,1)[0] || ALL_WORDS[0]);
+  return { type:'choice', prompt:'كلمة (' + w.w + ') فيها حرف ' + L.n + '. صح أم خطأ؟',
+    big:{emoji:w.e}, options:['صح ✅','خطأ ❌'],
+    answer: isTrue ? 'صح ✅' : 'خطأ ❌' }; },
+function(L, ctx){ var w = ctx.start();
+  var s = w.w.slice(0,2);
+  var opts = L.harakat.map(function(h){ return h.t; });
+  if(opts.indexOf(s) === -1) return null;
+  return { type:'choice', prompt:'بأي مقطع تبدأ كلمة (' + w.w + ')؟',
+    big:{emoji:w.e}, options: shuffle(opts.slice()), answer:s }; },
+function(L, ctx){ var endPool = L.otherPool.filter(function(x){ return x.pos === 'end'; });
+  if(endPool.length){
+    var w = randOf(endPool);
+    var dis = wordsNotContaining(L, 2, [w.w]);
+    return { type:'choice', prompt:'اختر الكلمة التي تنتهي بحرف ' + L.n,
+      options: shuffle([opt(w.w,w.e)].concat(dis.map(function(d){ return opt(d.w,d.e); }))), answer:w.w };
+  }
+  var w2 = ctx.start();
+  var dis2 = wordsNotContaining(L, 2, [w2.w]);
+  return { type:'choice', prompt:'اختر الكلمة التي تبدأ بحرف ' + L.n,
+    options: shuffle([opt(w2.w,w2.e)].concat(dis2.map(function(d){ return opt(d.w,d.e); }))), answer:w2.w }; },
+function(L, ctx){ var a = ctx.start(); var b = ctx.start();
+  if(b.w === a.w) b = ctx.start();
+  var dis = wordsNotContaining(L, 2, [a.w, b.w]);
+  return { type:'choice', prompt:'أي كلمة تبدأ بنفس حرف كلمة (' + a.w + ')؟',
+    big:{emoji:a.e},
+    options: shuffle([opt(b.w,b.e)].concat(dis.map(function(d){ return opt(d.w,d.e); }))), answer:b.w }; },
+function(L, ctx){
+  var q = null, tries = 0;
+  while(!q && tries < 12){
+    var g = GENERATORS[Math.floor(Math.random() * 29)];
+    q = g(L, ctx);
+    tries++;
+  }
+  if(!q) q = GENERATORS[0](L, ctx);
+  q.prompt = '🌟 تحدي: ' + q.prompt;
+  return q;
+}
+];
+
+/* =========================================================
+   4) بناء الأسئلة وحفظ ترتيبها
+   ========================================================= */
+function questionSignature(q){
+  var opts = (q.options || q.letters || []).map(function(o){ return (typeof o === 'string' ? o : o.t); }).join(',');
+  return q.prompt + '|' + q.answer + '|' + opts;
+}
+function buildLetterQuestionsFresh(L){
+  var ctx = makeCtx(L);
+  var qs = [];
+  var seen = {};
+  function tryPush(q){
+    if(!q) return false;
+    var sig = questionSignature(q);
+    if(seen[sig]) return false;
+    seen[sig] = true; qs.push(q); return true;
+  }
+  for(var round = 0; round < 2; round++){
+    GENERATORS.forEach(function(g){
+      var pushed = false, tries = 0;
+      while(!pushed && tries < 8){
+        var q = null;
+        try { q = g(L, ctx); } catch(e) { q = null; }
+        pushed = tryPush(q); tries++;
+      }
+    });
+  }
+  var guard = 0;
+  while(qs.length < 60 && guard < 800){
+    var g2 = GENERATORS[Math.floor(Math.random() * 30)];
+    var q2 = null;
+    try { q2 = g2(L, ctx); } catch(e) { q2 = null; }
+    tryPush(q2); guard++;
+  }
+  return qs.slice(0, 60);
+}
+function getLetterQuestions(L){
+  var p = getProgress(L.l);
+  if(p.questions && p.questions.length === 60) return p.questions;
+  var fresh = buildLetterQuestionsFresh(L);
+  p.questions = fresh; saveState();
+  return fresh;
+}
+
+/* =========================================================
+   5) الحالة والتخزين + معيار الإتقان
+   ========================================================= */
+var STORAGE_KEY = 'arabic_letters_journey_v2';
+var OLD_STORAGE_KEY = 'arabic_letters_journey_v1';
+
+var state = {
+  version: 2,
+  studentName: '', points: 0, stars: 0,
+  soundOn: true, timerOn: false,
+  fullExamCompleted: false, fullExamBest: null,
+  letters: {}, examResult: null
+};
+
+function isMastered(p){
+  var quizOk = (p.quizBest || 0) >= 10;
+  var actOk = (p.completedCount || 0) >= 30;
+  return quizOk && actOk;
+}
+
+function migrateFromOld(oldRaw){
+  try{
+    var old = JSON.parse(oldRaw);
+    var ns = Object.assign({}, state);
+    ns.studentName = old.studentName || '';
+    ns.points = old.points || 0;
+    ns.stars = old.stars || 0;
+    ns.examResult = old.examResult || null;
+    if(old.letters){
+      for(var ch in old.letters){
+        var op = old.letters[ch];
+        ns.letters[ch] = {
+          done: op.done || 0,
+          completedCount: Math.min(op.done || 0, 60),
+          correct: op.correct || 0, wrong: op.wrong || 0,
+          completed: op.completed || false, quizBest: op.quizBest || 0,
+          questions: null, currentIdx: 0, answers: {}, review: []
+        };
+      }
+    }
+    return ns;
+  }catch(e){ return null; }
+}
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){
+      var oldRaw = localStorage.getItem(OLD_STORAGE_KEY);
+      if(oldRaw){
+        var migrated = migrateFromOld(oldRaw);
+        if(migrated){ state = migrated; saveState(); return; }
+      }
+    }
+    if(raw){
+      var p = JSON.parse(raw);
+      Object.assign(state, p);
+      if(!state.letters) state.letters = {};
+      if(typeof state.soundOn !== 'boolean') state.soundOn = true;
+      if(typeof state.timerOn !== 'boolean') state.timerOn = false;
+      if(typeof state.fullExamCompleted !== 'boolean') state.fullExamCompleted = false;
+    }
+  }catch(e){}
+}
+function saveState(){
+  try{
+    if(typeof localStorage === 'undefined') return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }catch(e){}
+}
+
+function getProgress(ch){
+  if(!state.letters[ch]) state.letters[ch] = {
+    done:0, completedCount:0, currentIdx:0,
+    correct:0, wrong:0, completed:false, quizBest:0,
+    questions:null, answers:{}, review:[]
+  };
+  var p = state.letters[ch];
+  if(typeof p.completedCount !== 'number'){
+    if(p.answers && Object.keys(p.answers).length > 0){
+      p.completedCount = Object.values(p.answers)
+        .filter(function(a){ return a && a.done && !a.skipped; }).length;
+    } else {
+      p.completedCount = Math.min(p.done || 0, 60);
+    }
+    saveState();
+  }
+  if(typeof p.currentIdx !== 'number') p.currentIdx = 0;
+  return p;
+}
+function studentName(){ return state.studentName || 'مبدع'; }
+
+/* =========================================================
+   6) النطق + الأصوات
+   ========================================================= */
+var arabicVoice = null;
+function refreshVoices(){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    var voices = speechSynthesis.getVoices();
+    arabicVoice = voices.find(function(v){ return v.lang && v.lang.toLowerCase().indexOf('ar') === 0; }) || null;
+  }catch(e){}
+}
+if('speechSynthesis' in window){
+  refreshVoices();
+  speechSynthesis.onvoiceschanged = refreshVoices;
+}
+function speak(text, btn){
+  if(!text || !('speechSynthesis' in window)){
+    if(btn) restoreBtn(btn, false); return;
+  }
+  try{
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(String(text));
+    u.lang = 'ar-SA'; u.rate = 0.8; u.pitch = 1.1;
+    if(arabicVoice) u.voice = arabicVoice;
+    if(btn){
+      if(!btn.dataset.origText) btn.dataset.origText = btn.innerHTML;
+      btn.innerHTML = '🔊 جارٍ الاستماع...';
+      btn.disabled = true;
+      u.onend = function(){ restoreBtn(btn, true); };
+      u.onerror = function(){ restoreBtn(btn, true); };
+    }
+    speechSynthesis.speak(u);
+  }catch(e){ if(btn) restoreBtn(btn, false); }
+}
+function restoreBtn(btn, ok){
+  setTimeout(function(){
+    btn.innerHTML = btn.dataset.origText || '🔊 استمع';
+    btn.disabled = false;
+  }, ok ? 250 : 0);
+}
+function autoSpeak(text){ setTimeout(function(){ speak(text); }, 350); }
+
+var audioCtx = null;
+function ensureAudio(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+  }
+  return audioCtx;
+}
+function playTones(freqs, dur){
+  if(!state.soundOn) return;
+  var ac = ensureAudio();
+  if(!ac) return;
+  try{
+    var now = ac.currentTime;
+    freqs.forEach(function(f, i){
+      var osc = ac.createOscillator();
+      var gain = ac.createGain();
+      osc.type = 'sine'; osc.frequency.value = f;
+      var t = now + i * 0.11;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.18, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.connect(gain).connect(ac.destination);
+      osc.start(t); osc.stop(t + dur + 0.02);
+    });
+  }catch(e){}
+}
+function playSuccess(){ playTones([523.25, 659.25, 783.99], 0.18); }
+function playClick(){ playTones([440], 0.06); }
+
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function tryReadAloud(target){
+  if(!SR){ alert('الميزة غير متوفرة في هذا المتصفح، لكن يمكنك الاستماع للكلمة 🔊'); return; }
+  var rec = new SR();
+  rec.lang = 'ar-SA'; rec.interimResults = false; rec.maxAlternatives = 3;
+  var finished = false;
+  rec.onresult = function(ev){
+    finished = true;
+    var heard = ev.results[0][0].transcript || '';
+    var a = norm(heard), b = norm(target);
+    if(a.indexOf(b) !== -1 || b.indexOf(a) !== -1){
+      alert('أحسنت يا ' + studentName() + '! 🎉 قراءتك رائعة');
+      state.points += 2; saveState();
+    } else {
+      alert('سمعتُ: ' + heard + '\nحاول مرة أخرى يا ' + studentName() + ' 😊');
+    }
+  };
+  rec.onerror = function(){ if(!finished) alert('لم أستطع السماع جيدًا، حاول مرة أخرى 😊'); };
+  try{ rec.start(); }catch(e){ alert('تعذّر تشغيل الميكروفون.'); }
+}
+
+/* =========================================================
+   7) التنقل بين الشاشات
+   ========================================================= */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  var el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* =========================================================
+   8) شاشة الاسم (اختيارية)
+   ========================================================= */
+var nameInput = document.getElementById('nameInput');
+var nameErr = document.getElementById('nameErr');
+var nameSub = document.getElementById('nameSub');
+var startJourneyBtn = document.getElementById('startJourneyBtn');
+var skipNameBtn = document.getElementById('skipNameBtn');
+
+function initNameScreen(){
+  if(state.studentName){
+    nameSub.textContent = 'مرحبًا بعودتك يا ' + state.studentName + ' 🌟';
+    nameInput.value = state.studentName;
+    startJourneyBtn.textContent = '🚀 تابع رحلتي';
+  } else {
+    nameSub.textContent = 'اكتب اسمك إن أحببت (اختياري)';
+    startJourneyBtn.textContent = '🚀 ابدأ رحلتي';
+  }
+}
+
+/* الاسم اختياري — الانتقال يحدث دائمًا */
+function defaultName(){ return 'مبدع'; }
+
+function goHomeFromName(){
+  var v = (nameInput.value || '').trim();
+  state.studentName = v || defaultName();
+  saveState();
+  openHome();
+}
+
+/* ربط زر البدء بكل طرق اللمس */
+startJourneyBtn.addEventListener('click', goHomeFromName);
+startJourneyBtn.addEventListener('touchend', function(e){
+  e.preventDefault();
+  goHomeFromName();
+}, {passive: false});
+
+/* زر الدخول السريع */
+if(skipNameBtn){
+  skipNameBtn.addEventListener('click', function(){
+    nameInput.value = '';
+    goHomeFromName();
+  });
+  skipNameBtn.addEventListener('touchend', function(e){
+    e.preventDefault();
+    nameInput.value = '';
+    goHomeFromName();
+  }, {passive: false});
+}
+
+/* Enter في لوحة المفاتيح */
+nameInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){ e.preventDefault(); goHomeFromName(); }
+});
+
+document.getElementById('changeNameBtn').addEventListener('click', function(){
+  nameInput.value = state.studentName;
+  nameSub.textContent = 'اكتب اسمك إن أحببت (اختياري)';
+  showScreen('nameScreen');
+});
+document.getElementById('homeBtn').addEventListener('click', function(){
+  document.querySelectorAll('.tabs').forEach(function(t){ t.style.display = ''; });
+  openHome();
+});
+document.getElementById('certHomeBtn').addEventListener('click', openHome);
+document.getElementById('reportHomeBtn').addEventListener('click', openHome);
+
+/* =========================================================
+   9) الشاشة الرئيسية + المراجعة الذكية
+   ========================================================= */
+var lettersGrid = document.getElementById('lettersGrid');
+
+function openHome(){ renderHome(); showScreen('homeScreen'); }
+
+function renderHome(){
+  document.getElementById('whoLabel').textContent = '👋 مرحبًا يا ' + studentName();
+  document.getElementById('pointsPill').textContent = '⭐ ' + state.points;
+  document.getElementById('starsPill').textContent = '🌟 ' + state.stars;
+  document.getElementById('soundToggleBtn').textContent = state.soundOn ? '🔊 الأصوات' : '🔇 الأصوات';
+
+  lettersGrid.innerHTML = LETTERS.map(function(L){
+    var p = getProgress(L.l);
+    var done = Math.min(p.completedCount || 0, 60);
+    var pct = Math.round(done / 60 * 100);
+    return '<div class="letter-card" data-ch="' + L.l + '">' +
+      (p.completed ? '<div class="card-star">⭐</div>' : '') +
+      '<div class="letter-big">' + L.l + '</div>' +
+      '<div class="letter-name">' + L.n + '</div>' +
+      '<div class="progress-bar small"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="card-progress-text">' + done + ' / 60</div>' +
+      '<button class="btn btn-start">ابدأ</button></div>';
+  }).join('');
+
+  lettersGrid.querySelectorAll('.letter-card').forEach(function(card){
+    card.addEventListener('click', function(){ openLetter(card.dataset.ch); });
+  });
+
+  renderJourney();
+  renderSmartReview();
+}
+
+function renderJourney(){
+  var completed = LETTERS.filter(function(L){ return getProgress(L.l).completed; }).length;
+  var pct = Math.round(completed / 28 * 100);
+  var fill = document.getElementById('journeyFill');
+  var emoji = document.getElementById('journeyEmoji');
+  var text = document.getElementById('journeyText');
+  fill.style.width = pct + '%';
+  emoji.style.right = pct + '%';
+  if(completed === 0){
+    text.textContent = 'لم تبدأ الرحلة بعد — اختر حرفًا لتبدأ! 🚶';
+    emoji.textContent = '🚶';
+  } else if(completed >= 28){
+    text.textContent = '🎉 رائع! أتممت 28 من 28 حرفًا ⭐';
+    emoji.textContent = '🏆';
+  } else {
+    text.textContent = 'أتممت ' + completed + ' من 28 حرفًا ⭐';
+    emoji.textContent = '🧗';
+  }
+}
+
+function getWeakLetters(){
+  var weak = [];
+  LETTERS.forEach(function(L){
+    var p = getProgress(L.l);
+    var hasReview = (p.review && p.review.length > 0);
+    var manyWrong = (p.wrong || 0) >= 5;
+    if((hasReview || manyWrong) && !p.completed){
+      var revLen = (p.review && p.review.length) ? p.review.length : 0;
+      weak.push({ L: L, p: p, score: revLen * 2 + (p.wrong || 0) });
+    }
+  });
+  weak.sort(function(a, b){ return b.score - a.score; });
+  return weak;
+}
+
+function renderSmartReview(){
+  var bar = document.getElementById('smartReviewBar');
+  var weak = getWeakLetters();
+  if(weak.length === 0){ bar.classList.remove('show'); return; }
+  bar.classList.add('show');
+  var names = weak.slice(0, 3).map(function(w){ return w.L.n; }).join(' و');
+  document.getElementById('smartReviewText').textContent =
+    'لاحظنا حاجة للمراجعة في: ' + names + (weak.length > 3 ? ' وغيرها' : '') + '. هيا نتقنها معًا! 💪';
+}
+
+document.getElementById('smartReviewBtn').addEventListener('click', startSmartReview);
+var smartReviewSession = null;
+
+function startSmartReview(){
+  var weak = getWeakLetters();
+  if(weak.length === 0){ alert('لا توجد حروف للمراجعة الآن، أحسنت! 🌟'); return; }
+  var pool = [];
+  weak.slice(0, 4).forEach(function(item){
+    var L = item.L, p = item.p;
+    var bank = getLetterQuestions(L);
+    var wrongIdx = {};
+    (p.review || []).forEach(function(i){ wrongIdx[i] = true; });
+    Object.keys(wrongIdx).forEach(function(i){
+      if(bank[i]) pool.push({ L: L, q: bank[i], fromError: true });
+    });
+    var rest = bank.filter(function(_, i){ return !wrongIdx[i]; });
+    shuffle(rest).slice(0, 3).forEach(function(q){ pool.push({ L: L, q: q, fromError: false }); });
+  });
+  smartReviewSession = { items: shuffle(pool).slice(0, 12), index: 0, score: 0 };
+  showScreen('letterScreen');
+  document.getElementById('tabsBar').style.display = 'none';
+  document.getElementById('letterNav').style.display = 'none';
+  document.getElementById('letterTitle').textContent = '🔄 المراجعة الذكية';
+  renderSmartReviewQuestion();
+}
+
+function renderSmartReviewQuestion(){
+  var s = smartReviewSession;
+  if(!s || s.index >= s.items.length){ finishSmartReview(); return; }
+  var item = s.items[s.index];
+  var q = item.q;
+  var card = document.getElementById('tabContent');
+  card.innerHTML =
+    '<div class="act-top">' +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round(s.index / s.items.length * 100) + '%"></div></div>' +
+      '<div class="act-counter">مراجعة ' + (s.index + 1) + ' من ' + s.items.length +
+        ' — حرف ' + item.L.n + (item.fromError ? ' ⚠️ (سؤال سابق)' : '') + '</div>' +
+    '</div>' +
+    '<div class="q-card" id="srCard">' + questionHTML(q, 'sr') + '</div>' +
+    '<div style="text-align:center;margin-top:12px;">' +
+      '<button type="button" class="btn" id="exitSRBtn" style="background:#ef9a9a;box-shadow:0 5px 0 #c62828;">🚪 إنهاء المراجعة</button>' +
+    '</div>';
+
+  document.getElementById('exitSRBtn').addEventListener('click', function(){
+    document.getElementById('tabsBar').style.display = '';
+    document.getElementById('letterNav').style.display = '';
+    openHome();
+  });
+
+  wireSay(card);
+  var qCard = document.getElementById('srCard');
+
+  if(q.type === 'order'){
+    s.orderBuild = [];
+    qCard.querySelectorAll('.opt-btn.order-letter').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(btn.disabled) return;
+        btn.disabled = true;
+        s.orderBuild.push(btn.dataset.val);
+        var bb = document.getElementById('srbuild');
+        if(bb) bb.textContent = s.orderBuild.join(' ');
+        if(s.orderBuild.length === q.answer.length){
+          var ok = s.orderBuild.join('') === q.answer;
+          if(ok){ s.score++; state.points++; playSuccess(); }
+          qCard.querySelectorAll('.opt-btn').forEach(function(b){ b.disabled = true; });
+          var fb = document.getElementById('srfb');
+          fb.textContent = ok ? ('أحسنت يا ' + studentName() + '! 🎉') : ('الإجابة الصحيحة: ' + q.answer + ' 💡');
+          fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+          if(ok && item.fromError){
+            var p = getProgress(item.L.l);
+            if(p.review && p.questions){
+              var origIdx = p.questions.findIndex(function(x){ return questionSignature(x) === questionSignature(q); });
+              if(origIdx > -1) p.review = p.review.filter(function(i){ return i !== origIdx; });
+              saveState();
+            }
+          }
+          srNextButton();
+        }
+      });
+    });
+  } else {
+    qCard.querySelectorAll('.opt-btn[data-val]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(btn.disabled) return;
+        qCard.querySelectorAll('.opt-btn').forEach(function(b){ b.disabled = true; });
+        var ok = (btn.dataset.val === q.answer);
+        if(ok){ s.score++; state.points++; playSuccess(); }
+        qCard.querySelectorAll('.opt-btn').forEach(function(b){
+          if(b.dataset.val === q.answer) b.classList.add('correct');
+          else if(b === btn) b.classList.add('wrong');
+        });
+        var fb = document.getElementById('srfb');
+        fb.textContent = ok ? ('أحسنت يا ' + studentName() + '! 🎉') : ('الإجابة الصحيحة: ' + q.answer + ' 💡');
+        fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+        saveState();
+        if(ok && item.fromError){
+          var p = getProgress(item.L.l);
+          if(p.review && p.questions){
+            var origIdx = p.questions.findIndex(function(x){ return questionSignature(x) === questionSignature(q); });
+            if(origIdx > -1) p.review = p.review.filter(function(i){ return i !== origIdx; });
+            saveState();
+          }
+        }
+        srNextButton();
+      });
+    });
+  }
+  if(q.autoSpeak) autoSpeak(q.autoSpeak);
+}
+
+function srNextButton(){
+  var wrap = document.getElementById('srnext');
+  if(!wrap) return;
+  var isLast = smartReviewSession.index >= smartReviewSession.items.length - 1;
+  wrap.innerHTML = '<button class="btn btn-main" id="srNextBtn">' +
+    (isLast ? '🏁 إنهاء المراجعة' : 'التالي ➡') + '</button>';
+  document.getElementById('srNextBtn').addEventListener('click', function(){
+    smartReviewSession.index++; renderSmartReviewQuestion();
+  });
+}
+function finishSmartReview(){
+  var s = smartReviewSession;
+  document.getElementById('tabContent').innerHTML =
+    '<div class="result-card">' +
+      '<div class="result-emoji">🌟</div>' +
+      '<h3>أتممت المراجعة الذكية!</h3>' +
+      '<div class="result-score">' + s.score + ' / ' + s.items.length + '</div>' +
+      '<p>أحسنت يا ' + studentName() + '، استمر في التدريب!</p>' +
+      '<button class="btn" id="srHomeBtn">🏠 جميع الحروف</button>' +
+    '</div>';
+  document.getElementById('tabsBar').style.display = '';
+  document.getElementById('letterNav').style.display = '';
+  document.getElementById('srHomeBtn').addEventListener('click', openHome);
+}
+
+document.getElementById('soundToggleBtn').addEventListener('click', function(){
+  state.soundOn = !state.soundOn; saveState();
+  document.getElementById('soundToggleBtn').textContent = state.soundOn ? '🔊 الأصوات' : '🔇 الأصوات';
+  if(state.soundOn) playClick();
+});
+
+/* =========================================================
+   10) شاشة الحرف
+   ========================================================= */
+var currentLetter = null;
+var currentTab = 'learn';
+
+function openLetter(ch){
+  currentLetter = LETTER_BY_CHAR[ch];
+  if(!currentLetter) return;
+  document.getElementById('letterTitle').textContent = 'رحلتي الممتعة مع حرف ' + currentLetter.n;
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab === 'learn'); });
+  currentTab = 'learn';
+  document.getElementById('tabsBar').style.display = '';
+  document.getElementById('letterNav').style.display = '';
+  showScreen('letterScreen');
+  renderTab();
+  setTimeout(function(){ try { speak(currentLetter.say); } catch(e){} }, 500);
+}
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    currentTab = t.dataset.tab;
+    renderTab();
+  });
+});
+function letterIndex(){ return LETTERS.findIndex(function(x){ return x.l === currentLetter.l; }); }
+document.getElementById('prevBtn').addEventListener('click', function(){
+  var i = letterIndex();
+  openLetter(LETTERS[(i - 1 + LETTERS.length) % LETTERS.length].l);
+});
+document.getElementById('nextBtn').addEventListener('click', function(){
+  var i = letterIndex();
+  openLetter(LETTERS[(i + 1) % LETTERS.length].l);
+});
+function renderTab(){
+  var box = document.getElementById('tabContent');
+  if(currentTab === 'learn') renderLearn(box);
+  else if(currentTab === 'write') renderWrite(box);
+  else if(currentTab === 'act') startActivities();
+  else renderQuizTab(box);
+}
+
+function renderLearn(box){
+  var L = currentLetter;
+  var forms = [
+    {k:'منفصل', v:L.f[0]}, {k:'أول الكلمة', v:L.f[1]},
+    {k:'وسط الكلمة', v:L.f[2]}, {k:'آخر الكلمة', v:L.f[3]}
+  ];
+  var html = '<div class="letter-hero">' +
+    '<div class="hero-letter">' + L.l + '</div>' +
+    '<div class="hero-name">' + L.n + '</div>' +
+    '<div class="hero-btns">' +
+      '<button class="btn btn-audio js-say" data-say="' + L.say + '">🔊 اسم الحرف</button>' +
+      '<button class="btn btn-audio js-say" data-say="' + L.l + '">🔊 صوت الحرف</button>' +
+      '<button class="btn btn-audio js-say" data-say="' + L.say + '">🔁 استمع مرة أخرى</button>' +
+    '</div></div>';
+  html += '<h3 class="sec-title">✋ الحركات</h3><div class="tiles">';
+  L.harakat.forEach(function(h){
+    html += '<div class="tile js-say" data-say="' + h.t + '"><div class="tile-big">' + h.t + '</div><div class="tile-sm">' + h.name + '</div></div>';
+  });
+  html += '</div>';
+  html += '<h3 class="sec-title">📏 المدود</h3><div class="tiles">';
+  L.madd.forEach(function(m){
+    html += '<div class="tile js-say" data-say="' + m.t + '"><div class="tile-big">' + m.t + '</div><div class="tile-sm">' + m.name + '</div></div>';
+  });
+  html += '</div>';
+  html += '<h3 class="sec-title">✍️ أشكال الحرف</h3><div class="tiles">';
+  forms.forEach(function(f){
+    html += '<div class="tile"><div class="tile-big">' + f.v + '</div><div class="tile-sm">' + f.k + '</div></div>';
+  });
+  html += '</div>';
+  html += '<h3 class="sec-title">📚 كلمات حرف ' + L.n + '</h3><div class="words-grid">';
+  L.allPool.forEach(function(w){
+    html += '<div class="word-card">' +
+      '<div class="word-emoji">' + (w.e || '📖') + '</div>' +
+      '<div class="word-text">' + w.w + '</div>' +
+      '<button class="icon-btn js-say" data-say="' + w.w + '">🔊</button>' +
+      '<button class="icon-btn js-read" data-target="' + w.w + '">🎤</button></div>';
+  });
+  html += '</div>';
+  box.innerHTML = html;
+  wireSay(box);
+}
+
+function wireSay(scope){
+  scope.querySelectorAll('.js-say').forEach(function(el){
+    el.addEventListener('click', function(){ speak(el.dataset.say, el); });
+  });
+  scope.querySelectorAll('.js-read').forEach(function(el){
+    el.addEventListener('click', function(){ tryReadAloud(el.dataset.target); });
+  });
+}
+
+/* =========================================================
+   11) تبويب الكتابة — 4 مستويات
+   ========================================================= */
+var writeState = {
+  canvas: null, ctx: null, drawing: false,
+  color: '#2f6fed', letter: null, level: 3
+};
+
+function renderWrite(box){
+  var L = currentLetter;
+  writeState.letter = L;
+  writeState.color = '#2f6fed';
+  writeState.level = 3;
+
+  box.innerHTML =
+    '<div class="write-wrap">' +
+      '<h3 class="sec-title" style="margin-top:0;">✍️ تعلّم كتابة حرف ' + L.n + '</h3>' +
+      '<p class="write-hint">اختر مستوى التدريب ثم اتبع الإرشاد:</p>' +
+      '<div class="write-tools" id="levelBar">' +
+        '<button type="button" class="btn level-btn" data-level="1">1️⃣ تتبّع منقّط</button>' +
+        '<button type="button" class="btn level-btn" data-level="2">2️⃣ أسهم إرشادية</button>' +
+        '<button type="button" class="btn level-btn active" data-level="3">3️⃣ حرف باهت</button>' +
+        '<button type="button" class="btn level-btn" data-level="4">4️⃣ كتابة حرّة</button>' +
+      '</div>' +
+      '<div class="canvas-box"><canvas id="writeCanvas" width="720" height="420"></canvas></div>' +
+      '<div class="write-tools">' +
+        '<span style="align-self:center;color:#607d8b;font-weight:700;">اللون:</span>' +
+        '<div class="color-dot sel" data-color="#2f6fed" style="background:#2f6fed;"></div>' +
+        '<div class="color-dot" data-color="#e53935" style="background:#e53935;"></div>' +
+        '<div class="color-dot" data-color="#43a047" style="background:#43a047;"></div>' +
+        '<div class="color-dot" data-color="#8e24aa" style="background:#8e24aa;"></div>' +
+        '<div class="color-dot" data-color="#fb8c00" style="background:#fb8c00;"></div>' +
+      '</div>' +
+      '<div class="write-tools">' +
+        '<button class="btn btn-audio" id="clearCanvasBtn">🧽 امسح</button>' +
+        '<button class="btn btn-audio" id="resetCanvasBtn">🔁 إعادة</button>' +
+        '<button class="btn btn-audio js-say" data-say="' + L.say + '">🔊 اسم الحرف</button>' +
+        '<button class="btn btn-audio js-say" data-say="' + L.l + '">🔊 صوت الحرف</button>' +
+      '</div>' +
+      '<div class="write-hint" id="writeMsg">💡 اكتب فوق الحرف الباهت</div>' +
+    '</div>';
+
+  var canvas = document.getElementById('writeCanvas');
+  writeState.canvas = canvas;
+  writeState.ctx = canvas.getContext('2d');
+  drawGuide(canvas, L.l, writeState.level);
+
+  box.querySelectorAll('.level-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      box.querySelectorAll('.level-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      writeState.level = parseInt(btn.dataset.level, 10);
+      var msg = document.getElementById('writeMsg');
+      var hints = {
+        1: '👆 تتبّع النقاط لتتعلم المسار',
+        2: '➡️ ابدأ من النقطة الحمراء واتبع السهم',
+        3: '💡 اكتب فوق الحرف الباهت',
+        4: '✍️ اكتب الحرف بنفسك دون مساعدة'
+      };
+      if(msg) msg.textContent = hints[writeState.level] || '✏️ ابدأ الكتابة';
+      drawGuide(canvas, L.l, writeState.level);
+    });
+  });
+
+  canvas.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    var r = canvas.getBoundingClientRect();
+    var x = (e.clientX - r.left) * (canvas.width / r.width);
+    var y = (e.clientY - r.top) * (canvas.height / r.height);
+    writeState.drawing = true;
+    writeState.ctx.strokeStyle = writeState.color;
+    writeState.ctx.lineWidth = 14;
+    writeState.ctx.lineCap = 'round';
+    writeState.ctx.lineJoin = 'round';
+    writeState.ctx.beginPath();
+    writeState.ctx.moveTo(x, y);
+    try{ canvas.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  canvas.addEventListener('pointermove', function(e){
+    if(!writeState.drawing) return;
+    e.preventDefault();
+    var r = canvas.getBoundingClientRect();
+    var x = (e.clientX - r.left) * (canvas.width / r.width);
+    var y = (e.clientY - r.top) * (canvas.height / r.height);
+    writeState.ctx.lineTo(x, y);
+    writeState.ctx.stroke();
+  });
+  var stop = function(){
+    if(writeState.drawing){
+      writeState.drawing = false;
+      try{ writeState.ctx.closePath(); }catch(_){}
+    }
+  };
+  canvas.addEventListener('pointerup', stop);
+  canvas.addEventListener('pointercancel', stop);
+  canvas.addEventListener('pointerleave', stop);
+
+  box.querySelectorAll('.color-dot').forEach(function(dot){
+    dot.addEventListener('click', function(){
+      box.querySelectorAll('.color-dot').forEach(function(d){ d.classList.remove('sel'); });
+      dot.classList.add('sel');
+      writeState.color = dot.dataset.color;
+    });
+  });
+
+  document.getElementById('clearCanvasBtn').addEventListener('click', function(){
+    drawGuide(canvas, L.l, writeState.level);
+    document.getElementById('writeMsg').textContent = '✏️ جاهز للكتابة من جديد';
+  });
+  document.getElementById('resetCanvasBtn').addEventListener('click', function(){
+    drawGuide(canvas, L.l, writeState.level);
+    document.getElementById('writeMsg').textContent = '✏️ ابدأ الكتابة الآن';
+  });
+  wireSay(box);
+}
+
+function initCanvas(canvas, letter, level){
+  writeState.canvas = canvas;
+  writeState.ctx = canvas.getContext('2d');
+  drawGuide(canvas, letter, level || 3);
+}
+
+function drawGuide(canvas, letter, level){
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  var cx = canvas.width / 2;
+  var cy = canvas.height / 2 + 6;
+  var fontSize = canvas.height * 0.72;
+
+  if(level === 1){
+    ctx.save();
+    ctx.font = fontSize + 'px Amiri, "Traditional Arabic", serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#f5f8fc';
+    ctx.fillText(letter, cx, cy);
+    ctx.strokeStyle = '#b8c8e0';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8, 6]);
+    ctx.strokeText(letter, cx, cy);
+    ctx.setLineDash([]);
+    ctx.restore();
+
+  } else if(level === 2){
+    ctx.save();
+    ctx.font = fontSize + 'px Amiri, "Traditional Arabic", serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#d6dfea';
+    ctx.fillText(letter, cx, cy);
+
+    var startX = cx + fontSize * 0.32;
+    var startY = cy - fontSize * 0.30;
+    ctx.beginPath();
+    ctx.fillStyle = '#ff5252';
+    ctx.arc(startX, startY, 12, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 16px Amiri, serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('١', startX, startY);
+
+    var tipX = cx + fontSize * 0.05;
+    var tipY = cy - fontSize * 0.05;
+    ctx.strokeStyle = '#ff8a65';
+    ctx.fillStyle = '#ff8a65';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(startX - 10, startY + 14);
+    ctx.lineTo(tipX, tipY);
+    ctx.stroke();
+    var angle = Math.atan2(tipY - (startY + 14), tipX - (startX - 10));
+    var headLen = 16;
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(tipX - headLen * Math.cos(angle - Math.PI/6), tipY - headLen * Math.sin(angle - Math.PI/6));
+    ctx.lineTo(tipX - headLen * Math.cos(angle + Math.PI/6), tipY - headLen * Math.sin(angle + Math.PI/6));
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+  } else if(level === 3){
+    ctx.save();
+    ctx.font = fontSize + 'px Amiri, "Traditional Arabic", serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#e8eef8';
+    ctx.fillText(letter, cx, cy);
+    ctx.restore();
+
+  } else {
+    ctx.save();
+    ctx.strokeStyle = '#e0e8f5';
+    ctx.lineWidth = 3;
+    ctx.setLineDash([14, 10]);
+    ctx.beginPath();
+    ctx.moveTo(30, cy + fontSize * 0.15);
+    ctx.lineTo(canvas.width - 30, cy + fontSize * 0.15);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+}
+
+/* =========================================================
+   12) تبويب الأنشطة (60 نشاطًا)
+   ========================================================= */
+var act = null;
+
+function startActivities(){
+  var L = currentLetter;
+  var bank = getLetterQuestions(L);
+  var p = getProgress(L.l);
+  act = {
+    questions: bank,
+    index: Math.min(p.currentIdx || 0, bank.length - 1),
+    attempts: 0, answered: false, orderBuild: []
+  };
+  renderActShell();
+  renderQuestion();
+}
+
+function renderActShell(){
+  document.getElementById('tabContent').innerHTML =
+    '<div class="act-top">' +
+      '<div class="progress-bar"><div class="progress-fill" id="actFill" style="width:0%"></div></div>' +
+      '<div class="act-counter" id="actCounter"></div>' +
+    '</div>' +
+    '<div class="q-card" id="actCard"></div>';
+}
+function updateActProgress(){
+  var pct = Math.round((act.index) / act.questions.length * 100);
+  var fill = document.getElementById('actFill');
+  var counter = document.getElementById('actCounter');
+  if(fill) fill.style.width = pct + '%';
+  if(counter) counter.textContent = 'السؤال ' + (act.index + 1) + ' من ' + act.questions.length;
+}
+
+function questionHTML(q, prefix){
+  var html = '<div class="q-big">';
+  if(q.big){
+    if(q.big.emoji) html += '<div class="q-emoji">' + q.big.emoji + '</div>';
+    if(q.big.text) html += '<div class="q-big-text">' + q.big.text + '</div>';
+  }
+  html += '</div>';
+  html += '<div class="q-prompt">' + q.prompt + '</div>';
+  var sayText = q.speakText || q.autoSpeak;
+  if(sayText){
+    html += '<div class="q-audio">' +
+      '<button type="button" class="btn btn-audio js-say" data-say="' + sayText + '">🔊 استمع</button>' +
+      '<button type="button" class="btn btn-audio js-say" data-say="' + sayText + '">🔁 استمع مرة أخرى</button>' +
+    '</div>';
+  }
+  if(q.type === 'order'){
+    html += '<div class="order-build" id="' + prefix + 'build"></div>';
+    html += '<div class="options-grid" id="' + prefix + 'opts">' +
+      q.letters.map(function(c){ return '<button type="button" class="opt-btn order-letter" data-val="' + c + '">' + c + '</button>'; }).join('') +
+    '</div>';
+  } else {
+    html += '<div class="options-grid ' + (q.grid ? 'grid-6' : '') + '">' +
+      q.options.map(function(o){
+        var oo = (typeof o === 'string') ? {t:o, e:''} : o;
+        return '<button type="button" class="opt-btn" data-val="' + oo.t + '">' +
+          (oo.e ? '<span class="opt-emoji">' + oo.e + '</span>' : '') +
+          '<span class="opt-text">' + oo.t + '</span></button>';
+      }).join('') +
+    '</div>';
+  }
+  html += '<div class="feedback" id="' + prefix + 'fb"></div>';
+  html += '<div class="next-wrap" id="' + prefix + 'next"></div>';
+  html += '<div class="skip-box" id="' + prefix + 'skip"></div>';
+  return html;
+}
+
+function getActNavHTML(idx, total){
+  var isFirst = idx <= 0;
+  var isLast = idx >= total - 1;
+  return '<div class="act-nav-bar">' +
+    '<button type="button" class="act-nav-btn" id="actPrevBtn"' + (isFirst ? ' disabled' : '') + '>⬅ السابق</button>' +
+    '<button type="button" class="act-nav-btn home" id="actHomeBtn">🏠 جميع الحروف</button>' +
+    '<button type="button" class="act-nav-btn finish" id="actFinishBtn">🏁 إنهاء ورجوع</button>' +
+    '<button type="button" class="act-nav-btn" id="actNextBtn"' + (isLast ? ' disabled' : '') + '>التالي ➡</button>' +
+  '</div>';
+}
+
+function renderQuestion(){
+  if(act.index >= act.questions.length){ finishActivities(); return; }
+  var q = act.questions[act.index];
+  var p = getProgress(currentLetter.l);
+  var saved = (p.answers || {})[act.index];
+
+  act.attempts = saved ? (saved.done ? 2 : 0) : 0;
+  act.answered = !!saved && !!saved.done;
+  act.orderBuild = [];
+
+  var card = document.getElementById('actCard');
+  card.innerHTML = questionHTML(q, 'act') + getActNavHTML(act.index, act.questions.length);
+  updateActProgress();
+  wireSay(card);
+
+  var prevBtn = document.getElementById('actPrevBtn');
+  var nextBtn = document.getElementById('actNextBtn');
+  var homeBtn = document.getElementById('actHomeBtn');
+  var finishBtn = document.getElementById('actFinishBtn');
+  if(prevBtn) prevBtn.addEventListener('click', function(){
+    if(act.index <= 0) return;
+    act.index--; getProgress(currentLetter.l).currentIdx = act.index; saveState(); renderQuestion();
+  });
+  if(nextBtn) nextBtn.addEventListener('click', function(){
+    if(act.index >= act.questions.length - 1) return;
+    act.index++; getProgress(currentLetter.l).currentIdx = act.index; saveState(); renderQuestion();
+  });
+  if(homeBtn) homeBtn.addEventListener('click', function(){
+    getProgress(currentLetter.l).currentIdx = act.index; saveState(); openHome();
+  });
+  if(finishBtn) finishBtn.addEventListener('click', function(){
+    getProgress(currentLetter.l).currentIdx = act.index; saveState();
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab === 'learn'); });
+    currentTab = 'learn'; renderTab();
+  });
+
+  if(q.type === 'order'){
+    var buildBox = document.getElementById('actbuild');
+    if(buildBox) buildBox.textContent = '';
+    card.querySelectorAll('.opt-btn.order-letter').forEach(function(btn){
+      btn.addEventListener('click', function(){ tapOrderLetter(btn); });
+    });
+  } else {
+    card.querySelectorAll('.opt-btn[data-val]').forEach(function(btn){
+      btn.addEventListener('click', function(){ answerQuestion(btn, btn.dataset.val); });
+    });
+  }
+
+  if(saved && saved.done){
+    card.querySelectorAll('.opt-btn').forEach(function(b){
+      b.disabled = true;
+      if(b.dataset.val === q.answer) b.classList.add('correct');
+      else if(b.dataset.val === saved.chosen) b.classList.add('wrong');
+    });
+    var fb = document.getElementById('actfb');
+    fb.textContent = saved.correct
+      ? 'أحسنت يا ' + studentName() + '! 🎉'
+      : 'الإجابة الصحيحة: ' + q.answer + ' 💡';
+    fb.className = 'feedback ' + (saved.correct ? 'good' : 'bad');
+    showNextButton();
+  } else if(saved && saved.skipped){
+    var fb2 = document.getElementById('actfb');
+    fb2.textContent = 'تم تخطي هذا السؤال سابقًا. لا بأس، حاول الآن 😊';
+    fb2.className = 'feedback';
+  } else if(q.autoSpeak){
+    autoSpeak(q.autoSpeak);
+  }
+}
+
+function renderOrderBuild(buildBox){
+  if(!buildBox) return;
+  buildBox.textContent = act.orderBuild.join(' ');
+}
+
+function tapOrderLetter(btn){
+  if(act.answered || btn.disabled) return;
+  var q = act.questions[act.index];
+  btn.disabled = true;
+  act.orderBuild.push(btn.dataset.val);
+  renderOrderBuild(document.getElementById('actbuild'));
+
+  if(act.orderBuild.length === q.answer.length){
+    var built = act.orderBuild.join('');
+    if(built === q.answer){ handleCorrect(); }
+    else {
+      act.attempts++;
+      addStat('wrong');
+      if(act.attempts >= 2){
+        act.answered = true; revealAnswer();
+        setFeedback('الإجابة الصحيحة: ' + q.answer + ' 💡', false);
+        showNextButton(); showSkipButton();
+      } else {
+        setFeedback('حاول مرة أخرى يا ' + studentName() + ' 😊', false);
+        resetOrder();
+      }
+    }
+  }
+}
+function resetOrder(){
+  act.orderBuild = [];
+  var buildBox = document.getElementById('actbuild');
+  if(buildBox) buildBox.textContent = '';
+  document.querySelectorAll('.opt-btn.order-letter').forEach(function(b){ b.disabled = false; });
+}
+function answerQuestion(btn, val){
+  if(act.answered) return;
+  var q = act.questions[act.index];
+  if(val === q.answer){ handleCorrect(); return; }
+  act.attempts++;
+  btn.disabled = true;
+  btn.classList.add('wrong');
+  if(act.attempts === 1){
+    setFeedback('حاول مرة أخرى يا ' + studentName() + ' 😊', false);
+  } else {
+    act.answered = true; addStat('wrong');
+    revealAnswer();
+    setFeedback('الإجابة الصحيحة: ' + q.answer + ' 💡', false);
+    showNextButton(); showSkipButton();
+  }
+}
+function revealAnswer(){
+  var q = act.questions[act.index];
+  document.querySelectorAll('#actCard .opt-btn').forEach(function(b){
+    b.disabled = true;
+    if(b.dataset.val === q.answer) b.classList.add('correct');
+  });
+}
+function handleCorrect(){
+  act.answered = true;
+  addStat('correct');
+  playSuccess();
+  setFeedback('أحسنت يا ' + studentName() + '! 🎉', true);
+  document.querySelectorAll('#actCard .opt-btn').forEach(function(b){
+    b.disabled = true;
+    if(b.dataset.val === act.questions[act.index].answer) b.classList.add('correct');
+  });
+  showNextButton();
+}
+
+function addStat(kind){
+  var p = getProgress(currentLetter.l);
+  var idx = act.index;
+  if(!p.answers) p.answers = {};
+  var firstTime = !p.answers[idx];
+  if(firstTime){
+    p.answers[idx] = {done:true, correct: kind === 'correct', chosen: act.questions[idx].answer};
+    p.completedCount = Math.min((p.completedCount || 0) + 1, 60);
+    if(kind === 'correct'){
+      p.correct = (p.correct || 0) + 1;
+      state.points += 1;
+    } else {
+      p.wrong = (p.wrong || 0) + 1;
+    }
+  }
+  p.currentIdx = idx;
+  saveState();
+}
+function setFeedback(text, good){
+  var fb = document.getElementById('actfb');
+  if(!fb) return;
+  fb.textContent = text;
+  fb.className = 'feedback ' + (good ? 'good' : 'bad');
+}
+function showNextButton(){
+  var wrap = document.getElementById('actnext');
+  if(!wrap) return;
+  var isLast = act.index >= act.questions.length - 1;
+  wrap.innerHTML = '<button class="btn btn-main" id="nextQBtn">' +
+    (isLast ? '🎉 إنهاء الأنشطة' : 'التالي ➡') + '</button>';
+  document.getElementById('nextQBtn').addEventListener('click', nextQuestion);
+}
+function showSkipButton(){
+  var wrap = document.getElementById('actskip');
+  if(!wrap) return;
+  var p = getProgress(currentLetter.l);
+  if(!p.review) p.review = [];
+  if(p.review.indexOf(act.index) === -1) p.review.push(act.index);
+  saveState();
+  wrap.innerHTML = '<button class="btn" id="skipQBtn">⏭️ تخطي السؤال</button>' +
+    '<div style="font-size:1rem;color:#78909c;margin-top:6px;">لا بأس 😊 يمكنك تخطي هذا السؤال والعودة إليه لاحقًا.</div>';
+  document.getElementById('skipQBtn').addEventListener('click', function(){
+    var pp = getProgress(currentLetter.l);
+    if(!pp.answers) pp.answers = {};
+    pp.answers[act.index] = {done:true, correct:false, chosen:'', skipped:true};
+    pp.currentIdx = act.index;
+    saveState();
+    nextQuestion();
+  });
+}
+function nextQuestion(){
+  act.index++;
+  getProgress(currentLetter.l).currentIdx = act.index;
+  saveState();
+  if(act.index >= act.questions.length){ finishActivities(); return; }
+  renderQuestion();
+}
+
+function finishActivities(){
+  var L = currentLetter;
+  var p = getProgress(L.l);
+  var mastered = isMastered(p);
+  var wasCompleted = p.completed;
+  if(mastered && !wasCompleted){
+    p.completed = true;
+    state.stars++;
+    saveState();
+  } else {
+    saveState();
+  }
+  var cc = p.completedCount || 0;
+
+  document.getElementById('actCard').innerHTML =
+    '<div class="result-card">' +
+      '<div class="result-emoji">🎉</div>' +
+      '<h3>وصلت إلى نهاية أنشطة حرف ' + L.n + '!</h3>' +
+      '<div class="result-score">أحسنت يا ' + studentName() + ' 🌟</div>' +
+      '<p>عدد الأنشطة المكتملة فعليًا: <b>' + cc + ' / 60</b></p>' +
+      (mastered
+        ? '<p>🎊 لقد أتقنت هذا الحرف وحصلت على نجمة ⭐</p>'
+        : (cc >= 30
+            ? '<p>💪 الآن اختبر نفسك في تبويب الاختبار لتحصل على النجمة ⭐<br>تحتاج نتيجة 10/12 على الأقل.</p>'
+            : '<p>💡 أكمل بعض الأنشطة الأخرى، فأنت تحتاج 30 نشاطًا على الأقل + اختبار 10/12 لإتقان الحرف.</p>')) +
+      '<button class="btn btn-purple" id="goQuizBtn">📝 اذهب إلى اختبار الحرف</button>' +
+      '<button class="btn" id="againActBtn">🔁 متابعة الأنشطة</button>' +
+      '<button class="btn" id="actHomeBtn2">🏠 جميع الحروف</button>' +
+    '</div>';
+  document.getElementById('actCounter').textContent = 'أتممت ' + cc + ' من 60 نشاطًا';
+  document.getElementById('actFill').style.width = '100%';
+  document.getElementById('goQuizBtn').addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab === 'quiz'); });
+    currentTab = 'quiz'; renderTab();
+  });
+  document.getElementById('againActBtn').addEventListener('click', function(){
+    var pp = getProgress(currentLetter.l);
+    pp.currentIdx = 0; saveState(); startActivities();
+  });
+  document.getElementById('actHomeBtn2').addEventListener('click', openHome);
+}
+
+/* =========================================================
+   13) تبويب الاختبار
+   ========================================================= */
+var quiz = null;
+
+function renderQuizTab(box){
+  var L = currentLetter;
+  var p = getProgress(L.l);
+  var cc = p.completedCount || 0;
+  box.innerHTML =
+    '<div class="result-card">' +
+      '<div class="result-emoji">📝</div>' +
+      '<h3>اختبار حرف ' + L.n + '</h3>' +
+      '<p>قبل الاختبار، لنقم بمراجعة سريعة 🌟</p>' +
+      '<p style="font-size:1rem;color:#607d8b;">💡 إتقان الحرف يحتاج: نتيجة 10/12 على الأقل + إكمال 30 نشاطًا فعليًا.<br>أنشطتك المكتملة حتى الآن: <b>' + cc + ' / 30</b></p>' +
+      (p.quizBest ? '<p>أفضل نتيجة سابقة: ' + p.quizBest + ' / 12</p>' : '') +
+      '<button class="btn btn-main" id="startQuizBtn">🚀 ابدأ الاختبار</button>' +
+    '</div>';
+  document.getElementById('startQuizBtn').addEventListener('click', showQuickReview);
+}
+
+function showQuickReview(){
+  var L = currentLetter;
+  var sample = shuffle(L.allPool).slice(0, 4);
+  var box = document.getElementById('tabContent');
+  box.innerHTML =
+    '<div class="result-card">' +
+      '<h3 style="color:#00897b;">مراجعة سريعة 🌟</h3>' +
+      '<div class="letter-hero" style="padding:12px;">' +
+        '<div class="hero-letter" style="font-size:4rem;">' + L.l + '</div>' +
+        '<div class="hero-name">' + L.n + '</div>' +
+      '</div>' +
+      '<div class="hero-btns" style="margin-top:6px;">' +
+        '<button class="btn btn-audio js-say" data-say="' + L.say + '">🔊 اسم الحرف</button>' +
+        '<button class="btn btn-audio js-say" data-say="' + L.l + '">🔊 صوت الحرف</button>' +
+      '</div>' +
+      '<div style="margin-top:12px;"><b>الحركات:</b> ' +
+        L.harakat.map(function(h){ return '<span class="js-say" data-say="' + h.t + '" style="font-size:1.6rem;margin:0 6px;cursor:pointer;color:#6a1b9a;">' + h.t + '</span>'; }).join(' ') +
+      '</div>' +
+      '<div style="margin-top:6px;"><b>المدود:</b> ' +
+        L.madd.map(function(m){ return '<span class="js-say" data-say="' + m.t + '" style="font-size:1.6rem;margin:0 6px;cursor:pointer;color:#6a1b9a;">' + m.t + '</span>'; }).join(' ') +
+      '</div>' +
+      '<div style="margin-top:12px;"><b>كلمات:</b></div>' +
+      '<div class="words-grid" style="margin-top:6px;">' +
+        sample.map(function(w){ return '<div class="word-card"><div class="word-emoji">' + (w.e||'📖') + '</div><div class="word-text">' + w.w + '</div><button class="icon-btn js-say" data-say="' + w.w + '">🔊</button></div>'; }).join('') +
+      '</div>' +
+      '<div style="margin-top:16px;">' +
+        '<button class="btn btn-main" id="reviewStartQuizBtn">🚀 ابدأ الاختبار</button>' +
+        '<button class="btn" id="reviewBackBtn">↩ رجوع</button>' +
+      '</div>' +
+    '</div>';
+  wireSay(box);
+  document.getElementById('reviewStartQuizBtn').addEventListener('click', startQuiz);
+  document.getElementById('reviewBackBtn').addEventListener('click', renderTab);
+}
+
+function startQuiz(){
+  var L = currentLetter;
+  var bank = shuffle(getLetterQuestions(L).slice());
+  quiz = { questions: bank.slice(0, 12), index: 0, score: 0, answered: false, attempts: 0 };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+  if(!quiz || quiz.index >= quiz.questions.length){ finishQuiz(); return; }
+  var q = quiz.questions[quiz.index];
+  quiz.answered = false; quiz.attempts = 0;
+  var box = document.getElementById('tabContent');
+  box.innerHTML =
+    '<div class="act-top">' +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round(quiz.index / quiz.questions.length * 100) + '%"></div></div>' +
+      '<div class="act-counter">سؤال ' + (quiz.index + 1) + ' من ' + quiz.questions.length + ' — النتيجة: ' + quiz.score + '</div>' +
+    '</div>' +
+    '<div class="q-card" id="quizCard">' + questionHTML(q, 'quiz') + '</div>';
+  var card = document.getElementById('quizCard');
+  wireSay(card);
+
+  if(q.type === 'order'){
+    quiz.orderBuild = [];
+    card.querySelectorAll('.opt-btn.order-letter').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(quiz.answered || btn.disabled) return;
+        btn.disabled = true;
+        quiz.orderBuild.push(btn.dataset.val);
+        var bb = document.getElementById('quizbuild');
+        if(bb) bb.textContent = quiz.orderBuild.join(' ');
+        if(quiz.orderBuild.length === q.answer.length){
+          var ok = (quiz.orderBuild.join('') === q.answer);
+          if(ok){ quiz.score++; playSuccess(); }
+          quiz.answered = true;
+          var fb = document.getElementById('quizfb');
+          fb.textContent = ok ? ('أحسنت يا ' + studentName() + '! 🎉') : ('الإجابة الصحيحة: ' + q.answer + ' 💡');
+          fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+          quizNextButton();
+        }
+      });
+    });
+  } else {
+    card.querySelectorAll('.opt-btn[data-val]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(quiz.answered) return;
+        quiz.answered = true;
+        var ok = (btn.dataset.val === q.answer);
+        if(ok){ quiz.score++; state.points++; playSuccess(); }
+        card.querySelectorAll('.opt-btn').forEach(function(b){
+          b.disabled = true;
+          if(b.dataset.val === q.answer) b.classList.add('correct');
+          else if(b === btn) b.classList.add('wrong');
+        });
+        var fb = document.getElementById('quizfb');
+        fb.textContent = ok ? ('أحسنت يا ' + studentName() + '! 🎉') : ('الإجابة الصحيحة: ' + q.answer + ' 💡');
+        fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+        saveState();
+        quizNextButton();
+      });
+    });
+  }
+  if(q.autoSpeak) autoSpeak(q.autoSpeak);
+}
+function quizNextButton(){
+  var wrap = document.getElementById('quiznext');
+  if(!wrap) return;
+  var isLast = quiz.index >= quiz.questions.length - 1;
+  wrap.innerHTML = '<button class="btn btn-main" id="quizNextBtn">' +
+    (isLast ? '🏁 إظهار النتيجة' : 'التالي ➡') + '</button>';
+  document.getElementById('quizNextBtn').addEventListener('click', function(){
+    quiz.index++; renderQuizQuestion();
+  });
+}
+
+function finishQuiz(){
+  var L = currentLetter;
+  var p = getProgress(L.l);
+  var total = quiz.questions.length;
+  var score = quiz.score;
+  var passed = score >= Math.ceil(total * 0.7);
+
+  if(score > (p.quizBest || 0)) p.quizBest = score;
+  var mastered = isMastered(p);
+  var wasCompleted = p.completed;
+  p.completed = mastered;
+  if(mastered && !wasCompleted) state.stars++;
+  saveState();
+
+  var cc = p.completedCount || 0;
+  var msg;
+  if(mastered){
+    msg = 'أحسنت يا ' + studentName() + '! لقد أتقنت حرف ' + L.n + ' 🌟';
+  } else if(passed && cc < 30){
+    msg = 'نتيجة ممتازة! لكن تحتاج إكمال ' + (30 - cc) + ' نشاطًا إضافيًا على الأقل لإتقان الحرف 💪';
+  } else if(passed){
+    msg = 'نتيجة جيدة! استمر في التدريب 💪';
+  } else {
+    msg = 'لا بأس يا ' + studentName() + '، حاول مرة أخرى 😊';
+  }
+
+  document.getElementById('tabContent').innerHTML =
+    '<div class="result-card">' +
+      '<div class="result-emoji">' + (mastered ? '🏆' : (passed ? '👍' : '💪')) + '</div>' +
+      '<h3>نتيجة اختبار حرف ' + L.n + '</h3>' +
+      '<div class="result-score">' + score + ' / ' + total + '</div>' +
+      '<p>' + msg + '</p>' +
+      '<button class="btn btn-main" id="retryQuizBtn">🔁 إعادة الاختبار</button>' +
+      '<button class="btn btn-purple" id="nextLetterBtn">➡ الحرف التالي</button>' +
+      '<button class="btn" id="backHomeBtn">🏠 جميع الحروف</button>' +
+    '</div>';
+  document.getElementById('retryQuizBtn').addEventListener('click', startQuiz);
+  document.getElementById('nextLetterBtn').addEventListener('click', function(){
+    var i = letterIndex();
+    openLetter(LETTERS[(i + 1) % LETTERS.length].l);
+  });
+  document.getElementById('backHomeBtn').addEventListener('click', openHome);
+}
+
+/* =========================================================
+   14) الاختبار الشامل
+   ========================================================= */
+var finalExam = null;
+document.getElementById('finalExamBtn').addEventListener('click', function(){
+  if(!confirm('سيبدأ الاختبار الشامل للحروف العربية. هل أنت مستعد؟ 🏆')) return;
+  startFinalExam();
+});
+function buildExamQuestions(count){
+  var qs = []; var used = {}; var guard = 0;
+  while(qs.length < count && guard < 900){
+    var L = randOf(LETTERS);
+    var bank = getLetterQuestions(L);
+    var q = randOf(bank);
+    var sig = q.prompt + '|' + q.answer;
+    if(!used[sig]){ used[sig] = true; qs.push(q); }
+    guard++;
+  }
+  return qs;
+}
+function startFinalExam(){
+  finalExam = { questions: buildExamQuestions(20), index: 0, score: 0, answered: false };
+  showScreen('letterScreen');
+  document.getElementById('tabsBar').style.display = 'none';
+  document.getElementById('letterNav').style.display = 'none';
+  document.getElementById('letterTitle').textContent = '🏆 الاختبار الشامل للحروف العربية';
+  renderExamQuestion();
+}
+function renderExamQuestion(){
+  if(!finalExam || finalExam.index >= finalExam.questions.length){ finishFinalExam(); return; }
+  var q = finalExam.questions[finalExam.index];
+  finalExam.answered = false;
+  var box = document.getElementById('tabContent');
+  box.innerHTML =
+    '<div class="act-top">' +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round(finalExam.index / finalExam.questions.length * 100) + '%"></div></div>' +
+      '<div class="act-counter">سؤال ' + (finalExam.index + 1) + ' من ' + finalExam.questions.length + ' — النتيجة: ' + finalExam.score + '</div>' +
+    '</div>' +
+    '<div class="q-card" id="examCard">' + questionHTML(q, 'exam') + '</div>' +
+    '<div style="text-align:center;margin-top:14px;">' +
+      '<button type="button" class="btn" id="exitExamBtn" style="background:#ef9a9a;box-shadow:0 5px 0 #c62828;">🚪 خروج من الاختبار</button>' +
+    '</div>';
+  var card = document.getElementById('examCard');
+  wireSay(card);
+  document.getElementById('exitExamBtn').addEventListener('click', function(){
+    if(confirm('هل تريد الخروج من الاختبار؟ سيتم حفظ تقدمك.')){
+      document.getElementById('tabsBar').style.display = '';
+      document.getElementById('letterNav').style.display = '';
+      openHome();
+    }
+  });
+
+  if(q.type === 'order'){
+    finalExam.orderBuild = [];
+    card.querySelectorAll('.opt-btn.order-letter').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(finalExam.answered || btn.disabled) return;
+        btn.disabled = true;
+        finalExam.orderBuild.push(btn.dataset.val);
+        var bb = document.getElementById('exambuild');
+        if(bb) bb.textContent = finalExam.orderBuild.join(' ');
+        if(finalExam.orderBuild.length === q.answer.length){
+          var ok = finalExam.orderBuild.join('') === q.answer;
+          if(ok){ finalExam.score++; state.points++; playSuccess(); }
+          finalExam.answered = true;
+          var fb = document.getElementById('examfb');
+          fb.textContent = ok ? ('أحسنت يا ' + studentName() + '! 🎉') : ('الإجابة الصحيحة: ' + q.answer + ' 💡');
+          fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+          examNextButton();
+        }
+      });
+    });
+  } else {
+    card.querySelectorAll('.opt-btn[data-val]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(finalExam.answered) return;
+        finalExam.answered = true;
+        var ok = (btn.dataset.val === q.answer);
+        if(ok){ finalExam.score++; state.points++; playSuccess(); }
+        card.querySelectorAll('.opt-btn').forEach(function(b){
+          b.disabled = true;
+          if(b.dataset.val === q.answer) b.classList.add('correct');
+          else if(b === btn) b.classList.add('wrong');
+        });
+        var fb = document.getElementById('examfb');
+        fb.textContent = ok ? ('أحسنت يا ' + studentName() + '! 🎉') : ('الإجابة الصحيحة: ' + q.answer + ' 💡');
+        fb.className = 'feedback ' + (ok ? 'good' : 'bad');
+        saveState();
+        examNextButton();
+      });
+    });
+  }
+  if(q.autoSpeak) autoSpeak(q.autoSpeak);
+}
+function examNextButton(){
+  var wrap = document.getElementById('examnext');
+  if(!wrap) return;
+  var isLast = finalExam.index >= finalExam.questions.length - 1;
+  wrap.innerHTML = '<button class="btn btn-main" id="examNextBtn">' +
+    (isLast ? '🏁 إظهار النتيجة' : 'التالي ➡') + '</button>';
+  document.getElementById('examNextBtn').addEventListener('click', function(){
+    finalExam.index++; renderExamQuestion();
+  });
+}
+function finishFinalExam(){
+  var total = finalExam.questions.length;
+  var score = finalExam.score;
+  var pct = Math.round(score / total * 100);
+  var firstTime = !state.fullExamCompleted;
+  state.examResult = { score: score, total: total, date: new Date().toLocaleDateString('ar-EG') };
+  if(!state.fullExamBest || score > state.fullExamBest.score){
+    state.fullExamBest = { score: score, total: total, date: state.examResult.date };
+  }
+  if(firstTime){
+    state.fullExamCompleted = true;
+    state.stars += 3;
+  }
+  saveState();
+  document.getElementById('tabsBar').style.display = '';
+  document.getElementById('letterNav').style.display = '';
+  document.getElementById('tabContent').innerHTML =
+    '<div class="result-card">' +
+      '<div class="result-emoji">🏆</div>' +
+      '<h3>نتيجة الاختبار الشامل</h3>' +
+      '<div class="result-score">' + score + ' / ' + total + ' (' + pct + '%)</div>' +
+      '<p>أحسنت يا ' + studentName() + '! 🌟</p>' +
+      (firstTime ? '<p>حصلت على 3 نجوم إضافية 🌟🌟🌟</p>' : '<p>استمر في التدريب لتحسين نتيجتك 💪</p>') +
+      '<button class="btn btn-green" id="showCertBtn">📜 عرض الشهادة</button>' +
+      '<button class="btn" id="examHomeBtn">🏠 جميع الحروف</button>' +
+    '</div>';
+  document.getElementById('showCertBtn').addEventListener('click', showCertificate);
+  document.getElementById('examHomeBtn').addEventListener('click', openHome);
+}
+
+document.getElementById('certBtn').addEventListener('click', showCertificate);
+
+function showCertificate(){
+  var learned = LETTERS.filter(function(L){ return getProgress(L.l).completed; }).length;
+  var activities = 0;
+  LETTERS.forEach(function(L){ activities += Math.min(getProgress(L.l).completedCount || 0, 60); });
+  var exam = state.fullExamBest || state.examResult;
+  var today = new Date().toLocaleDateString('ar-EG');
+
+  document.getElementById('certBox').innerHTML =
+    '<h2>شهادة إنجاز</h2>' +
+    '<p class="cert-line">يُسعدنا أن نحتفل بإنجاز الطالب:</p>' +
+    '<div class="cert-name">' + studentName() + '</div>' +
+    '<p class="cert-line">لإكماله رحلته التعليمية مع الحروف العربية</p>' +
+    '<div class="cert-stats">' +
+      '<div>الحروف المتعلَّمة: ' + learned + ' / 28</div>' +
+      '<div>الأنشطة المكتملة: ' + activities + '</div>' +
+      '<div>النقاط: ' + state.points + '</div>' +
+      '<div>النجوم: ' + state.stars + '</div>' +
+      '<div>نتيجة الاختبار الشامل: ' + (exam ? (exam.score + ' / ' + exam.total) : 'لم يُجرَ بعد') + '</div>' +
+      '<div>التاريخ: ' + today + '</div>' +
+    '</div>' +
+    '<div class="cert-footer">تصميم الأستاذ عواد دحبور</div>';
+  showScreen('certificateScreen');
+}
+
+function showReport(){
+  var learned = LETTERS.filter(function(L){ return getProgress(L.l).completed; }).length;
+  var activities = 0;
+  LETTERS.forEach(function(L){ activities += Math.min(getProgress(L.l).completedCount || 0, 60); });
+  var html = '<div class="report-card">' +
+    '<div class="report-row"><span>اسم الطالب</span><b>' + studentName() + '</b></div>' +
+    '<div class="report-row"><span>النقاط</span><b>' + state.points + '</b></div>' +
+    '<div class="report-row"><span>النجوم</span><b>' + state.stars + '</b></div>' +
+    '<div class="report-row"><span>الحروف المتقنة</span><b>' + learned + ' / 28</b></div>' +
+    '<div class="report-row"><span>الأنشطة المكتملة</span><b>' + activities + '</b></div>' +
+    '<div class="report-row"><span>الاختبار الشامل</span><b>' + (state.fullExamBest ? state.fullExamBest.score + ' / ' + state.fullExamBest.total : 'لم يُجرَ بعد') + '</b></div>' +
+    '</div><div class="report-card"><h3>تفصيل التقدم حسب الحروف</h3><div class="report-letters">';
+  LETTERS.forEach(function(L){
+    var p = getProgress(L.l);
+    var done = Math.min(p.completedCount || 0, 60);
+    html += '<div class="report-letter-chip ' + (p.completed ? 'chip-strong' : (done > 0 ? 'chip-weak' : '')) + '">' +
+      '<div class="rl">' + L.l + ' — ' + L.n + '</div>' +
+      '<div class="rp">الأنشطة: ' + done + ' / 60</div>' +
+      '<div class="rp">الاختبار: ' + (p.quizBest || 0) + '</div>' +
+      '<div class="rp">' + (p.completed ? 'متقن ⭐' : 'قيد التعلّم') + '</div></div>';
+  });
+  html += '</div></div>';
+  document.getElementById('reportContent').innerHTML = html;
+  showScreen('reportScreen');
+}
+
+document.getElementById('reportBtn').addEventListener('click', showReport);
+document.getElementById('printReportBtn').addEventListener('click', function(){ window.print(); });
+document.getElementById('printCertBtn').addEventListener('click', function(){ window.print(); });
+
+/* تهيئة المنصة عند فتح الملف */
+loadState();
+initNameScreen();
+showScreen('nameScreen');
+</script>
+</body>
+</html>
