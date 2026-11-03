@@ -1,0 +1,27 @@
+{
+  "name": "بوابة المعلم الرقمية — مدرسة أبو الزيغان الثانوية للبنين",
+  "short_name": "بوابة المعلم",
+  "description": "وصول سريع إلى المنصات التعليمية وأدوات الذكاء الاصطناعي",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./teacher.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F1E6",
+  "theme_color": "#1C3D5A",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjMUMzRDVBIi8+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRThENjlFIiBzdHJva2Utd2lkdGg9IjIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yNTYgOTYgNDQ4IDE5MiAyNTYgMjg4IDY0IDE5MiAyNTYgOTZaIi8+PHBhdGggZD0iTTEyOCAyMzZ2ODhjMCA0MCA1NyA3MiAxMjggNzJzMTI4LTMyIDEyOC03MnYtODgiLz48cGF0aCBkPSJNNDQ4IDE5MnY5NiIvPjwvZz48L3N2Zz4=",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjMUMzRDVBIi8+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRThENjlFIiBzdHJva2Utd2lkdGg9IjIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yNTYgOTYgNDQ4IDE5MiAyNTYgMjg4IDY0IDE5MiAyNTYgOTZaIi8+PHBhdGggZD0iTTEyOCAyMzZ2ODhjMCA0MCA1NyA3MiAxMjggNzJzMTI4LTMyIDEyOC03MnYtODgiLz48cGF0aCBkPSJNNDQ4IDE5MnY5NiIvPjwvZz48L3N2Zz4=",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
