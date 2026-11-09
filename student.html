@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="صفحة الطالب التعليمية — مدرسة أبو الزيغان الثانوية للبنين">
+<title>صفحة الطالب — مدرسة أبو الزيغان الثانوية للبنين</title>
+<style>
+:root{--navy:#1c3d5a;--navy2:#142f49;--gold:#c9a227;--gold2:#e5cf83;--cream:#f6f1e6;--paper:#fffdf8;--green:#2d8659;--teal:#168f89;--purple:#7652a5;--ink:#263746;--muted:#687783;--line:#e7dcc4;--shadow:0 12px 30px rgba(28,61,90,.11);--font:"Amiri","Noto Naskh Arabic","Tahoma",serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 5%,rgba(201,162,39,.09),transparent 28%),var(--cream);color:var(--ink);font-family:var(--font);line-height:1.8}
+a{color:inherit}.container{width:min(1120px,calc(100% - 32px));margin:auto}
+header{position:relative;overflow:hidden;background:linear-gradient(125deg,#142f49,#1c3d5a 65%,#31566b);color:#fff;padding:24px 0 72px}
+header:before,header:after{content:"";position:absolute;border:1px solid rgba(229,207,131,.22);border-radius:50%;width:330px;height:330px;pointer-events:none}header:before{top:-220px;right:-70px}header:after{bottom:-270px;left:-70px;width:430px;height:430px}
+.topbar{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:13px}.logo{width:52px;height:52px;border:1px solid rgba(229,207,131,.7);border-radius:15px;display:grid;place-items:center;color:var(--gold2);font-size:27px;background:rgba(255,255,255,.07)}.school{font-weight:800;font-size:clamp(.95rem,2.5vw,1.15rem)}.sub{color:#e7dba9;font-size:.88rem}.home{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border:1px solid rgba(229,207,131,.65);border-radius:12px;padding:9px 16px;color:#fff;background:rgba(255,255,255,.08);font-weight:700;transition:.2s}.home:hover{background:rgba(255,255,255,.17);transform:translateY(-2px)}
+.hero{position:relative;z-index:1;text-align:center;padding:36px 0 0}.eyebrow{display:inline-block;color:#f1dfa0;border:1px solid rgba(229,207,131,.5);border-radius:99px;padding:3px 16px;font-size:.9rem}.hero h1{margin:12px 0 2px;font-size:clamp(2rem,6vw,3.4rem);line-height:1.35;color:#fff;font-weight:900}.hero p{margin:6px auto 0;color:#e4edf1;font-size:clamp(1rem,2.5vw,1.15rem);max-width:680px}
+main{padding:0 0 64px;margin-top:-32px;position:relative;z-index:2}.section{margin:0 0 30px}.section-head{display:flex;align-items:center;gap:13px;margin:0 0 16px;padding:14px 18px;background:var(--paper);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}.section-icon{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;background:#f3e9c9;color:#80651a;font-size:24px}.section-head h2{margin:0;color:var(--navy);font-size:clamp(1.2rem,3vw,1.55rem);font-weight:900}.section-head p{margin:0;color:var(--muted);font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.card{position:relative;display:flex;flex-direction:column;min-height:210px;padding:22px;background:var(--paper);border:1px solid var(--line);border-radius:19px;box-shadow:0 5px 17px rgba(28,61,90,.07);text-decoration:none;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s}.card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--gold),var(--gold2))}.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#d8c27d}.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.card-icon{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:#f5edda;color:var(--navy);font-size:27px;border:1px solid #eadcb7}.tag{font-size:.78rem;font-weight:800;color:#80651a;background:#f7f0dc;border:1px solid #eadcb7;border-radius:99px;padding:4px 11px}.card h3{margin:16px 0 5px;color:var(--navy);font-size:1.3rem;font-weight:900}.card p{margin:0;color:var(--muted);font-size:.98rem;flex:1}.action{display:inline-flex;align-items:center;gap:8px;margin-top:16px;color:#80651a;font-weight:900}.action span{font-size:1.2rem;transition:transform .2s}.card:hover .action span{transform:translateX(-4px)}
+.card--typing .card-icon{color:var(--green);background:#e8f3eb;border-color:#cfe4d4}.card--table .card-icon{color:#a47716;background:#fbf2d9}.card--cs .card-icon{color:#247a70;background:#e6f3ef;border-color:#cce5dc}.card--fm .card-icon{color:#7652a5;background:#f0eafb;border-color:#ded2f1}.card--cs:before{background:linear-gradient(90deg,#2d8659,#8fbd91)}.card--fm:before{background:linear-gradient(90deg,#8a6ab5,#c9a9e8)}
+/* بطاقة TIMSS */
+.card--timss .card-icon{color:#1f6fa8;background:#e7f1f9;border-color:#c9dff0}.card--timss:before{background:linear-gradient(90deg,#1f6fa8,#7fb8de)}.card--timss .tag{color:#1f6fa8;background:#eaf3fa;border-color:#c9dff0}.card--timss .action{color:#1f6fa8}
+footer{background:linear-gradient(125deg,#142f49,#1c3d5a);color:#fff;text-align:center;padding:25px 16px}footer p{margin:3px 0}footer .credit{color:#e7d28a;font-weight:800;font-size:1.05rem}footer small{color:#c6d4dc}
+@media(max-width:650px){.container{width:min(100% - 24px,540px)}.topbar{align-items:flex-start}.home{width:100%;justify-content:center}.hero{padding-top:27px}.grid{grid-template-columns:1fr;gap:13px}.card{min-height:190px;padding:19px}.section-head{padding:12px}.section{margin-bottom:24px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="container">
+  <div class="topbar">
+   <div class="brand"><div class="logo" aria-hidden="true">✦</div><div><div class="school">مدرسة أبو الزيغان الثانوية للبنين</div><div class="sub">البوابة الرقمية التعليمية</div></div></div>
+   <a class="home" href="index.html">⌂ <span>العودة إلى الصفحة الرئيسية</span></a>
+  </div>
+  <div class="hero"><span class="eyebrow">مرحباً بك في بيئة التعلم</span><h1>صفحة الطالب</h1><p>اختر النشاط أو المادة التعليمية التي تريد البدء بها، وانطلق في رحلة التعلم.</p></div>
+ </div>
+</header>
+<main class="container">
+ <section class="section" aria-labelledby="activities-title">
+  <div class="section-head"><div class="section-icon" aria-hidden="true">★</div><div><h2 id="activities-title">أنشطة غير ممنهجة</h2><p>أنشطة تعليمية تفاعلية لتنمية المهارات والتدريب</p></div></div>
+  <div class="grid">
+   <a class="card card--typing" href="WT.html" aria-label="فتح تحدي الكتابة"><div class="card-top"><div class="card-icon" aria-hidden="true">⌨</div><span class="tag">نشاط تفاعلي</span></div><h3>تحدي الكتابة</h3><p>تدرّب على الكتابة بسرعة ودقة، وطوّر مهاراتك في استخدام لوحة المفاتيح.</p><div class="action">ابدأ النشاط <span>←</span></div></a>
+   <a class="card card--table" href="MT.html" aria-label="فتح جدول الضرب"><div class="card-top"><div class="card-icon" aria-hidden="true">×</div><span class="tag">نشاط تفاعلي</span></div><h3>جدول الضرب</h3><p>تدرّب على جداول الضرب من خلال الممارسة والتحديات الحسابية.</p><div class="action">ابدأ النشاط <span>←</span></div></a>
+   <a class="card card--timss" href="https://dahboor798-ops.github.io/TIMSS/index" target="_blank" rel="noopener" aria-label="فتح اختبار TIMSS"><div class="card-top"><div class="card-icon" aria-hidden="true">📊</div><span class="tag">اختبار دولي</span></div><h3>TIMSS</h3><p>تدرّب على أسئلة الدراسة الدولية للرياضيات والعلوم TIMSS، واختبر مهاراتك.</p><div class="action">ابدأ التدريب <span>←</span></div></a>
+  </div>
+ </section>
+ <section class="section" aria-labelledby="grade-title">
+  <div class="section-head"><div class="section-icon" aria-hidden="true">▤</div><div><h2 id="grade-title">الصف الحادي عشر الأكاديمي</h2><p>المواد التعليمية المخصصة لطلاب الصف الحادي عشر الأكاديمي</p></div></div>
+  <div class="grid">
+   <a class="card card--cs" href="CS.html"><div class="card-top"><div class="card-icon" aria-hidden="true">⌘</div><span class="tag">مادة دراسية</span></div><h3>المهارات الرقمية</h3><p>الدخول إلى صفحة المهارات الرقمية ومتابعة الدروس والأنشطة والتقييمات.</p><div class="action">الدخول إلى المادة <span>←</span></div></a>
+   <a class="card card--fm" href="FM.html"><div class="card-top"><div class="card-icon" aria-hidden="true">د.أ</div><span class="tag">مادة دراسية</span></div><h3>الثقافة المالية</h3><p>الدخول إلى صفحة الثقافة المالية ومتابعة المحتوى والأنشطة والتقييمات.</p><div class="action">الدخول إلى المادة <span>←</span></div></a>
+  </div>
+ </section>
+</main>
+<footer><div class="container"><p>مدرسة أبو الزيغان الثانوية للبنين</p><p class="credit">تصميم الأستاذ عواد دحبور</p><small>صفحة الطالب — البوابة الرقمية التعليمية</small></div></footer>
+</body>
+</html>
